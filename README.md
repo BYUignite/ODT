@@ -1,4 +1,4 @@
-# BasicODT
+# ODT
 
 This code implements the One-Dimensional Turbulence (ODT) model for turbulent reacting or nonreacting flows. 
 
