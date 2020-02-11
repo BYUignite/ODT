@@ -1,0 +1,77 @@
+################### Main ODT parameters
+
+params:
+    LisHips:       true           #  true to run a flamelet simulation
+    nLevels:       9              #  number of hips levels
+    seed:          -30             #  random number generator seed (negative to randomize it)
+    tEnd:          2000.0           #  ending time of realization
+    domainLength:  1.0            #  length of domain
+    tau0:          100.0            #  integral mixing timescale
+    Afac:          0.5            #  level lengthscale reduction factor (0.5)
+    fmix:          1.0            #  timescale factor for micromixing
+    chemMechFile:  not_used.xml   #  name of chemical mechanism file
+    probType:      HIPS_SIMPLERXN #  CHANNEL, JETMIXL_RXN, etc.
+    diffCFL:       0.2            #  multiplies min diffusion timestep
+    C_param:       1.0            #  Eddy frequency parameter
+    Lsolver:       EXPLICIT       #  SEMI-IMPLICIT  #  EXPLICIT, SEMI-IMPLICIT, STRANG
+    pres:          101325         #  pressure (Pa)
+    bcType:        HIPS           #  use WALL for flamelets
+    modDump:       100000000      #  accepted eddies before output file
+
+################### reaction parameters
+
+dvParams:
+    Da1: 1.0
+    Da2: 1.0
+
+################### initialization parameters
+
+init:                      # these or others are read in the odtcase_mycase class
+
+    someVar:    10
+
+################### output times
+
+dumpTimes:
+
+    - 0.001
+    - 50
+    - 100
+    - 150
+    - 200
+    - 250
+    - 300
+    - 350
+    - 400
+    - 450
+    - 500
+    - 550
+    - 600
+    - 650
+    - 700
+    - 750
+    - 800
+    - 850
+    - 900
+    - 950
+    - 1000
+    - 1050
+    - 1100
+    - 1150
+    - 1200
+    - 1250
+    - 1300
+    - 1350
+    - 1400
+    - 1450
+    - 1500
+    - 1550
+    - 1600
+    - 1650
+    - 1700
+    - 1750
+    - 1800
+    - 1850
+    - 1900
+    - 1950
+    - 2000

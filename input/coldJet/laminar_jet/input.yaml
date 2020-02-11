@@ -1,0 +1,174 @@
+################### Main ODT parameters
+
+params:
+
+    seed:          -1             #  random number generator seed (negative to randomize it)
+    tEnd:          10.            #  ending time of realization (= 70*D for tEnd=0.3682)
+    domainLength:  400.           #  length of domain  2.032
+    ngrd0:         1000          #  initial grid points
+    rho0:          1.0            #  initial uniform density
+    kvisc0:        1.0            #  initial uniform kinematic viscosity (m2*s)
+    dPdx:          0.0            #  initial pressure gradient (Pa/m) -9.0
+    pres:          100000.0       #  pressure (Pa)
+    chemMechFile:  air.xml        #  name of chemical mechanism file
+    probType:      COLDJET        #  CHANNEL, JETMIXL_RXN, COLDPROPANEJET, COLDJET
+    #----------------------------------------------------------------------------------
+    Z_param:       400.          #  Viscous penalty parameter  100
+    A_param:       0.666667       #  Energy Distribution parameter alpha
+    C_param:       5.0            # Eddy frequency parameter 10
+    LES_type:      ELAPSEDTIME    #  NONE, THIRDS, ELAPSEDTIME, FRACDOMAIN, INTEGRALSCALE
+    Z_LES:         2.5           #  large eddy suppression (nonpositive prevents les test)  5
+    diffCFL:       0.1            #  multiplies min diffusion timestep
+    cvode_atol:    1.0E-10        #  atol for cvode for implicit solution
+    cvode_rtol:    1.0E-4         #  rtol for cvode for implicit solution
+    #----------------------------------------------------------------------------------
+    radType:       NONE           #  radiation flag: OPTHIN, TWOFLUX, NONE
+    Lbuoyant:      false          #  flag to turn on bouyancy
+    LdoDL:         false          #  flag to turn on DL instability
+    Lsolver:       EXPLICIT       #  EXPLICIT, SEMI-IMPLICIT, STRANG
+    #----------------------------------------------------------------------------------
+    bcType:        OUTFLOW        #  OUTFLOW, WALL, PERIODIC, WALL_OUT
+    cCoord:        2              #  1 = planar, 2 = cylindrical, 3 = spherical
+    Lspatial:      true           #  true = spatial, false = temporal
+    umin_spatial:  0.001          #  min uvel for spatial flows; used when alpha pulls velocity
+    Lrestart:      false
+    #----------------------------------------------------------------------------------
+    gDens:         40             #  grid density for mesher
+    dxmin:         0.00002       #  min grid spacing: = dxmin / domain length
+    dxmax:         0.02            #  max grid spacing = dxmax / domain length
+    #----------------------------------------------------------------------------------
+    Pmax:          0.4            #  maximum eddy acceptance probability
+    Pav:           0.02           #  Average acceptance probability
+    dtfac:         2.0            #  maximum factor to increase dtSmean
+    nDtSmeanWait:  100000         #  number of eddy samples before increase dtSmean
+    eddyMinCells:  3              #  eddy must overlap at least this many cells
+    DAtimeFac:     10.0           #  time until catch-up adaption is DAtimeFac * dtCUmax
+    tdfac:         1.0            #  factor between dtCUmax and dtCFL for temporal flows
+    sLastDA:       100            #  size of the lastDA vector for timing adaptmesh after diff
+    Lp:            0.00075        #  Most probable eddy size frac of domainLength
+    Lmax:          1.0            #  Max eddy size frac of domainLength
+    #----------------------------------------------------------------------------------
+    modDump:       1000000        #  accepted eddies before output file
+
+################### Boundary conditions
+
+bcCond:
+
+    uBClo: 0.0
+    uBChi: 0.0
+    vBClo: 0.0
+    vBChi: 0.0
+    wBClo: 0.0
+    wBChi: 0.0
+
+################### initialization parameters
+
+initParams:                      # these or others are read in the odtcase_mycase class
+
+    #----------------------------------------------------------------------------------------
+    djeti:          -2.0          # jet tube inner diameter (m)
+    vel_min:        0.001
+    vel_max:        1.0          # = vel_min+56.2
+    delta_vel:      0.01         # = 0.1*djeti
+    #----------------------------------------------------------------------------------------
+    vprof:                       # from analytic solution at x=0.5 (so add 0.5 to all x output "times")
+        - [-2.0000e+02,  1.0000e-03]
+        - [-1.5000e+02,  1.0000e-03]
+        - [-1.4000e+02,  1.0001e-03]
+        - [-1.3000e+02,  1.0001e-03]
+        - [-1.2000e+02,  1.0001e-03]
+        - [-1.1000e+02,  1.0001e-03]
+        - [-1.0000e+02,  1.0002e-03]
+        - [-9.0000e+01,  1.0003e-03]
+        - [-8.0000e+01,  1.0005e-03]
+        - [-7.0000e+01,  1.0009e-03]
+        - [-6.0000e+01,  1.0016e-03]
+        - [-5.0000e+01,  1.0034e-03]
+        - [-4.0000e+01,  1.0083e-03]
+        - [-3.0000e+01,  1.0260e-03]
+        - [-2.0000e+01,  1.1298e-03]
+        - [-1.0000e+01,  2.9228e-03]
+        - [-9.6000e+00,  3.2444e-03]
+        - [-9.2000e+00,  3.6353e-03]
+        - [-8.8000e+00,  4.1137e-03]
+        - [-8.4000e+00,  4.7038e-03]
+        - [-8.0000e+00,  5.4379e-03]
+        - [-7.6000e+00,  6.3591e-03]
+        - [-7.2000e+00,  7.5264e-03]
+        - [-6.8000e+00,  9.0206e-03]
+        - [-6.4000e+00,  1.0955e-02]
+        - [-6.0000e+00,  1.3487e-02]
+        - [-5.6000e+00,  1.6845e-02]
+        - [-5.2000e+00,  2.1356e-02]
+        - [-4.8000e+00,  2.7500e-02]
+        - [-4.4000e+00,  3.5986e-02]
+        - [-4.0000e+00,  4.7875e-02]
+        - [-3.6000e+00,  6.4749e-02]
+        - [-3.2000e+00,  8.8962e-02]
+        - [-2.8000e+00,  1.2393e-01]
+        - [-2.4000e+00,  1.7435e-01]
+        - [-2.0000e+00,  2.4590e-01]
+        - [-1.6000e+00,  3.4340e-01]
+        - [-1.2000e+00,  4.6600e-01]
+        - [-8.0000e-01,  5.9890e-01]
+        - [-4.0000e-01,  7.0795e-01]
+        - [0.0000e+00 , 7.5100e-01]
+        - [4.0000e-01 , 7.0795e-01]
+        - [8.0000e-01 , 5.9890e-01]
+        - [1.2000e+00 , 4.6600e-01]
+        - [1.6000e+00 , 3.4340e-01]
+        - [2.0000e+00 , 2.4590e-01]
+        - [2.4000e+00 , 1.7435e-01]
+        - [2.8000e+00 , 1.2393e-01]
+        - [3.2000e+00 , 8.8962e-02]
+        - [3.6000e+00 , 6.4749e-02]
+        - [4.0000e+00 , 4.7875e-02]
+        - [4.4000e+00 , 3.5986e-02]
+        - [4.8000e+00 , 2.7500e-02]
+        - [5.2000e+00 , 2.1356e-02]
+        - [5.6000e+00 , 1.6845e-02]
+        - [6.0000e+00 , 1.3487e-02]
+        - [6.4000e+00 , 1.0955e-02]
+        - [6.8000e+00 , 9.0206e-03]
+        - [7.2000e+00 , 7.5264e-03]
+        - [7.6000e+00 , 6.3591e-03]
+        - [8.0000e+00 , 5.4379e-03]
+        - [8.4000e+00 , 4.7038e-03]
+        - [8.8000e+00 , 4.1137e-03]
+        - [9.2000e+00 , 3.6353e-03]
+        - [9.6000e+00 , 3.2444e-03]
+        - [1.0000e+01 , 2.9228e-03]
+        - [2.0000e+01 , 1.1298e-03]
+        - [3.0000e+01 , 1.0260e-03]
+        - [4.0000e+01 , 1.0083e-03]
+        - [5.0000e+01 , 1.0034e-03]
+        - [6.0000e+01 , 1.0016e-03]
+        - [7.0000e+01 , 1.0009e-03]
+        - [8.0000e+01 , 1.0005e-03]
+        - [9.0000e+01 , 1.0003e-03]
+        - [1.0000e+02 , 1.0002e-03]
+        - [1.1000e+02 , 1.0001e-03]
+        - [1.2000e+02 , 1.0001e-03]
+        - [1.3000e+02 , 1.0001e-03]
+        - [1.4000e+02 , 1.0001e-03]
+        - [1.5000e+02 , 1.0000e-03]
+        - [2.0000e+02 , 1.0000e-03]
+
+################### Dump times
+
+dumpTimes:
+    - 0.
+    - 0.2
+    - 0.4
+    - 0.6
+    - 0.8
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10

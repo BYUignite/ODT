@@ -1,0 +1,27 @@
+######################## COMPILATION ###########################
+# set CHEMISTRY to CANTERARR or something else (see Makefile SOURCE section)
+# set PARALLEL to YES or NO
+# set SILENT to YES or NO
+
+CHEMISTRY   = SIMPLEDLR
+PARALLEL    = NO
+SILENT      = YES
+
+####################   COMPILER OPTIONS   #####################################
+
+options     = -O3 -pthread
+options    += -fopt-info-vec-inline-loop-ipa-optimized -Wall -mieee-fp -fPIC
+#options    += -g -pg
+
+#####################   COMPILER   ############################################
+CC_COMPILER_NAME = g++
+C_COMPILER_NAME  = gcc
+
+#####################   DIRECTORIES   #########################################
+# set your cantera library path if using cantera
+
+CANT_LIB = /usr/local/lib/
+CANT_INC = /usr/local/include/cantera/
+
+
+

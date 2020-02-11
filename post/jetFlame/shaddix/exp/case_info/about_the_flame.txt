@@ -1,0 +1,32 @@
+Date: 4/5/2010  Author: J. Zhang (jzhang@sandia.gov)
+
+This file is to decribe the flame.
+
+
+Ethylene Piloted Jet Diffusion Flame
+Re = 20,000 = U_J*d_i/nv
+
+1. Geometry of burner
+	(1) Inner fuel tube: d_i = 3.2 mm, d_o = 4.6 mm
+	(2) Outer tube: D_i = 15.2 mm, D_o = 19.1 mm
+	(3) Length of fuel tube: ~ 527 mm.
+
+2. Main fuel jet
+	(1) C2H4 (pure);
+	(2) U_J = 54.7 m/s;	
+	(3) flow rate 26.4 slpm (volumetric)
+
+3. Pilot mixture
+	(1) C2H4 and air mixture, Phi = 0.90
+	(2) 2% heat release rate of the main fuel jet
+	(3) flow rate 8.91 slpm (volumetric), or 10.63 g/min (mass)
+
+
+4. Coflow Air:  21 to 22 deg C, 0.61 to 0.66 m/s, 45% relative humidity.
+
+
+5. Visible flame height = 830 mm.
+
+6. Room temperature: ~ 22 deg C.
+
+Standard conditions for flows defined to be 298 K and 1 atm pressure.

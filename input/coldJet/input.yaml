@@ -1,0 +1,127 @@
+################### Main ODT parameters
+# This case is TMB; Use C_param=5.25, Z_LES=3, Z_param=400
+# If you want TMA, add flag LTMA: true; Use C=7.
+# If you want PTMB, add flag LplanarTau: true, and LTMA: false, LTMA not present. Use C=7.
+
+params:
+
+    seed:          -1             #  random number generator seed (negative to randomize it)
+    tEnd:          2.54           #  ending time of realization (= 70*D for tEnd=0.3682)
+    domainLength:  4.0            #  length of domain  2.032
+    ngrd0:         10000         #  initial grid points 
+    rho0:          1.196          #  initial uniform density 
+    kvisc0:        1.534E-5       #  initial uniform kinematic viscosity (m2*s)
+    dPdx:          0.0            #  initial pressure gradient (Pa/m) -9.0
+    pres:          100000.0       #  pressure (Pa)
+    chemMechFile:  not_used.xml   #  name of chemical mechanism file
+    probType:      COLDJET        #  CHANNEL, JETMIXL_RXN, COLDPROPANEJET, COLDJET
+    #----------------------------------------------------------------------------------
+    Z_param:       400.           #  Viscous penalty parameter  400
+    A_param:       0.666667       #  Energy Distribution parameter alpha 
+    C_param:       5.25           # Eddy frequency parameter 10
+    LES_type:      ELAPSEDTIME    #  NONE, THIRDS, ELAPSEDTIME, FRACDOMAIN, INTEGRALSCALE
+    Z_LES:         3.5            #  large eddy suppression (nonpositive prevents les test)  5
+    x0virtual:     0.0            #  large eddy suppression virtual origin
+    diffCFL:       0.2            #  multiplies min diffusion timestep
+    cvode_atol:    1.0E-10        #  atol for cvode for implicit solution
+    cvode_rtol:    1.0E-4         #  rtol for cvode for implicit solution
+    #----------------------------------------------------------------------------------
+    radType:       NONE           #  radiation flag: OPTHIN, TWOFLUX, NONE
+    Lbuoyant:      false          #  flag to turn on bouyancy
+    LdoDL:         false          #  flag to turn on DL instability
+    Lsolver:       EXPLICIT       #  EXPLICIT, SEMI-IMPLICIT, STRANG
+    #----------------------------------------------------------------------------------
+    bcType:        OUTFLOW        #  OUTFLOW, WALL, PERIODIC, WALL_OUT
+    cCoord:        2              #  1 = planar, 2 = cylindrical, 3 = spherical
+    Lspatial:      true            #  true = spatial, false = temporal
+    umin_spatial:  0.3            #  min uvel for spatial flows; used when alpha pulls velocity
+    Lrestart:      false
+    #----------------------------------------------------------------------------------
+    gDens:         30             #  grid density for mesher
+    dxmin:         0.000005       #  min grid spacing: = dxmin / domain length
+    dxmax:         0.02           #  max grid spacing = dxmax / domain length
+    #----------------------------------------------------------------------------------
+    Pmax:          0.4            #  maximum eddy acceptance probability
+    Pav:           0.02           #  Average acceptance probability
+    dtfac:         2.0            #  maximum factor to increase dtSmean 
+    nDtSmeanWait:  100000         #  number of eddy samples before increase dtSmean
+    eddyMinCells:  3              #  eddy must overlap at least this many cells
+    DAtimeFac:     1000.0           #  time until catch-up adaption is DAtimeFac * dtCUmax
+    tdfac:         1.0            #  factor between dtCUmax and dtCFL for temporal flows
+    sLastDA:       100            #  size of the lastDA vector for timing adaptmesh after diff
+    Lp:            0.00075        #  Most probable eddy size frac of domainLength
+    Lmax:          1.0            #  Max eddy size frac of domainLength
+    Lmin:          0.000015       #  Min eddy size frac of domainLength
+    #----------------------------------------------------------------------------------
+    modDump:       100000000      #  accepted eddies before output file
+
+################### Boundary conditions
+
+bcCond:
+
+    uBClo: 0.0                    
+    uBChi: 0.0
+    vBClo: 0.0
+    vBChi: 0.0
+    wBClo: 0.0
+    wBChi: 0.0
+
+################### initialization parameters
+
+initParams:                      # these or others are read in the odtcase_mycase class
+
+    #----------------------------------------------------------------------------------------
+    djeti:          0.0254         # jet tube inner diameter (m)
+    vel_min:        0.10
+    vel_max:        56.3            # = vel_min+56.2  
+    delta_vel:      0.00254        # = 0.1*djeti
+    #----------------------------------------------------------------------------------------
+    ## vprof:                       # velocity profile in the coflow region [x,u] pairs
+    ##     - [-1.016000000000000014e+00, 0.3]
+    ##     - [-9.143999999999999906e-01, 0.3]
+    ##     - [-8.127999999999999670e-01, 0.3]
+    ##     - [-7.112000000000000544e-01, 0.3]
+    ##     - [-6.096000000000000307e-01, 0.3]
+    ##     - [-5.080000000000000071e-01, 0.3]
+    ##     - [-4.064000000000000945e-01, 0.3]
+    ##     - [-3.048000000000000709e-01, 0.3]
+    ##     - [-2.032000000000000473e-01, 0.3]
+    ##     - [-0.0128,                   0.3]
+    ##     - [-0.0127,                   56.2]
+    ##     - [ 0.0,                      56.2]
+    ##     - [ 0.0127,                   56.2]
+    ##     - [0.0128,                    0.3]
+    ##     - [ 2.031999999999998252e-01, 0.3]
+    ##     - [ 3.047999999999999599e-01, 0.3]
+    ##     - [ 4.063999999999998725e-01, 0.3]
+    ##     - [ 5.080000000000000071e-01, 0.3]
+    ##     - [ 6.095999999999999197e-01, 0.3]
+    ##     - [ 7.111999999999998323e-01, 0.3]
+    ##     - [ 8.127999999999999670e-01, 0.3]
+    ##     - [ 9.143999999999998796e-01, 0.3]
+    ##     - [ 1.016000000000000014e+00, 0.3]
+
+################### Dump times
+
+dumpTimes:
+    - 0.001
+    - 0.127
+    - 0.254
+    - 0.381
+    - 0.508
+    - 0.635
+    - 0.762
+    - 0.889
+    - 1.016
+    - 1.143
+    - 1.27
+    - 1.397
+    - 1.524
+    - 1.651
+    - 1.778
+    - 1.905
+    - 2.032
+    - 2.159
+    - 2.286
+    - 2.413
+    - 2.54

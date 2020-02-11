@@ -1,0 +1,91 @@
+################### Main ODT parameters
+
+params:
+
+    seed:          10             #  random number generator seed (negative to randomize it)
+    tEnd:          0.0011         #  ending time of realization (= 70*D for tEnd=0.3682)
+    domainLength:  4.0            #  length of domain  (=20*D)
+    ngrd0:         2000           #  initial grid points
+    rho0:          1.0            #  initial uniform density
+    kvisc0:        1.0            #  initial uniform kinematic viscosity (m2/s)
+    pres:          101325.0       #  pressure (Pa)
+    chemMechFile:  not_used.xml   #  name of chemical mechanism file
+    probType:      RT             #  CHANNEL, RT, etc. RT = Rayleigh Taylor instability
+    #----------------------------------------------------------------------------------
+    Z_param:       50.            #  Viscous penalty parameter  100
+    A_param:       0.666667       #  Energy Distribution parameter alpha
+    C_param:       10.0           # Eddy frequency parameter 10
+    LES_type:      ELAPSEDTIME    #  NONE, THIRDS, ELAPSEDTIME, FRACDOMAIN, INTEGRALSCALE
+    Z_LES:         2.0            #  large eddy suppression (nonpositive prevents les test)  7
+    diffCFL:       0.5            #  multiplies min diffusion timestep
+    #----------------------------------------------------------------------------------
+    LPeEddy:       true           #  flag to turn on eddy potential energy (for RT problems)
+    LplanarExpCent0: true         #  flag to force expansion center at zero instead of at the expansion center
+    g:             -1E8           #  gravity (m/s)
+    Lsolver:       EXPLICIT       #  EXPLICIT, SEMI-IMPLICIT, STRANG
+    #----------------------------------------------------------------------------------
+    bcType:        OUTFLOW        #  OUTFLOW, WALL, PERIODIC, WALL_OUT
+    cCoord:        1              #  1 = planar, 2 = cylindrical, 3 = spherical
+    Lspatial:      false          #  true = spatial, false = temporal
+    Lrestart:      false
+    #----------------------------------------------------------------------------------
+    gDens:         30             #  grid density for mesher
+    dxmin:         0.0001         #  min grid spacing: = dxmin / domain length
+    dxmax:         0.2            #  max grid spacing = dxmax / domain length
+    #----------------------------------------------------------------------------------
+    Pmax:          0.4            #  maximum eddy acceptance probability
+    Pav:           0.02           #  Average acceptance probability
+    dtfac:         2.0            #  maximum factor to increase dtSmean
+    nDtSmeanWait:  100000         #  number of eddy samples before increase dtSmean
+    eddyMinCells:  3              #  eddy must overlap at least this many cells
+    DAtimeFac:     10.0           #  time until catch-up adaption is DAtimeFac * dtCUmax
+    tdfac:         1.0            #  factor between dtCUmax and dtCFL for temporal flows
+    sLastDA:       100            #  size of the lastDA vector for timing adaptmesh after diff
+    Lp:            0.015          #  Most probable eddy size frac of domainLength
+    Lmax:          1.0            #  Max eddy size frac of domainLength
+    #----------------------------------------------------------------------------------
+    modDump:       1              #  accepted eddies before output file
+
+################### Stream properties
+
+streamProps:
+
+    rho0:  0.95      # kg/m3
+    rho1:  1.05      # kg/m3
+    Dmf:   1.0       # m2/s
+
+################### Boundary conditions
+
+bcCond:
+
+    uBClo: 0.0
+    uBChi: 0.0
+    vBClo: 0.0
+    vBChi: 0.0
+    wBClo: 0.0
+    wBChi: 0.0
+
+################### initialization parameters
+
+initParams:                      # these or others are read in the odtcase_mycase class
+
+    #----------------------------------------------------------------------------------------
+    Zcent:          0.0            # mixture fraction transition distance from domain center (m) (tanh prof)
+    Ztran:          0.05           # mixture fraction profile transition width (m) (tanh prof)
+    #----------------------------------------------------------------------------------------
+
+################### Dump times
+
+dumpTimes:
+    - 0.000000
+    - 0.000100
+    - 0.000200
+    - 0.000300
+    - 0.000400
+    - 0.000500
+    - 0.000600
+    - 0.000700
+    - 0.000800
+    - 0.000900
+    - 0.001000
+    - 0.001100

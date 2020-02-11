@@ -1,0 +1,260 @@
+################### Main ODT parameters
+
+params:
+
+    seed:          -30            #  random number generator seed (negative to randomize it)
+    tEnd:          0.80           #  ending time of realization (=100 d )
+    domainLength:  0.64           #  length of domain  (=150 d)
+    ngrd0:         5333           #  initial grid points
+    rho0:          0.66           #  initial uniform density  (avg of air and adiabatic c2h4-air equilib flame)
+    kvisc0:        6.12E-5        #  initial uniform kinematic viscosity (m2*s) (avg of air and adiabatic c2h4-air equilib flame)
+    dPdx:          0.0            #  initial pressure gradient (Pa/m) -9.0
+    pres:          95300          #  pressure (Pa)
+    chemMechFile:  simple_dlr.xml #  name of chemical mechanism file
+    probType:      JETFLAME       #  CHANNEL, JETMIXL_RXN, etc.
+    #----------------------------------------------------------------------------------
+    Z_param:       400.           #  Viscous penalty parameter  100
+    A_param:       0.666667       #  Energy Distribution parameter alpha
+    C_param:       20.0           #  Eddy frequency parameter 10
+    LES_type:      ELAPSEDTIME    #  NONE, THIRDS, ELAPSEDTIME, FRACDOMAIN, INTEGRALSCALE
+    Z_LES:         17.0           #  large eddy suppression (nonpositive prevents les test)  7
+    x0virtual:     0.0            #  large eddy suppression (virtual origin)
+    diffCFL:       0.2            #  multiplies min diffusion timestep
+    cvode_atol:    1.0E-10        #  atol for cvode for implicit solution
+    cvode_rtol:    1.0E-4         #  rtol for cvode for implicit solution
+    LTMA:          false          #
+    LplanarTau:    false          #
+    #----------------------------------------------------------------------------------
+    Lrad:          false          #  true or false to do radiation, need a radParams section below
+    Lbuoyant:      true           #  flag to turn on bouyancy
+    g:             -9.81          #  gravity
+    LdoDL:         false          #  flag to turn on DL instability
+    Lsolver:       SEMI-IMPLICIT  #  SEMI-IMPLICIT  #  EXPLICIT, SEMI-IMPLICIT, STRANG
+    #----------------------------------------------------------------------------------
+    bcType:        OUTFLOW        #  OUTFLOW, WALL, PERIODIC, WALL_OUT
+    cCoord:        2              #  1 = planar, 2 = cylindrical, 3 = spherical
+    Lspatial:      true           #  true = spatial, false = temporal
+    umin_spatial:  0.5            #  min uvel for spatial flows; used when alpha pulls velocity
+    Lrestart:      false
+    #----------------------------------------------------------------------------------
+    gDens:         30             #  grid density for mesher
+    dxmin:         0.0001         #  min grid spacing: = dxmin / domain length
+    dxmax:         0.2            #  max grid spacing = dxmax / domain length
+    #----------------------------------------------------------------------------------
+    Pmax:          0.4            #  maximum eddy acceptance probability
+    Pav:           0.02           #  Average acceptance probability
+    dtfac:         2.0            #  maximum factor to increase dtSmean
+    nDtSmeanWait:  100000         #  number of eddy samples before increase dtSmean
+    eddyMinCells:  3              #  eddy must overlap at least this many cells
+    DAtimeFac:     10.0           #  time until catch-up adaption is DAtimeFac * dtCUmax
+    tdfac:         1.0            #  factor between dtCUmax and dtCFL for temporal flows
+    sLastDA:       100            #  size of the lastDA vector for timing adaptmesh after diff
+    Lp:            0.01125        #  Most probable eddy size frac of domainLength
+    Lmax:          1.0            #  Max eddy size frac of domainLength
+    #----------------------------------------------------------------------------------
+    modDump:       10000000       #  accepted eddies before output file
+
+    aP:   1.0                     # artificial pilot. Multiply reaction rates by this...
+    aP_x: 1.0                     #     ...from x=0 to x=aP_x
+
+
+################### Radiation parameters
+
+radParams:
+    radSolveType:   OPTHIN        # OPTHIN or TWOFLUX or FVDOM
+    radCoefType:    PLANCKMEAN    # PLANCKMEAN or WSGG or RCSLW
+    LradDoSoot:     false         # true or false
+    ntheta:         40            # only relevant for radSolveType = FVDOM
+    npsi:           80            # nominally 2*ntheta; only relevant for radSolveType = FVDOM
+
+################### Stream properties
+
+streamProps:
+
+    moleOrMass: MOLE              # MOLE or MASS: corresponding compositions below
+    #---------------------          (oxidizer stream f=0)
+    T0: 292.0                     # temperature (K)
+    comp0:                        # composition of stream 0
+        O2:  0.21
+        N2:  0.782
+        H2O: 0.008
+    #---------------------          (fuel stream f=1)
+    T1: 292.0                     # temperature (K)
+    comp1:                        # composition of stream 1
+        CH4: 0.221
+        H2:  0.332
+        N2:  0.447
+
+################### Boundary conditions
+
+bcCond:
+
+    uBClo: 0.0
+    uBChi: 0.0
+    vBClo: 0.0
+    vBChi: 0.0
+    wBClo: 0.0
+    wBChi: 0.0
+    TBClo: 292.0                 # needed for radiation; for opthin, needt TBClo == TBChi
+    TBChi: 292.0
+
+################### initialization parameters
+
+initParams:                      # these or others are read in the odtcase_mycase class
+
+    #----------------------------------------------------------------------------------------
+    d_f:            0.008         # fuel diameter (m)   (ID)
+    d_p:            0.008         # pilot diameter (m)  (ID)
+    Z_p:            0.0           # pilot mixture fraction (Phi = 0.9)
+    dTrans:         0.0016        # tanh transition width (m)
+    U_f:            -1            # m/s  54.7  (NEGATIVE VALUES --> INTERPOLATE FROM vprof BELOW)
+    U_p:            -1            # m/s
+    U_a:            -1            # m/s
+    #----------------------------------------------------------------------------------------
+    vprof:                       # velocity profile in the coflow region [x,u] pairs
+        - [-1.0000,    0.3000]
+        - [-0.0100,    0.3000]
+        - [-0.0060,    0.3520]
+        - [-0.0050,    0.5267]
+        - [-0.0045,    0.6689]
+        - [-0.0043,    1.8618]
+        - [-0.0040,   15.5284]
+        - [-0.0037,   31.1781]
+        - [-0.0035,   36.2186]
+        - [-0.0032,   39.2590]
+        - [-0.0030,   41.5304]
+        - [-0.0027,   43.1457]
+        - [-0.0025,   44.9207]
+        - [-0.0022,   46.1662]
+        - [-0.0020,   47.4366]
+        - [-0.0018,   48.3404]
+        - [-0.0015,   49.1442]
+        - [-0.0013,   49.8528]
+        - [-0.0010,   50.2622]
+        - [-0.0008,   50.7026]
+        - [-0.0005,   51.1199]
+        - [-0.0003,   51.5537]
+        - [0.0000,    51.3500]
+        - [0.0003,    51.5537]
+        - [0.0005,    51.1199]
+        - [0.0008,    50.7026]
+        - [0.0010,    50.2622]
+        - [0.0013,    49.8528]
+        - [0.0015,    49.1442]
+        - [0.0018,    48.3404]
+        - [0.0020,    47.4366]
+        - [0.0022,    46.1662]
+        - [0.0025,    44.9207]
+        - [0.0027,    43.1457]
+        - [0.0030,    41.5304]
+        - [0.0032,    39.2590]
+        - [0.0035,    36.2186]
+        - [0.0037,    31.1781]
+        - [0.0040,    15.5284]
+        - [0.0043,     1.8618]
+        - [0.0045,     0.6689]
+        - [0.0050,     0.5267]
+        - [0.0060,     0.3520]
+        - [0.0100,     0.3000]
+        - [1.0000,     0.3000]
+
+################### Dump times
+
+dumpTimes:
+    - 0.00001
+    - 0.00089401
+    - 0.0018171
+    - 0.0037357
+    - 0.0059695
+    - 0.0088491
+    - 0.012553
+    - 0.017298
+    - 0.023209
+    - 0.030208
+    - 0.038271
+    - 0.047404
+    - 0.057666
+    - 0.069008
+    - 0.081219
+    - 0.094131
+    - 0.1076
+    - 0.12152
+    - 0.13575
+    - 0.1400
+    - 0.1485
+    - 0.1570
+    - 0.1655
+    - 0.1740
+    - 0.1825
+    - 0.1910
+    - 0.1995
+    - 0.2080
+    - 0.2165
+    - 0.2250
+    - 0.2335
+    - 0.2420
+    - 0.2505
+    - 0.2590
+    - 0.2675
+    - 0.2760
+    - 0.2845
+    - 0.2930
+    - 0.3015
+    - 0.3100
+    - 0.3185
+    - 0.3270
+    - 0.3355
+    - 0.3440
+    - 0.3525
+    - 0.3610
+    - 0.3695
+    - 0.3780
+    - 0.3865
+    - 0.3950
+    - 0.4035
+    - 0.4120
+    - 0.4205
+    - 0.4290
+    - 0.4375
+    - 0.4460
+    - 0.4545
+    - 0.4630
+    - 0.4715
+    - 0.4800
+    - 0.4885
+    - 0.4970
+    - 0.5055
+    - 0.5140
+    - 0.5225
+    - 0.5310
+    - 0.5395
+    - 0.5480
+    - 0.5565
+    - 0.5650
+    - 0.5735
+    - 0.5820
+    - 0.5905
+    - 0.5990
+    - 0.6075
+    - 0.6160
+    - 0.6245
+    - 0.6330
+    - 0.6415
+    - 0.6500
+    - 0.6585
+    - 0.6670
+    - 0.6755
+    - 0.6840
+    - 0.6925
+    - 0.7010
+    - 0.7095
+    - 0.7180
+    - 0.7265
+    - 0.7350
+    - 0.7435
+    - 0.7520
+    - 0.7605
+    - 0.7690
+    - 0.7775
+    - 0.7860
+    - 0.7945

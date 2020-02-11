@@ -1,0 +1,10 @@
+
+Run as "./driver.sh caseName"
+
+Ouputs a PDF file showing the contours of the eddy size PDF.
+
+files:
+
+driver.sh
+gridSizePdf.m
+gridSizes/

@@ -1,0 +1,21 @@
+# SEC User Configuration
+
+set(CHEMISTRY               "C2H4RED"               CACHE STRING "user mechanism source to add")
+set(PARALLEL                "no"                    CACHE STRING "build with mpi")
+set(SILENT                  "yes"                   CACHE STRING "code output config")
+
+#----- MAC DOL
+set(CANTERA_INCLUDE_DIR     "/usr/local/cantera24/include" CACHE PATH "cantera includes location")
+set(CANTERA_LIB_DIR         "/usr/local/cantera24/lib"     CACHE PATH "cantera library location")
+
+#----- FSL DOL
+#set(CANTERA_INCLUDE_DIR     "/fslhome/dol4/codes/cantera22/include" CACHE PATH "cantera includes location")
+#set(CANTERA_LIB_DIR         "/fslhome/dol4/codes/cantera22/lib"     CACHE PATH "cantera library location")
+
+#----- FSL VBL
+#set(CANTERA_INCLUDE_DIR     "/fslhome/vbl22/codes/cantera22/include" CACHE PATH "cantera includes location")
+#set(CANTERA_LIB_DIR         "/fslhome/vbl22/codes/cantera22/lib"     CACHE PATH "cantera library location")
+
+#----- WSL VBL
+#set(CANTERA_INCLUDE_DIR     "/home/vbl22/cantera-2.1.2/include"   CACHE PATH "cantera includes location")
+#set(CANTERA_LIB_DIR         "/home/vbl22/cantera-2.1.2/build/lib" CACHE PATH "cantera library location")

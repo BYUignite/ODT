@@ -1,0 +1,124 @@
+################### Main ODT parameters
+# CHANNEL FLOW: Re_tau = 590. u_tau=1, delta_nu = kvisc0. So, plot <u> vs x/kvisc0 IS u+ vs y+.
+
+params:
+
+    seed:          22             #  random number generator seed (negative to randomize it)
+    tEnd:          60.            #  ending time of realization (s)
+    domainLength:  0.2            #  length of domain (m)
+    xDomainCenter: 0.0            #  location of center of the domain
+    ngrd0:         200            #  initial grid points
+    rho0:          1.0            #  initial uniform density (kg/m^3)
+    kvisc0:        0.000007       #  initial uniform kinematic viscosity (m^2/s)
+    dPdx:          0.0            #  initial pressure gradient (Pa/m)
+    pres:          101325.0       #  pressure (Pa)
+    chemMechFile:  not_used.xml   #  name of chemical mechanism file
+    probType:      CHANNEL        #  CHANNEL, JETMIXL_RXN, ETC.
+    #----------------------------------------------------------------------------------
+    Z_param:       600.           #  Viscous penalty parameter
+    A_param:       0.666666666667 #  Energy Distribution parameter alpha
+    C_param:       10.00          #  Eddy frequency parameter
+    LES_type:      FRACDOMAIN     #  NONE, THIRDS, ELAPSEDTIME, FRACDOMAIN, INTEGRALSCALE
+    Z_LES:         0.5            #  NONE, THIRDS, ELAPSEDTIME, FRACDOMAIN, INTEGRALSCALE
+    diffCFL:       0.5            #  multiplies min diffusion timestep
+    #----------------------------------------------------------------------------------
+    Lsolver:       EXPLICIT       #  EXPLICIT, SEMI-IMPLICIT, STRANG
+    #----------------------------------------------------------------------------------
+    bcType:        WALL           #  OUTFLOW, WALL, PERIODIC
+    cCoord:        1              #  1 = planar, 2 = cylindrical, 3 = spherical
+    Lrestart:      false          #  restart case (restart.dat): true, false
+    Lspatial:      false          #  true for temporal; false for spatial
+    #----------------------------------------------------------------------------------
+    gDens:         30             #  grid density for mesher
+    dxmin:         0.001          #  min grid spacing: = dxmin / domain length
+    dxmax:         0.2            #  max grid spacing = dxmax / domain length
+    #----------------------------------------------------------------------------------
+    Pmax:          0.4            #  maximum eddy acceptance probability
+    Pav:           0.02           #  average acceptance probability
+    dtfac:         2.0            #  maximum factor to increase dtSmean
+    nDtSmeanWait:  100000         #  number of eddy samples before increase dtSmean
+    eddyMinCells:  3              #  eddy must overlap at least this many cells
+    DAtimeFac:     10.0           #  time until catch-up adaption is DAtimeFac * dtCUmax
+    tdfac:         1.0            #  factor between dtCUmax and dtCFL for temporal flows
+    sLastDA:       100            #  size of the lastDA vector for timing adaptmesh after diff
+    Lp:            0.015          #  Most probable eddy size frac of domainLength
+    Lmax:          0.5            #  Max eddy size frac of domainLength
+    #----------------------------------------------------------------------------------
+    modDump:       20              #  accepted eddies before output file
+
+################### Boundary conditions
+
+bcCond:
+
+    uBClo: 0.0
+    uBChi: 1.8
+    vBClo: 0.001
+    vBChi: 0.001
+    wBClo: 0.0
+    wBChi: 0.0
+
+################### Dump times
+
+dumpTimes:
+
+    - 0.1
+    - 1.0
+    - 2.0
+    - 3.0
+    - 4.0
+    - 5.0
+    - 6.0
+    - 7.0
+    - 8.0
+    - 9.0
+    - 10.0
+    - 11.0
+    - 12.0
+    - 13.0
+    - 14.0
+    - 15.0
+    - 16.0
+    - 17.0
+    - 18.0
+    - 19.0
+    - 20.0
+    - 21.0
+    - 22.0
+    - 23.0
+    - 24.0
+    - 25.0
+    - 26.0
+    - 27.0
+    - 28.0
+    - 29.0
+    - 30.0
+    - 31.0
+    - 32.0
+    - 33.0
+    - 34.0
+    - 35.0
+    - 36.0
+    - 37.0
+    - 38.0
+    - 39.0
+    - 40.0
+    - 41.0
+    - 42.0
+    - 43.0
+    - 44.0
+    - 45.0
+    - 46.0
+    - 47.0
+    - 48.0
+    - 49.0
+    - 50.0
+    - 51.0
+    - 52.0
+    - 53.0
+    - 54.0
+    - 55.0
+    - 56.0
+    - 57.0
+    - 58.0
+    - 59.0
+    - 60.0

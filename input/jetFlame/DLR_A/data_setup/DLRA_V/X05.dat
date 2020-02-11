@@ -1,0 +1,24 @@
+ flame name      : DLR H2/CH4/N2-Jet Diffusion Flame [V1]
+ institute       : Energie- und Kraftwerkstechnik, TU Darmstadt, Germany
+ data            : 2d-LDA measurements
+ fuel  mixture   : 33% H2, 22.1% CH4, 44.9% N2
+ diameter        : d_nozzle = 0.008 m
+ bulk velocity   : U_fuel = 42.15 m/s
+ Reynolds number : Re = 15200
+ data rows       : 12
+ data columns    : 5
+ location        : x/d_nozzle = 5
+ 
+     r[m]        <U>[m/s]      <u">[m/s]     <V>[m/s]     <u"v">[m2/s2]
+    0.0000       50.3241        2.6760        0.2714       -0.2576
+    0.0010       48.9576        3.2490        0.1028        3.0543
+    0.0020       45.7975        4.1738        0.2859        5.1710
+    0.0030       40.8127        5.3411        0.5297        7.4634
+    0.0040       34.9191        6.2501        0.8810       13.1577
+    0.0045       31.7096        6.5889        1.0671       15.2219
+    0.0050       28.1155        6.9347        1.1678       16.9704
+    0.0060       16.4171        7.9604        0.1494       17.9430
+    0.0070        9.3282        5.8090       -0.1992       13.3159
+    0.0090        1.0512        1.1883       -0.1745        0.4777
+    0.0110        0.3288        0.2205       -0.1104       -0.0047
+    0.0150        0.2642        0.1475       -0.0922       -0.0011

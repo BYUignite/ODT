@@ -1,0 +1,83 @@
+################### Main ODT parameters
+# PIPE FLOW: Re_tau = 1.0/kvisc0. u_tau=1 (with dPdx=-2, delta_nu = kvisc0. So, plot <u> vs (1-x)/kvisc0 IS u+ vs (R-r)+.
+# Re_tau = 181  --> kvisc0 = 0.00552486
+# Re_tau = 361  --> kvisc0 = 0.00277008
+# Re_tau = 550  --> kvisc0 = 0.00181818
+# Re_tau = 1000 --> kvisc0 = 0.001
+
+
+params:
+
+    seed:          22             #  random number generator seed (negative to randomize it)
+    tEnd:          1001            #  ending time of realization
+    domainLength:  2.0            #  length of domain
+    ngrd0:         201           #  initial grid points
+    rho0:          1.0            #  initial uniform density
+    kvisc0:        0.002          #  initial uniform kinematic viscosity
+    dPdx:          -0.016         #  initial pressure gradient
+    pres:          101325.0       #  pressure (Pa)
+    chemMechFile:  not_used.xml   #  name of chemical mechanism file
+    probType:      CHANNEL        #  CHANNEL, JETMIXL_RXN
+    #----------------------------------------------------------------------------------
+    Z_param:       600.           #  Viscous penalty parameter
+    A_param:       0.66666667     #  Energy Distribution parameter alpha
+    C_param:       10.00           #  Eddy frequency parameter
+    LES_type:      FRACDOMAIN     #  NONE, THIRDS, ELAPSEDTIME, FRACDOMAIN, INTEGRALSCALE
+    Z_LES:         0.5            #  NONE, THIRDS, ELAPSEDTIME, FRACDOMAIN, INTEGRALSCALE
+    diffCFL:       0.5            #  multiplies min diffusion timestep
+    #----------------------------------------------------------------------------------
+    Lsolver:       EXPLICIT       #  EXPLICIT, SEMI-IMPLICIT, STRANG
+    #----------------------------------------------------------------------------------
+    bcType:        WALL           #  OUTFLOW, WALL, PERIODIC, WALL_OUT
+    cCoord:        2              #  1 = planar, 2 = cylindrical, 3 = spherical
+    #----------------------------------------------------------------------------------
+    gDens:         30             #  grid density for mesher
+    dxmin:         0.001          #  min grid spacing: = dxmin / domain length
+    dxmax:         0.2            #  max grid spacing = dxmax / domain length
+    #----------------------------------------------------------------------------------
+    Pmax:          0.4            #  maximum eddy acceptance probability
+    Pav:           0.02           #  Average acceptance probability
+    dtfac:         2.0            #  maximum factor to increase dtSmean
+    nDtSmeanWait:  100000         #  number of eddy samples before increase dtSmean
+    eddyMinCells:  3              #  eddy must overlap at least this many cells
+    DAtimeFac:     10.0           #  time until catch-up adaption is DAtimeFac * dtCUmax
+    tdfac:         1.0            #  factor between dtCUmax and dtCFL for temporal flows
+    sLastDA:       100            #  size of the lastDA vector for timing adaptmesh after diff
+    Lp:            0.015          #  Most probable eddy size frac of domainLength
+    Lmax:          1.0            #  Max eddy size frac of domainLength
+    #----------------------------------------------------------------------------------
+    modDump:       20             #  accepted eddies before output file
+
+################### Boundary conditions
+
+bcCond:
+
+    uBClo: 0.0
+    uBChi: 0.0
+    vBClo: 0.0
+    vBChi: 0.0
+    wBClo: 0.0
+    wBChi: 0.0
+
+################### Dump times
+
+dumpTimes:
+    - 10
+    - 20
+    - 30
+    - 40
+    - 50
+    - 60
+    - 70
+    - 80
+    - 90
+    - 100
+    - 200
+    - 300
+    - 400
+    - 500
+    - 600
+    - 700
+    - 800
+    - 900
+    - 1000

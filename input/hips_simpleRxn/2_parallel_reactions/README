@@ -1,0 +1,19 @@
+Used for the AICHE 2017 meeting.
+Two parallel cold reactions.
+A + B --> R
+A + R --> P
+Selectivity S = Y_R/(Y_R + Y_P)
+Plotted mean and rms selectivity (over all parcels and all realizations) versus time/tau_0 (t/tau = 0 to 20).
+The number of levels is constant at n.
+Vary tau_0 and run time to get a varying Da for constant chemistry.
+As tau_0 decreases (higher mixing rate), as R is formed it is quickly diluted and less P forms, resulting in higher S.
+The default in the above directory is for Da=1
+
+Case details:
+Initialized half of the parcels to be A and the other half to be B.
+
+##########
+
+Also varied the Reynolds number, the the sensitivity was very low.
+See the included figure.
+Re = 23, 38, 64, 108, 181 are case Da_1_odt_input.yaml but with nLevels = 7, 8, 9, 10, 11, respectively.

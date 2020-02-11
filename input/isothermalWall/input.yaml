@@ -1,0 +1,97 @@
+################### Main ODT parameters
+# CHANNEL FLOW: Re_tau = 590. u_tau=1, delta_nu = kvisc0. So, plot <u> vs x/kvisc0 IS u+ vs y+.
+
+params:
+
+    seed:          -22            #  random number generator seed (negative to randomize it)
+    tEnd:          10.            #  ending time of realization (s)
+    domainLength:  1.0            #  length of domain (m)
+    ngrd0:         1000           #  initial grid points
+    rho0:          1.2166         #  initial uniform density (kg/m^3) (air at 289 K)
+    kvisc0:        1.4885E-5      #  initial uniform kinematic viscosity (m^2/s) (air at 289 K)
+    dPdx:          0.0            #  initial pressure gradient (Pa/m)
+    pres:          101325.0       #  pressure (Pa)
+    chemMechFile:  air.xml        #  name of chemical mechanism file
+    probType:      ISOTHERMAL_WALL #  CHANNEL, JETMIXL_RXN, etc
+    #----------------------------------------------------------------------------------
+    Z_param:       600.           #  Viscous penalty parameter
+    A_param:       0.666666666667 #  Energy Distribution parameter alpha
+    C_param:       10.00          #  Eddy frequency parameter
+    LES_type:      ELAPSEDTIME    #  NONE, THIRDS, ELAPSEDTIME, FRACDOMAIN, INTEGRALSCALE
+    Z_LES:         5.0            #  NONE, THIRDS, ELAPSEDTIME, FRACDOMAIN, INTEGRALSCALE
+    diffCFL:       0.1            #  multiplies min diffusion timestep
+    #----------------------------------------------------------------------------------
+    Lbuoyant:      true           # buoyant source term
+    radType:       NONE           #  radiation flag: OPTHIN, TWOFLUX, NONE
+    g:             -9.81          #  gravity
+    Lsolver:       EXPLICIT       #  EXPLICIT, SEMI-IMPLICIT, STRANG
+    #----------------------------------------------------------------------------------
+    bcType:        WALL_OUT       #  OUTFLOW, WALL, PERIODIC, WALL_OUT
+    xDomainCenter: 0.5            #  MAKE THIS HALF THE domainLength
+    cCoord:        1              #  1 = planar, 2 = cylindrical, 3 = spherical
+    Lspatial:      true           #  true = spatial, false = temporal
+    umin_spatial:  0.01           #  min uvel for spatial flows; used when alpha pulls velocity
+    Lrestart:      false          #  restart case (restart.dat): true, false
+    #----------------------------------------------------------------------------------
+    gDens:         30             #  grid density for mesher
+    dxmin:         0.0001         #  min grid spacing: = dxmin / domain length
+    dxmax:         0.2            #  max grid spacing = dxmax / domain length
+    #----------------------------------------------------------------------------------
+    Pmax:          0.4            #  maximum eddy acceptance probability
+    Pav:           0.02           #  average acceptance probability
+    dtfac:         2.0            #  maximum factor to increase dtSmean
+    nDtSmeanWait:  100000         #  number of eddy samples before increase dtSmean
+    eddyMinCells:  3              #  eddy must overlap at least this many cells
+    DAtimeFac:     10.0           #  time until catch-up adaption is DAtimeFac * dtCUmax
+    tdfac:         1.0            #  factor between dtCUmax and dtCFL for temporal flows
+    sLastDA:       100            #  size of the lastDA vector for timing adaptmesh after diff
+    Lp:            0.015          #  Most probable eddy size frac of domainLength
+    Lmax:          0.2            #  Max eddy size frac of domainLength
+    #----------------------------------------------------------------------------------
+    modDump:       10000000       #  accepted eddies before output file
+
+
+################### line variable parameters
+
+dvParams:                      
+    LdoSpeciesFlux: false        # should be false here. Variable defaults to true in general, but this case doesn't have species defined as vars on the line
+
+################### Initialization parameters
+
+initParams:                      # these or others are read in the odtcase_mycase class
+    BL_width: 0.05               # boundary layer thickness (m)
+    BL_vdiff: 0.02               # boundary layer velocity difference (m/s, free stream vs wall)
+
+################### Boundary conditions
+
+bcCond:
+    hWallBCtype: ISOTHERMAL
+    uBClo: 0.0
+    uBChi: 0.0
+    vBClo: 0.0
+    vBChi: 0.0
+    wBClo: 0.0
+    wBChi: 0.0
+    TBClo: 333
+    TBChi: 289
+
+################### Dump times
+
+dumpTimes:
+
+    - 0.0001
+    - 0.001
+    - 0.005
+    - 0.01
+    - 0.015
+    - 0.02
+    - 1.0
+    - 2.0
+    - 3.0
+    - 4.0
+    - 5.0
+    - 6.0
+    - 7.0
+    - 8.0
+    - 9.0
+    - 9.999

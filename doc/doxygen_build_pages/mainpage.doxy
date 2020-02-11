@@ -1,0 +1,427 @@
+/**
+
+@mainpage
+<!--
+This is being rendered into HTML code, so you can comment things out using HTML-style comments.
+You can also insert LaTeX equations...
+An example of an inline equation is \f$ ax^2 + bx + c = 0 \f$, and an example of a nice-looking display equation is:
+\f[ ax^2 + bx + c = 0 \f]
+-->
+
+<!--
+\image html montage_odt.png width=250px
+![ODT examples](montage_odt.png#left)
+-->
+
+
+## Table of Contents
+
+@ref video
+
+@ref layout
+
+@ref obtain
+
+@ref build
+
+@ref inputs
+
+@ref setup
+
+@ref running
+
+@ref post-processing
+
+@ref code_structure
+
+@ref style
+
+@ref odt_theory
+
+@ref flmlt
+
+@ref hips
+
+<!--
+@ref example_anchor
+(what other sections should go here?)
+<br>
+@ref notes
+<br>
+-->
+
+<hr />
+
+<!--
+@section video Youtube Video
+
+Note, there is a video that goes through the installation, basic layout, and running of the code [here](https://youtu.be/NnMNmjYvsg0).
+
+<hr />
+-->
+
+@section layout Directory structure
+
+This ODT code is divided into 6 main directories:
+- \c doc/      - Documentation of the code.  The directory doc/doxygen has doxygen output.
+- \c build/    - Makefiles related to building the code
+- \c source/   - All source code for the ODT program
+- \c input/    - The input files for the code (see \ref inputfile "Input File" section below)
+- \c run/      - The executable
+- \c data/     - All data/post/runtime/input files produced by the ODT code
+- \c post/     - Post processing code.
+
+<hr />
+
+@section obtain Get the code
+
+- The code is hosted at [Bitbucket](https://bitbucket.org). Code access can be
+  requested from [odt@byu.edu](mailto:odt@byu.edu).
+
+- To download the code, browse to the location you want to install the code and
+  type <br>```git clone
+  https://github.com/BYUignite/SEC.git```
+
+<hr />
+
+@section build Build the code
+
+The code is written in c++. It has been built and
+run on many Mac and Linux machines including clusters.
+- Input files are written in a YAML format, so you need a YAML library. This is
+  included with the ODT code. You will need to have cmake installed. Go to the
+  build directory and type the following at the terminal:<br>```./build_yaml.sh```
+
+- The code requires a Cantera installation. Instructions for installation can
+  be found [here](http://www.cantera.org/docs/sphinx/html/install.html). On
+  linux machines, especially clusters, it may be most convenient to build
+  cantera from the source, available
+  [here](https://github.com/Cantera/cantera). Required software and
+  installation instructions are listed on the linked pages.
+
+- ODT is built using a Makefile in the build directory. There are also files
+  like make.MYMACH where MYMACH is one of MAC, FSL, SPARK, etc. It is intended
+  that the Makefile be generic to all machines, and machine-specific options be
+  specified in the desired make.MYMACH file. Create and edit your own
+  make.MYMACH file to suite your needs. Specifically, compiler commands,
+  options, external libraries, and preprocessor directives are set in the
+  make.MYMACH file. The paths to your Cantera include and library files are
+  also specified.
+
+- To build the code, at the terminal, type:<br>```make MACH=MYMACH``` <br>where
+  MYMACH matches the extension of the file make.MYMACH.
+    - The make process can be sped up by including the ```-j8``` flag (run in
+      parallel on 8 cores):<br>```make -j8 MACH=MYMACH```
+    - Other commands include the following:<br>```make MACH=MYMACH
+      depend```<br>```make MACH=MYMACH documentation```<br>```make MACH=MYMACH
+      all```<br>```make MACH=MYMACH clean```
+
+- The following preprocessor flags are used:
+    - ```CHEMISTRY```
+        - Chemical reaction rates may be computed using Cantera's built-in
+          reaction rate based on the reaction rate data provided in the
+          associated chemical mechanism file, or a user-defined reaction rate
+          code may be used (which is common for reduced mechanisms). This flag
+          determines which mechanism code to use.
+        - The value of the flag for the Cantera-based rate is ```CANTERARR```.
+        - The value of the flag for user-defined mechanism codes are defined in
+          the Makefile, but include, e.g., ```CH4RED```, ```C2H4RED```,
+          ```SIMPLEDLR```, etc.
+
+    - ```PARALLEL```
+        - Turns on embarrassingly parallel simulations. Code uses MPI.
+        - Values are either ```YES``` or ```NO```
+
+
+- The executable is called sec.x and is placed in the run directory.
+
+<hr />
+
+
+@section inputs Input files
+
+- All input files are in the input directory. Specific ODT cases have
+  individual subdirectories. For example ```input/channelFlow/```.
+- The three main input files are:
+    - ```input.yaml```
+        - This is a [standard yaml](https://en.wikipedia.org/wiki/YAML) file.
+        - Yaml easily allows inputting of array quantities. The dumpTimes
+          specification is an example.
+        - All ODT case parameters go in this file. See code odtparam.h and
+          odtparam.cc for parameters that can be set.
+        - Most parameters have default values, and so are optional. See
+          odtparam.cc for the default parameters.
+        - Parameters used to specify a given ODT case, such as geometry
+          parameters should also go in this file. These parameters would
+          normally be read from the specific domaincase_yourcase.cc file.
+    - ```cantera_mechanism.xml```
+        - All cases require a Cantera file, even if not used. The name of the
+          mechanism file corresponds to the ```chemMechFile``` parameter
+          specified in the input.yaml file.
+        - For cases that do not need chemistry (or variable transport
+          properties), e.g., channel flow, the file ```not_used.xml``` can be
+          specified.
+    - ```restart.dat``` is a simple restart file.
+- The following is a brief description of the input file format and specific
+  parameters of interest beyond the description given in the input file.
+    - The ```params:``` section lists parameters that are only in the
+      odtparams.h file.
+        - ```seed``` Positive values are useful for reproducibility. A negative
+          value is basically a flag indicating to randomize the seed. This is
+          useful for parallel runs where each realization should be unique.
+          However, the default behavior is to add the processor id (MPI) to the
+          positive seed, so that parallel realizations are both reproducible
+          and unique for positive seeds.
+        - ```tEnd``` is the end time for temporal flows, or the ending spatial
+          location for spatial flows.
+        - ```rho0, kvisc0``` are average density and kinematic viscosity of the
+          fluid. For flows without variable transport properties as specified
+          by the user (usually using Cantera), these values are used. (Channel
+          flow, for example.) They are also used in specifying some initial
+          eddy sampling properties (for example, the average sampling time and
+          diffusion catchup time, see solver.cc). Hence, for variable property
+          flow, these values should be some reasonable expected average.
+        - ```probType``` this will determine which domainCase is used for solution
+          (described below).
+        - ```Z_param, A_param, C_param, Z_LES``` are the viscous penalty, eddy
+          distribution, eddy rate, and large-eddy suppression parameters. These
+          are commonly tuned to experimental data for a given simulation. Note
+          the A_param is often not tuned but set to 2/3, which gives the
+          maximum redistribution of energy among the three velocity components.
+        - ```LES_type``` is a string indicating the large-eddy suppression
+          model to use. The ELAPSEDTIME model is common for open flows like
+          jets. For channel flow, NONE or FRACDOMAIN are common since the
+          domain enforces a given eddy size and the flow is statistically
+          stationary in either time ore space.
+        - ```diffCFL``` is a factor multiplying the timestep used for diffusive
+          advancement. This should be less than one, which is the stability
+          limit for purely diffusive (planar) flows. Due to the presence of
+          multiple scalars, and dynamical processes (like chemical reaction,
+          particles), this may need to be set lower: 0.1-0.5 is common. If the
+          code crashes and everything seems to be setup right, this is a good
+          place to start. Note, with stiff chemistry, an explicit solver
+          requires this to be Very low, but one of the implicit approaches
+          should be used with stiff chemistry.
+        - ```cCoord``` specifies whether the case is planar (1), cylindrical
+          (2), or spherical (3). The name relates to the power on terms like
+          x^c or r^c that are used to make the code generic to the
+          configuration using the value of c chosen.
+        - ```gDens``` controls the grid density for mesh refinement. This can
+          be increased to produce a finer grid resolution, but note that the
+          mesher normalizes the profiles so that the number of grid points is
+          roughly constant for a given profile "length." Hence, this value
+          rarely needs to be modified: 30 is a reasonable value.
+        - ```dxmin``` is the smallest cell size. But it is normalized by
+          domainLength, so if you double the size of your domain for the same
+          turbulence level, you will want to half dxmin to get the same
+          smallest grid size.
+            - A value of 0.001 implies a maximum number of grid cells of 1000
+              on the domain, (though the mesher will normally give fewer than
+              this).
+            - Its a good idea to check the resultant cell size distribution to
+              see how often dxmin is limiting the grid. This can be an
+              indication of poor resolution.
+        - ```Pmax, Pav, dtfac, nDtSmeanWait, eddyMinCells, DAtimeFac, tdfac,
+          sLastDA``` are all rarely modified.
+        - ```eddyMinCells``` is the minimum number of grid cells an eddy has to
+          span to be viable.
+        - ```Lmin``` is the minimum eddy size sampled (hence allowed). This
+          value should be consistent with ```dxmin``` and ```eddyMinCells```.
+          For example, if dxmin is 0.001 and ```eddyMinCells``` is 3, then
+          ```Lmin``` should be greater than or equal to 0.003. Otherwise eddies
+          may be sampled that cannot be accepted, which is inefficient.
+        - ```modDump``` is the number of eddies accepted before the ODT domain is
+          dumped. Common values are 1, or 1000000 (something big, which
+          effectively turns off output of the ODT domain after eddies).
+            - A value of 1 is useful for visualizing the progression of eddies
+              on the domain. Especially during preliminary investigation.
+            - A large value is useful when the primary desired output is
+              controlled through the specified dumpTimes (which are more
+              convenient for data processing).
+    - ```dumpTimes``` is an array of times (or spatial locations for spatial
+      flows) at which to output the domain state as a data file. Get the list of
+      values from Python, or Matlab or something.
+
+
+<hr />
+
+@section setup Case setup
+
+- Specific ODT cases (e.g., channelFlow) have their own input directories
+  containing input files as specified above.
+    - Each case will correspond to one of the types indicated by the
+      ```probType``` variable in the input file.
+    - Each ```probType``` has a separate code file in the
+      ```source/domaincases/``` directory. These codes are
+      ```domaincase_someCase.h``` and the corresponding ```.cc``` file.
+    - You can use one of the existing cases, or create your own, using the
+      existing cases as a guide.
+    - These cases essentially define what scalars are transported, and define
+      functions that govern how certain domain quantities are computed.
+    - Note, each ```domaincase_someCase``` inherits off a base class
+      ```domaincase```.
+
+
+
+<hr />
+
+@section running Running the code
+
+- The exectuable is called ```sec.x``` and is located in the ```run/```
+  directory, where the cases are run from.
+- The code is run from run scripts for doing single and multiple realization
+  runs.
+- The run scripts will need a case name.
+- For example, if the case name is myCase in the run script, then:
+    - ```./runOneRlz.sh```
+        - This will create ```../data/myCase/input,
+          ../data/myCase/runtime, ../data/myCase/data```, etc.
+        - Files in ```../input/channelFlow/``` will be copied to
+          ```../data/channelFlow/input/``` and the ODT code will read input
+          files from here.
+    - ```./runSingleRlz.sh -r will rebuild the code, which is useful for debugging.```
+    - Note, ```../data/myCase``` is first deleted if present.
+- For parallel runs, the following slurm job script is included as an example: ```slrmJob.sh```
+    - This file hard codes the input directory and case name arguments.
+    - Also, the file is setup to run multiple sets of realizations. So, if I
+      were running on 100 processors, but wanted 500 realizations, I would set
+      ```nRlz=5``` in in the script.
+    - The file structure is the same as for single realization runs.
+    - The code needs to be built with the PARALLEL=YES flag.
+- Alternatively, non-mpi runs can be done with PARALLEL=NO, and using the slrmJob_array.sh script.
+    - This script simply calls ./sec.x caseName rlz#, where caseName is the name of the case (myCase),
+      and rlz# is the number of the realization, like 0, 1, 2, etc.
+    - A non-slurm script could be easily created.
+
+<hr />
+
+
+@section post-processing Post-processing
+
+- Post-processing is performed in the post directory. The user creates a
+  directory containing post-processing code files here.
+- The intention is for post-processed data files to be placed in the
+  ```../data/myCase/post/``` directory, though this is up to the user.
+- Most of the included cases have some post-processing routines included. These
+  are primarily python3 codes.
+
+
+<hr />
+
+@section code_structure General code structure
+
+The ODT code is structured with a collection of C++ classes.
+- Nearly all variables are public. This avoids excessive get and set functions
+  and allows easy access to class members. (We are responsible adults here...)
+
+
+- The ```domain.cc``` is the main class. It contains all the domain variables
+  (cell positions, velocities, and all scalar profiles). It holds the Cantera
+  objects, solver, eddy, mesh manager, odt case and other basic class objects.
+    - This class a vector of pointers called ```v``` to ```dv``` objects (domain
+      variables). This is convenient for treating the collection. There are
+      also explicit pointers to specific domain variable objects, so that these
+      can be conveniently referenced by name. Because they are pointers, they
+      may not all be instantiated though.
+    - Basic domain operations are included in this class, like
+      ```domainPositionToIndex```.
+    - There are generally two instantiations of ```domain```s, the main domain
+      ```domn```, and an eddy domain ```eddl```, which holds fewer 
+      variables. The eddy domain object is only used for eddy events.
+
+    - Nearly every class in the code has a back pointer to the domain object
+      so that every class has access to every other class.
+
+- The ```domain``` objects ```domn``` and ```eddl``` are instantiated in
+  ```main.cc```, as are many other key classes, such as the solver, mesh
+  manager, cantera objects, random generator.
+- All domain profile variables (such as grid positions, velocities, temperatures,
+  densities, etc.) are somain variable classes ```dv_uvw``` that inherit from a
+  parent: ```dv```.
+    - The ```dv``` class holds the variable name, a vector of its data values
+      on the domain, flags for whether it is transported or output in a data
+      file, and vectors holding its source and transport terms in the case it
+      is a transported quantity.
+    - It also performs functions for setting itself, as well as merging and
+      splitting cells, and setting its source and transport quantities.
+        - These functions serve as defaults, and are only specialized by
+          children as needed.
+    - The child classes specialize functions and define variables that are only needed by themselves. For example, the ```dv_ygas``` class has ```nspc``` that holds the number of gas species (effectively the number of ```dv_ygas```), along with a ```kMe``` index so that each ```dv_ygas``` object knows its place. This is useful for allowing the first ```dv_ygas``` object to set properties for all the others to avoid redundancy. For example, normally all reaction rates for species are computed at once, but that needs special treatment when each species is its own domain variable and computes its own source term.
+- The ```solver``` class organizes the eddy sampling and diffusive advancement progression.
+    - The ```eddy``` class contains functions for performing triplet maps, eddy time scales, sampling eddy locations and sizes, and applying velocity kernels.
+    - The ```micromixer``` class contains functions for performing the diffusive advancement. This includes the time (for temporal flows) or space (for spatial flows) integration of the governing PDEs, which is done using the method of domains with a finite volume scheme on an adaptive mesh. The micromixer calls the rate functions for all domain variable source and transport terms and performs explicit or semi-implicit time (or space) integration.
+    - the ```meshManager``` class performs mesh adaption, as described in the theory paper below.
+- Other supporting classes include the ```streams``` class for defining mixing streams, and performing mixture fraction calculations, the ```radiation``` class, which contributes to the enthalpy source term for combustion simulations, the ```randomGenerator``` class, the ```processor``` class for handling parallel MPI details, and the ```inputoutput``` class for I/O.
+- The ```odtparam``` class holds most of the ODT parameters that are read from input files and used throughout the code.
+- ODT case files were mentioned previously. These are in the ```domaincases/``` directory, for example ```domaincase_channel```. They inherit from a parent ```domaincase```.
+    - These cases are used to specify the domain variables needed for a given case. Some are fairly common: ```pos, posf, rho, dvisc, uvel, vvel, wvel```, while others are more specific, such as ```chi, mixf, temp, hr```.
+    - The parent class holds only a pointer to the ```domn``` object, but
+      defines functions like those that set the gas state, or set case specific
+      variables, that are useful for the children. These make it very easy to
+      have generic code that can support multiple cases with multiple domain
+      variables. The defaults allow certain children, such as
+      ```domaincase_channel``` to be fairly small. Other classes can specialize as
+      needed.
+    - The ```domaincase_*``` classes also are responsible for initializing the
+      domain variable profiles prior to running. Each domain variable has its own
+      defaults, but the specific case allows for, e.g., initializing a jet
+      velocity profile. This can be done by adding parameters to the
+      ```input.yaml``` file and reading those values in the given odt case
+      file. As needed, supporting setup files could be used.
+
+
+
+<hr />
+
+@section style Style guide
+
+When editing code, the following guide should be followed.
+- Use the existing code as your guide. Always ask yourself, "is this pretty, can I make it better, is there another way to organize this?""
+- Use "camelCase" for variables and functions.
+- The pointer to the ```domn``` object is the primary communicator that allows passage of information between classes and functions. Avoid declaring global variables or passing values through function parameter lists unnecessarily.
+- Be minimally invasive to the code. Inherit from existing classes and use oaverloading. Do not clutter the code with ```if``` clauses.
+    - The flamelet code (described below) is an example of inheriting off key classes.
+    - For example, a ```stats``` class should be added. Calls to this class could be made using a single line of code. If stats is not active it would simply return. If it is active, the called function alone determines what to do. It would have nearly full access to the rest of the code through the ```domn``` pointer. A function argument could indicate the appropriate action to take that is specific to the ```stats``` class. This avoids ```if``` statements and preprocessor directives.
+- Code should be self explanatory. Use descriptive but succinct variable names. For example ```dv``` is used in the code instead of ```domainVariable```. Also ```d``` is used instead of ```data```. While in each case, the latter is more descriptive, a simpler name was used due to the frequency of use. Conversely, lesser-used variables, such as ```domainLength``` are used for clarity.
+- Avoid preprocessor directives. They seriously clutter the code.
+- Modular code is good: avoid monolithic blocks of code; fit a function on one page if possible.
+- Header files should be short and consice. Do not put function definitions in header files (unless they are one line long). Code goes in the code files.
+    - In header files, separate the data members from the member functions from the constructors and destructors. They should go in that order.
+- Use English throughout.
+- Boolean flags are usually prepended with an upper case "L" to indicate a "logical" variable.
+- Use comments liberally. Comments to the right of code are preferred.
+    - Use double slash comments everywhere except in class and function definitions.
+- Document the code using Doxygen-style directives. All variables declared in header files should have Doxygen-style comments. See the header files for examples of this. Also, document functions and classes. Include parameter definitions and whether they are inputs or outputs. Also give return values.
+- Line up the code and comments vertically. Groups of similar statements should have aligned equal signs, and aligned comments.
+- Use blank lines liberally to help group and separate code sections.
+- Use indentation with 4 spaces (not 2).
+- No tabs allowed. Use text editors that insert 4 spaces when the tab key is pressed.
+- Avoid inserting trailing whitespace at the end of a line. 
+- Put the initial opening curly brace of code blocks on the same line. Put the closing curly brace of code blocks on their own line.
+- Most class members are public on purpose. Lets keep it that way. Private variables can be useful for self-documenting that they are only ever needed in the given class, but we are not trying to "hide" variables in this code.
+
+<hr />
+
+@section odt_theory ODT Theory
+
+Documents containing information on the theory behind the ODT code.
+- <a href="http://ignite.byu.edu/public/Lignell_2018.pdf" target="_blank">One-dimensional
+     turbulence modeling for cylindrical and spherical flows: Model formulation and application</a> (pdf)
+- <a href="http://ignite.byu.edu/public/ODTmethod.pdf" target="_blank">Mesh
+     adaption for efficient multiscale implemenation of One-Dimensional Turbulence</a> (pdf)
+- <a href="http://ignite.byu.edu/public/eddyEvents.pdf" target="_blank">ODT Eddy Events</a> (pdf)
+
+<hr />
+
+@section flmlt Laminar nonpremixed flamelet code
+
+The ODT code described above has also been extened to solve nonpremixed laminar flamelets in the mixture fraction coordinate. This was facilitated by the modular nature of the code and the one-dimensional domains in both cases. The code for this is in the ```/source/flmlt/``` directory. There is also a flmlt input case directory.
+
+<hr />
+
+@section hips HiPS Code
+
+The ODT code described above has also been extened to solve Heirarchical Parcel Swapping (HiPS). This was facilitated by the modular nature of the code and the one-dimensional domains in both cases. The code for this is in the ```/source/hips/``` directory. There is also a hips input case directory.
+
+*/
+

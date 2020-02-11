@@ -1,0 +1,35 @@
+
+Build source code with cmake. 
+
+Note: CMakeLists.txt files are in ../source directory and its subdirectories.
+Note: All files in this folder can be deleted except for user_config and this README.
+
+#--------------------------------------------------------------------------
+Software required:
+    cmake (3.12 or higher)
+    cantera (visit https://cantera.org/ for information and installation instructions)
+    git (for installing yaml)
+    doxygen (optional; for building documentation)
+
+#--------------------------------------------------------------------------
+Step 1: run cmake
+    Edit the user_config file for settings and paths.
+    Run: cmake -C user_config ../source
+
+#--------------------------------------------------------------------------
+Step 2: build and install yaml
+    Run: make yaml
+
+#--------------------------------------------------------------------------
+Step 3: build the SEC code
+    Run: make -j8
+
+#--------------------------------------------------------------------------
+Step 4 (OPTIONAL): build documentation
+    Run: make doxygen
+
+#--------------------------------------------------------------------------
+Step 5: clean the build
+    Run: make clean
+    OR (for a more thorough clean)
+    Run: ./clean_this_dir.sh

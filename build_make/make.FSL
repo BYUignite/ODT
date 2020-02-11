@@ -1,0 +1,26 @@
+######################## COMPILATION ###########################
+# set CHEMISTRY to CANTERARR or something else (see Makefile SOURCE section)
+# set PARALLEL to YES or NO
+
+CHEMISTRY   = C2H4RED
+PARALLEL    = NO
+
+####################   COMPILER OPTIONS   #####################################
+
+options       =  -O3
+#options       =  -g
+cppoptions   = -std=c++11
+
+#####################   COMPILER   ############################################
+
+CC_COMPILER_NAME = mpic++
+C_COMPILER_NAME  = mpicc
+
+#####################   DIRECTORIES   #########################################
+# set your cantera library path if using cantera
+
+CANT_LIB = /fslhome/vbl22/codes/cantera22/lib/
+CANT_INC = /fslhome/vbl22/codes/cantera22/include/
+
+
+
