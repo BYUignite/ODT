@@ -1,6 +1,0 @@
-
-Run "./getScatterData.py caseName" first
-Results are in scatterData
-
-Then Run "./getConditionalPDFs.py caseName"
-Results are in cpdfs
