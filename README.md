@@ -1,4 +1,4 @@
-# SEC (Stochastic Eddy Cascade)
+# BasicODT
 
 This code implements the One-Dimensional Turbulence (ODT) model for turbulent reacting or nonreacting flows. 
 
