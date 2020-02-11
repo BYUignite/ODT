@@ -1,5 +1,0 @@
-run the following command:
-
-python3 driver.py yourCaseName
-
-where yourCaseName matches a file in ../../data/
