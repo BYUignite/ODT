@@ -60,10 +60,6 @@ class param {
         string  Lsolver;         ///<  EXPLICIT, SEMI-IMPLICIT, or STRANG
         bool    Lperiodic;       ///<  periodic if true
         bool    Lspatial;        ///<  spatial formulation if true
-        bool    Llem;            ///<  true if LEM
-        bool    LisFlmlt;        ///<  true if solving an unsteady flamelet
-        bool    LisFlmltX;       ///<  true if solving an unsteady flamelet in the physical domain (Pierce 2004)
-        bool    LletFlmltAdpt;   ///<  true if allowing mesh adaption during flmlt solution (other than the initial adapt)
         double  chi0;            ///<  for flmlt cases (not flmltX); = chi at mixf=0.5
         double  heatloss;        ///<  for flmlt or flmltX cases; heat loss as fraction of sensible enthalpy with Tmix as a reference
         bool    LTMA;            ///<  true for the triplet map TMA: 3 = vol segments; false for TMB: 3 equal length segments

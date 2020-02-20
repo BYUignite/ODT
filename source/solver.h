@@ -63,7 +63,6 @@ class solver {
     private:
 
         bool   sampleEddyAndImplementIfAccepted();
-        bool   sampleAndImplementLEMeddy();
         void   computeDtSmean();
         void   computeDtCUmax();
         double sampleDt();

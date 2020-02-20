@@ -99,10 +99,7 @@ void solver::calculateSolution() {
 
         computeDtCUmax();
 
-        if(domn->pram->Llem)
-            LeddyAccepted = sampleAndImplementLEMeddy();
-        else
-            LeddyAccepted = sampleEddyAndImplementIfAccepted();  // ODT may reduce dtSmean; sets Pa
+        LeddyAccepted = sampleEddyAndImplementIfAccepted();  // ODT may reduce dtSmean; sets Pa
 
         iEtrials++;
 
@@ -369,49 +366,12 @@ bool solver::sampleEddyAndImplementIfAccepted() {
             domn->mesher->enforceDomainSize();     // chop the domain
         }
         else
-            domn->ed->applyVelocityKernels(domn, iStart, iEnd);   // does nothing for LEM
+            domn->ed->applyVelocityKernels(domn, iStart, iEnd);   
 
         return true;
     }
 
     return false;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-/** Sample and implement an LEM eddy
- * @return true if the sampled eddy was implemented.
- */
-
-bool solver::sampleAndImplementLEMeddy() {
-
-    domn->ed->sampleEddySize();
-
-    domn->ed->sampleEddyPosition();
-
-    //---------- extract the eddy segment from domn into eddl
-
-    int iStart = domn->domainPositionToIndex(domn->ed->leftEdge,  true, 4);
-    int iEnd   = domn->domainPositionToIndex(domn->ed->rightEdge, false, 5);
-
-    domn->eddl->setDomainFromRegion(iStart, iEnd);
-
-    //---------- invoke the eddy
-
-    if(domn->ed->LperiodicEddy) {
-        *domn->io->ostrm << endl << "#   periodic eddy ";
-        double cycleDistance = domn->cyclePeriodicDomain(iEnd);
-        double bkp_rightEdge = domn->ed->rightEdge;
-        domn->ed->rightEdge = domn->ed->leftEdge + domn->ed->eddySize;
-        iStart = domn->domainPositionToIndex(domn->ed->leftEdge,  true, 6);
-        iEnd   = domn->domainPositionToIndex(domn->ed->rightEdge, false, 7);
-        domn->ed->tripMap(domn, iStart, iEnd, domn->pram->cCoord, true);
-        domn->backCyclePeriodicDomain(cycleDistance);
-        domn->ed->rightEdge = bkp_rightEdge;
-    }
-    else
-        domn->ed->tripMap(domn, iStart, iEnd, domn->pram->cCoord, true);
-
-    return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

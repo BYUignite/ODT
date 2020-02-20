@@ -50,10 +50,6 @@ param::param(inputoutput *p_io) {
     Lsolver        = io->params["Lsolver"]        ? io->params["Lsolver"].as<string>()       : errMsg<string>("Lsolver");
     Lperiodic      = io->params["Lperiodic"]      ? io->params["Lperiodic"].as<bool>()       : false;
     Lspatial       = io->params["Lspatial"]       ? io->params["Lspatial"].as<bool>()        : false;
-    Llem           = io->params["Llem"]           ? io->params["Llem"].as<bool>()            : false;
-    LisFlmlt       = io->params["LisFlmlt"]       ? io->params["LisFlmlt"].as<bool>()        : false;
-    LisFlmltX      = io->params["LisFlmltX"]      ? io->params["LisFlmltX"].as<bool>()       : false;
-    LletFlmltAdpt  = io->params["LletFlmltAdpt"]  ? io->params["LletFlmltAdpt"].as<bool>()   : true;
     chi0           = io->params["chi0"]           ? io->params["chi0"].as<double>()          : 500.0;   // error check below if not set
     heatloss       = io->params["heatloss"]       ? io->params["heatloss"].as<double>()      : 0.0;     // error check below if not set
     LTMA           = io->params["LTMA"]           ? io->params["LTMA"].as<bool>()            : false;
