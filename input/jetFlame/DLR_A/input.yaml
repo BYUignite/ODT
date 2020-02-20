@@ -63,7 +63,6 @@ params:
 radParams:
     radSolveType:   OPTHIN        # OPTHIN or TWOFLUX or FVDOM
     radCoefType:    PLANCKMEAN    # PLANCKMEAN or WSGG or RCSLW
-    LradDoSoot:     false         # true or false
     ntheta:         40            # only relevant for radSolveType = FVDOM
     npsi:           80            # nominally 2*ntheta; only relevant for radSolveType = FVDOM
 
