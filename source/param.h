@@ -90,7 +90,7 @@ class param {
         int     modDisp;         ///<  frequency to display results (# eddies)
         bool    Ltecplot;        ///<  set TRUE for tecplot friendly output
 
-        bool    LmultiPhase;     ///<  true if domain has more than one phase (soot or particles don't count.)
+        bool    LmultiPhase;     ///<  true if domain has more than one phase (particles don't count)
         double  eSurfTens;       ///<  surface tension, J/m2 for liquid phases
 
         double  uBClo;           ///<  Dirichlet velocity boundary condition.
@@ -115,39 +115,8 @@ class param {
 
         string                      radSolveType;   ///< OPTHIN, TWOFLUX, FVDOM
         string                      radCoefType;    ///< PLANCKMEAN, WSGG, RCSLW
-        bool                        LradDoSoot;     ///< true of computing soot in radiation
         int                         npsi;
         int                         ntheta;
-
-        //----------------- Soot variables
-
-        bool           Lsoot;               ///< true for soot, false for no soot
-        int            nsvar;               ///< number of soot variables transported (# soot moments)
-        vector<string> PAH_species;         ///< soot list of pah species in mechanism
-
-        int            Cmin;                ///< minimum number of carbon atoms in a soot particle
-        double         rhoSoot;             ///< solid soot density
-        double         b_coag;              ///< coagulation rate parameter (see Lignell thesis page 58.)
-        string         nucleation_mech;     ///< soot nucleation chemistry flag
-        string         growth_mech;         ///< soot growth chemistry flag
-        string         oxidation_mech;      ///< soot oxidation chemistry flag
-        string         coagulation_mech;    ///< soot coagulation mechanism flag
-
-        string         PSD_method;          ///< method name for soot PSD: MONO, QMOM, MOMIC
-        int            nsvar_v;             ///< number of soot variables transported (v direction)
-        int            nsvar_s;             ///< number of soot variables transported (s direction)
-
-        //----------------- HIPS quantities
-
-        bool    LisHips;         ///<  true if solving hips
-        int     nLevels;         ///< number of levels in the tree: 0, 1, 2, ... N-1
-        double  Afac;            ///< level lengthscale reduction factor (0.5)
-        double  L0;              ///< tree lengthscale
-        double  tau0;            ///< integral timescale
-        double  fmix;            ///< timescale factor for micromixing
-        double  LScHips;         ///< hips schmidt number
-        bool    LsimpleMix;      ///< true for simple instantaneous mixing of parcel pairs
-        int     forceHips;       ///< forcing function for statistically stationary: -1 = none, 1 = source term, 2 = direct profile
 
     //////////////////// MEMBER FUNCTIONS /////////////////
 
