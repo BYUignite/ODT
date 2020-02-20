@@ -1,6 +1,6 @@
-target_include_directories(sec.x PRIVATE .)
+target_include_directories(odt.x PRIVATE .)
 
-target_sources(sec.x
+target_sources(odt.x
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/sundials_smalldense.c
         ${CMAKE_CURRENT_SOURCE_DIR}/sundials_nvector.c

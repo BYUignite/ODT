@@ -1,6 +1,6 @@
-target_include_directories(sec.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_sources(sec.x
+target_sources(odt.x
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/domaincase.cc                      ${CMAKE_CURRENT_SOURCE_DIR}/domaincase.h
         ${CMAKE_CURRENT_SOURCE_DIR}/domaincase_odt_channel.cc          ${CMAKE_CURRENT_SOURCE_DIR}/domaincase_odt_channel.h

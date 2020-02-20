@@ -8,7 +8,7 @@ endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../run)
 
-add_executable(sec.x "")
+add_executable(odt.x "")
 
 #################### preprocessor directives
 
@@ -30,7 +30,7 @@ add_definitions(-D_USESTDVECTOR_)
 
 #################### Compile options
 
-target_compile_features(sec.x PUBLIC cxx_std_11)
+target_compile_features(odt.x PUBLIC cxx_std_11)
 
 set(CMAKE_CXX_FLAGS_DEBUG   "-ggdb3")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
@@ -38,29 +38,29 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 #################### Link: libraries and flags
 
-target_include_directories(sec.x PRIVATE ${CANTERA_INCLUDE_DIR}) 
+target_include_directories(odt.x PRIVATE ${CANTERA_INCLUDE_DIR}) 
 find_library(CANTERA cantera HINTS ${CANTERA_LIB_DIR})
-target_link_libraries(sec.x ${CANTERA})
+target_link_libraries(odt.x ${CANTERA})
 
-target_include_directories(sec.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/yaml/include)
+target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/yaml/include)
 #find_library(YAML yaml-cpp HINTS ${CMAKE_CURRENT_SOURCE_DIR}/yaml/lib)
-#target_link_libraries(sec.x ${YAML})
-target_link_libraries(sec.x ${CMAKE_CURRENT_SOURCE_DIR}/yaml/lib/libyaml-cpp.a)
+#target_link_libraries(odt.x ${YAML})
+target_link_libraries(odt.x ${CMAKE_CURRENT_SOURCE_DIR}/yaml/lib/libyaml-cpp.a)
 
 find_package(Boost REQUIRED COMPONENTS system)
-target_include_directories(sec.x PRIVATE ${Boost_INCLUDE_DIRS})
+target_include_directories(odt.x PRIVATE ${Boost_INCLUDE_DIRS})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    target_link_libraries(sec.x "-framework Accelerate")
+    target_link_libraries(odt.x "-framework Accelerate")
 endif()
 
-target_link_libraries(sec.x "pthread")
+target_link_libraries(odt.x "pthread")
 
 #################### Local source files
 
-target_include_directories(sec.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_sources(sec.x
+target_sources(odt.x
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cc
         ${CMAKE_CURRENT_SOURCE_DIR}/inputoutput.cc      ${CMAKE_CURRENT_SOURCE_DIR}/inputoutput.h

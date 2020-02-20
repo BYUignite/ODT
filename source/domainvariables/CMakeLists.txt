@@ -1,6 +1,6 @@
-target_include_directories(sec.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_sources(sec.x
+target_sources(odt.x
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/dv.cc                 ${CMAKE_CURRENT_SOURCE_DIR}/dv.h
         ${CMAKE_CURRENT_SOURCE_DIR}/dv_pos.cc             ${CMAKE_CURRENT_SOURCE_DIR}/dv_pos.h

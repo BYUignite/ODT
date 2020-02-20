@@ -3,7 +3,7 @@
 This code implements the One-Dimensional Turbulence (ODT) model for turbulent reacting or nonreacting flows. 
 
 ## Documentation
-Detailed documentation is available [here](http://ignite.byu.edu/SEC). The following two papers discussing theory and application of the code are available. Additional papers are available [here](http://ignite.byu.edu/publications.html).
+Detailed documentation is available [here](http://ignite.byu.edu/ODT). The following two papers discussing theory and application of the code are available. Additional papers are available [here](http://ignite.byu.edu/publications.html).
    * [D. Lignell et al., One-dimensioanl turbulence modeling for cylindrical and spherical flows: model formulation and application, Theoretical and Computational Fluid Dynamics, 32:495-520](https://ignite.byu.edu/public/Lignell_2018.pdf)
    * [D. Lignell et al., Mesh adaption for efficient multiscale implementation of one-dimensional turbulence, Theoretical and Computational Fluid Dynamics, 27:273-295 (2013)](https://ignite.byu.edu/public/ODTmethod.pdf)
 
@@ -18,7 +18,7 @@ Detailed documentation is available [here](http://ignite.byu.edu/SEC). The follo
     * Other input files are a Cantera mechanism file in `gas_mechanisms` and an optional `restart.yaml` file.
 * `post`: contains post-processing scripts and files for given cases. 
    * Output is placed in `data/caseName/post`. These are mostly Python files. Some cases also include experimental data files for comparison and plotting.
-* `run`: contains the code executable `sec.x` and several run scripts. These scripts are run by the user to execute the code.
+* `run`: contains the code executable `odt.x` and several run scripts. These scripts are run by the user to execute the code.
     * The user specifies inputDir as the path to the input file containing the case to run and specifies a case name for variable caseName. Files are created and copied into `data/caseName`, as noted above.
     * The user chooses one of the following run scripts to execute the code: 
       * `runOneRlz.sh` will run a single realization of the code. This is appropriate for some cases, like a statistically stationary channel flow. Many cases require running many realizations to gather turbulent statistics.
@@ -29,13 +29,13 @@ Detailed documentation is available [here](http://ignite.byu.edu/SEC). The follo
 * `source`: contains source code (including header files) and `CMakeLists.txt` files.
 
 ## Dependencies
-### SEC code
+### ODT code
 * [Cantera](http://cantera.org): open-source suite of tools for problems involving chemical kinetics, thermodynamics, and transport.
-* Yaml: input file format. This installation is conveniently built into the SEC build process. 
+* Yaml: input file format. This installation is conveniently built into the ODT build process. 
 * Cmake 3.12 or higher
 * (OPTIONAL) Doxygen: builds documentation. 
 ### Post-processing
-Post-processing data produced by SEC and ODT is processed via Python 3 scripts. We recommend Python 3.2 or higher. Scripts may not function properly using Python 2.x. The following packages are required and can be installed via pip3:
+Post-processing data produced by ODT and ODT is processed via Python 3 scripts. We recommend Python 3.2 or higher. Scripts may not function properly using Python 2.x. The following packages are required and can be installed via pip3:
 * numpy
 * scipy
 * matplotlib
@@ -54,7 +54,7 @@ Two build systems are available: a standard GNU make, and cmake. We recommend th
   3. Run `./runOneRlz.sh` to run the case. It should take less than two minutes on an average system. 
   4. Navigate to `post/channelFlow`. 
   5. Run `python3 stats.py [caseName]`. With the default case name, this becomes `python3 stats.py channel`. This will generate two plots in `../data/[caseName]/post`. Navigate there to view them. 
-  6. In `../data/[caseName]/post`, there should be two newly-generated PDFs. These two plots compare the mean and RMS velocity profiles of the channel flow case just run with SEC to previous DNS data of the same case. 
+  6. In `../data/[caseName]/post`, there should be two newly-generated PDFs. These two plots compare the mean and RMS velocity profiles of the channel flow case just run with ODT to previous DNS data of the same case. 
 ### Reacting jet
   1. As before, build the code using either Cmake or GNU make. In `user_config`, change the `CHEMISTRY` parameter to `SIMPLEDLR`. If the code was previously built with this parameter, it does not need to be rebuilt. 
   2. Navigate to the `run` directory. 
