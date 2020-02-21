@@ -18,7 +18,6 @@ using namespace std;
 // need a radiative property class object
 // use constructor instead of init function here.
 // verify destructor for child classes for radProps
-// add soot radiation
 
 ///////////////////////////////////////////////////////////////////////////////
 /** Class implementing radiation models
@@ -55,7 +54,6 @@ class radiation {
         virtual void getRadHeatSource(const vector<vector<double> > &xMoleSp,
                                       const vector<double>          &temp,
                                       const double                  &pressure,
-                                      const vector<double>          &fvSoot,
                                       vector<double>                &radSource) = 0;
 
     private:

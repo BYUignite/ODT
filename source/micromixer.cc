@@ -34,7 +34,7 @@ void micromixer::init(domain *p_domn) {
 /** Advance ODT solution: diffusion and reaction
   */
 
-void micromixer::advanceOdt(const double p_tstart, const double p_tend, const int iLevel) { // iLevel is for hips
+void micromixer::advanceOdt(const double p_tstart, const double p_tend, const int iLevel) { 
 
     tstart = p_tstart;
     tend   = p_tend;
@@ -55,7 +55,6 @@ void micromixer::advanceOdt(const double p_tstart, const double p_tend, const in
             advanceOdtSingleStep_StrangSplit();
 
         domn->io->dumpDomainIfNeeded();
-        domn->io->outputFlmltProgress();
 
     }
 
@@ -309,9 +308,7 @@ void micromixer::updateGrid() {
 
     //-------------- return for fixed grid cases
 
-    if( (domn->pram->bcType=="WALL" && (domn->pram->vBClo==0 || domn->pram->vBChi==0)) ||
-        domn->pram->LisFlmlt || domn->pram->LisFlmltX ||
-        domn->pram->LisHips)
+    if((domn->pram->bcType=="WALL" && (domn->pram->vBClo==0 || domn->pram->vBChi==0))) 
         return;
 
     //-------------- handle wall suction/blowing case

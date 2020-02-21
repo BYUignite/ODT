@@ -39,7 +39,6 @@ inputoutput::inputoutput(const string p_caseName, const int p_nShift){
 
     inputFile   = YAML::LoadFile(inputFileDir+"input.yaml");     ///< use these "nodes" to access parameters as needed
     params      = inputFile["params"];
-    sootParams  = inputFile["sootParams"];
     streamProps = inputFile["streamProps"];
     initParams  = inputFile["initParams"];
     radParams   = inputFile["radParams"];
@@ -235,26 +234,6 @@ void inputoutput::outputHeader() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-/**Output title of properties displayed to screen. */
-
-void inputoutput::outputFlmltHeader() {
-
-    *ostrm << endl << "#--------------------------------------------------"
-        << "--------------------------------------------------------------------";
-
-    *ostrm << scientific << setprecision(3) << endl;
-
-    *ostrm << setw(5) << "# time,";
-
-    double dxmixf = domn->pram->LisFlmltX ? domn->Ldomain()/6 : 1.0/6;
-    for(int i=1; i<=5; i++)
-          *ostrm << setw(12) << "XorZ=" << dxmixf*i;
-
-    *ostrm << endl << "#--------------------------------------------------"
-        << "--------------------------------------------------------------------";
-}
-
-///////////////////////////////////////////////////////////////////////////////
 /**Outputs the data corresponding to outputHeader.
  * After a given number of accepted eddies, output this info.
  *
@@ -280,35 +259,6 @@ void inputoutput::outputProgress() {
         << setw(12) << domn->ed->invTauEddy                   // 11: invTauEddy
         ;
     ostrm->flush();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-/** Output quantities during advancment if desired
- *  Currently only implementing flamelet output:
- *  \Delta = abs((sum_k h_k*dy_k/dt)/(sum_k h_k*mdot_k'''))
- *  Then average Delta over all cells (volume weighted).
- *  Or, take the max
- *  The denominator is -(heat release rate/rho).
- */
-void inputoutput::outputFlmltProgress(){
-
-    if(!(domn->pram->LisFlmlt || domn->pram->LisFlmltX))
-        return;
-
-    if(domn->mimx->nsteps % domn->pram->modDump != 0)
-        return;
-
-    double dxmixf = domn->pram->LisFlmltX ? domn->Ldomain()/6 : 1.0/6;
-    int ipt;
-
-    *ostrm << scientific << setprecision(3) << endl;
-
-    *ostrm << domn->mimx->time;
-    for(int i=1; i<=5; i++) {
-        ipt = domn->domainPositionToIndex(dxmixf*i, true, 98);
-        *ostrm << setw(12) << domn->temp->d.at(ipt);
-    }
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -383,101 +333,3 @@ void inputoutput::loadVarsFromRestartFile() {
 
 }
 
-///////////////////////////////////////////////////////////////////////////////
-/** 
- *  Write enthalpy versus mixture fraction profile for adiabatic flamelet cases
- *  for use in non-adiabatic flamelet cases.
- */
-
-void inputoutput::write_h_mixf_flmlt_profile(const vector<double> &hsens){
-
-    string fname = dataDir + "h_mixf_adiabatic.dat";
-    ofstream ofile(fname);
-    if(!ofile) {
-        *ostrm << "\n\n***************** ERROR OPENING FILE " << fname << endl << endl;
-        exit(0);
-    }
-
-    *ostrm << endl << "# Writing adiabatic flmlt mixf, ha, hs profiles" << fname;
-    ostrm->flush();
-
-    ofile << scientific;
-    ofile << setprecision(10);
-
-    ofile << "#  npts: " << domn->ngrd+2 << endl; 
-    ofile << "#  mixf               h                  hsens" << endl; 
-
-    ofile << setw(19) << 0.0;
-    ofile << setw(19) << domn->strm->h0;
-    ofile << setw(19) << 0.0 << endl;
-
-    if(domn->pram->LisFlmltX) {
-        domn->mixf->setVar();
-
-        for(int i=0; i<domn->ngrd; i++){
-            ofile << setw(19) << domn->mixf->d[i];
-            ofile << setw(19) << domn->enth->d[i];
-            ofile << setw(19) << hsens[i] << endl;
-        }
-    }
-    else {
-        for(int i=0; i<domn->ngrd; i++){
-            ofile << setw(19) << domn->pos->d[i];
-            ofile << setw(19) << domn->enth->d[i];
-            ofile << setw(19) << hsens[i] << endl;
-        }
-    }
-
-    ofile << setw(19) << 1.0;
-    ofile << setw(19) << domn->strm->h1;
-    ofile << setw(19) << 0.0 << endl;
-    
-    ofile.close();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-/** Read arrays from data file.
- *  @param mixf \inout mixture fraction grid 
- *  @param ha   \inout adiabatic profile ha(mixf)
- *  @param hs   \inout sensible enthalpy profile hs(mixf)
- *  Note, assuming the adiabatic case corresponding to this case has everything after the last "_"
- *      replaced with "adia":
- *      Example: if caseName is test_L0.5_HL0.05, then the adiabatic case is test_L0.5_adia
- */
-
-void inputoutput::read_h_mixf_flmlt_profile(vector<double> &mixf, vector<double> &ha, vector<double> &hs) {
-
-    string fname;
-    stringstream ss1;
-    string       s1;
-
-    string caseNameAdia = caseName.substr(0, caseName.rfind('_')) + "_adia";
-
-    ss1.clear(); ss1 << setfill('0') << setw(5) << proc.myid + nShift;
-    s1 = ss1.str();
-    fname = "../data/"+caseNameAdia + "/data/data_" + s1 + "/h_mixf_adiabatic.dat";
-
-    ifstream ifile(fname);
-    if(!ifile) {
-        *ostrm << "\n\n***************** ERROR OPENING FILE " << fname << endl << endl;
-        exit(0);
-    }
-
-    *ostrm << endl << "# Reading adiabatic mixf, ha, hs profiles " << fname;
-    ostrm->flush();
-
-    int npts;
-
-    getline(ifile, s1);      // read line "# npts: 100"
-    ss1.clear();
-    ss1.str(s1);
-    ss1 >> s1 >> s1 >> npts;
-    getline(ifile, s1);      // read header line "# mixf ...
-
-    mixf.resize(npts);
-    ha.resize(npts);
-    hs.resize(npts);
-
-    for(int i=0; i<npts; i++)
-        ifile >> mixf[i] >> ha[i] >> hs[i];
-}

@@ -1,4 +1,4 @@
-# SEC User Configuration
+# ODT User Configuration
 
 set(CHEMISTRY               "C2H4RED"               CACHE STRING "user mechanism source to add")
 set(PARALLEL                "no"                    CACHE STRING "build with mpi")

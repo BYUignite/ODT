@@ -90,17 +90,6 @@ param::param(inputoutput *p_io) {
 
     umin_spatial   = io->params["umin_spatial"]   ? io->params["umin_spatial"].as<double>()  : 0.5;
 
-    // HIPS variables ---------------------
-
-    LisHips        = io->params["LisHips"]        ? io->params["LisHips"].as<bool>()         : false;
-    nLevels        = io->params["nLevels"]        ? io->params["nLevels"].as<int>()          : 0;
-    Afac           = io->params["Afac"]           ? io->params["Afac"].as<double>()          : 0.5;
-    tau0           = io->params["tau0"]           ? io->params["tau0"].as<double>()          : 0.0;
-    fmix           = io->params["fmix"]           ? io->params["fmix"].as<double>()          : 0.0;
-    LScHips        = io->params["LScHips"]        ? io->params["LScHips"].as<bool>()         : false;
-    LsimpleMix     = io->params["LsimpleMix"]     ? io->params["LsimpleMix"].as<bool>()      : false;
-    forceHips      = io->params["forceHips"]      ? io->params["forceHips"].as<int>()        : -1;
-
     // Radiation variables ---------------------
 
     Lrad         = io->params["Lrad"]             ? io->params["Lrad"].as<bool>()               : false;

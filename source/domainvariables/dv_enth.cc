@@ -88,8 +88,7 @@ void dv_enth::getRhsSrc(const int ipt){
             domn->gas->getMoleFractions(&xMoleSp.at(i).at(0));
         }
 
-        vector<double> fvSoot;     // TODO: put soot in radiation call
-        rad->getRadHeatSource(xMoleSp, domn->temp->d, domn->pram->pres, fvSoot, rhsSrc);
+        rad->getRadHeatSource(xMoleSp, domn->temp->d, domn->pram->pres, rhsSrc);
     }
 
     if(domn->pram->Lspatial)
@@ -206,10 +205,6 @@ void dv_enth::setFlux(const vector<double> &gf,
         flux.at(0)          = -gf.at(0)          * tcond_f.at(0)          * (domn->temp->d.at(0) - domn->temp->d.at(im));
         flux.at(domn->ngrd) = flux.at(0);
     }
-    else if(domn->pram->bcType=="FLMLTX"){    // Dirichlet condition
-        flux.at(0)          = -gf.at(0)          * tcond_f.at(0)          * (domn->temp->d.at(0)  - domn->strm->T0);
-        flux.at(domn->ngrd) = -gf.at(domn->ngrd) * tcond_f.at(domn->ngrd) * (domn->strm->T1       - domn->temp->d.at(domn->ngrd-1));
-    }
     else {
         *domn->io->ostrm << endl << "ERROR: bcType not recognized in dv_enth::setFlux" << endl;
         exit(0);
@@ -224,14 +219,8 @@ void dv_enth::setFlux(const vector<double> &gf,
         for(int i=0; i<domn->ngrdf; i++){
             hjsum = 0.0;
             for(int k=0; k<nspc; k++) {
-                if(domn->pram->bcType =="FLMLTX" && i==0)                 // Dirichlet condition
-                    hjsum += domn->strm->hsp0[k] * domn->ysp[k]->flux.at(i);
-                else if(domn->pram->bcType =="FLMLTX" && i==domn->ngrd)   // Dirichlet condition
-                    hjsum += domn->strm->hsp1[k] * domn->ysp[k]->flux.at(i);
-                else{
-                    h_f   =  linearInterpToFace(i, hsp.at(k));
-                    hjsum += h_f * domn->ysp[k]->flux.at(i);
-                }
+                h_f   =  linearInterpToFace(i, hsp.at(k));
+                hjsum += h_f * domn->ysp[k]->flux.at(i);
             }
             flux.at(i) += hjsum;
         }

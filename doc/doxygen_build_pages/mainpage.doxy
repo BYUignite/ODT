@@ -38,10 +38,6 @@ An example of an inline equation is \f$ ax^2 + bx + c = 0 \f$, and an example of
 
 @ref odt_theory
 
-@ref flmlt
-
-@ref hips
-
 <!--
 @ref example_anchor
 (what other sections should go here?)
@@ -80,7 +76,7 @@ This ODT code is divided into 6 main directories:
 
 - To download the code, browse to the location you want to install the code and
   type <br>```git clone
-  https://github.com/BYUignite/SEC.git```
+  https://github.com/BYUignite/ODT.git```
 
 <hr />
 
@@ -412,16 +408,6 @@ Documents containing information on the theory behind the ODT code.
 - <a href="http://ignite.byu.edu/public/eddyEvents.pdf" target="_blank">ODT Eddy Events</a> (pdf)
 
 <hr />
-
-@section flmlt Laminar nonpremixed flamelet code
-
-The ODT code described above has also been extened to solve nonpremixed laminar flamelets in the mixture fraction coordinate. This was facilitated by the modular nature of the code and the one-dimensional domains in both cases. The code for this is in the ```/source/flmlt/``` directory. There is also a flmlt input case directory.
-
-<hr />
-
-@section hips HiPS Code
-
-The ODT code described above has also been extened to solve Heirarchical Parcel Swapping (HiPS). This was facilitated by the modular nature of the code and the one-dimensional domains in both cases. The code for this is in the ```/source/hips/``` directory. There is also a hips input case directory.
 
 */
 

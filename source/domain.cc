@@ -18,11 +18,6 @@
 #include "domaincase_odt_coldPropaneJet.h"
 #include "domaincase_odt_coldJet.h"
 #include "domaincase_odt_RT.h"
-#include "domaincase_flmlt.h"
-#include "domaincase_flmltX.h"
-#include "domaincase_hips.h"
-#include "domaincase_hips_comb.h"
-#include "domaincase_hips_simpleRxn.h"
 #include <cmath>
 #include <iomanip>
 
@@ -119,21 +114,6 @@ void domain::init(inputoutput *p_io,
 
      else if(pram->probType == "RT")
          domc = new domaincase_odt_RT();      // simple Rayleigh Taylor flow
-
-     else if(pram->probType == "FLMLT")
-         domc = new domaincase_flmlt(); // flamelet
-
-     else if(pram->probType == "FLMLTX")
-         domc = new domaincase_flmltX(); // flamelet
-
-     else if(pram->probType == "HIPS")
-         domc = new domaincase_hips(); // hips
-
-     else if(pram->probType == "HIPS_COMB")
-         domc = new domaincase_hips_comb(); // hips_comb
-
-     else if(pram->probType == "HIPS_SIMPLERXN")
-         domc = new domaincase_hips_simpleRxn(); // hips_simpleRxn
 
      else {
          cout << endl << "ERROR, probType UNKNOWN" << endl;

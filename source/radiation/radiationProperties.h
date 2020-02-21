@@ -49,20 +49,15 @@ class radiationProperties {
         vector<vector<vector<double> > > c;          ///< WSGG helper values
         vector<vector<double> >          d;          ///< WSGG helper values
 
-        double                           sootFactor; ///< 3.72*C0/C2;
-
 
     ////////////////////// MEMBER FUNCTIONS /////////////////
 
     public:
 
-        void get_Ka_soot(const vector<double> &T, const vector<double> &fvSoot, vector<double> &Ka_soot);
-
         void init_planck_mean_coefs();
         void get_planck_mean_coefs(const vector<vector<double> > &xMole,
                                    const vector<double>          &T,
                                    const double                  &pressure,
-                                   const vector<double>          fvSoot,
                                    vector<double>                &Kabs);
 
         void init_WSGG_coefs();

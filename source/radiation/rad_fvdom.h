@@ -50,7 +50,6 @@ class rad_fvdom : virtual public radiation {
         virtual void getRadHeatSource(const vector<vector<double> > &xMoleSp,
                                       const vector<double>          &temp,
                                       const double                  &pressure,
-                                      const vector<double>          &fvSoot,
                                       vector<double>                &radSource);
 
 

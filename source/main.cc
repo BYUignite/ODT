@@ -4,13 +4,9 @@
 #include "processor.h"
 #include "param.h"
 #include "micromixer.h"
-#include "micromixer_flmlt.h"
-#include "micromixer_hips.h"
 #include "meshManager.h"
 #include "eddy.h"
 #include "solver.h"
-#include "solver_flmlt.h"
-#include "solver_hips.h"
 #include "randomGenerator.h"
 #include "cantera/IdealGasMix.h"
 #include "cantera/transport.h"
@@ -52,19 +48,8 @@ int main(int argc, char*argv[]) {
     eddy        ed;
     meshManager mesher;
     solver      *solv;
-    micromixer  *mimx;
-    if(pram.LisFlmlt || pram.LisFlmltX) {
-        solv = new solver_flmlt();
-        mimx = new micromixer_flmlt();
-    }
-    else if(pram.LisHips) {
-        solv = new solver_hips();
-        mimx = new micromixer_hips();
-    }
-    else {
-        solv = new solver();
-        mimx = new micromixer();
-    }
+    solv = new solver();
+    mimx = new micromixer();
 
     domain domn(NULL,  &pram);
     domain eddl(&domn, &pram);

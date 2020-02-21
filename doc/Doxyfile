@@ -598,10 +598,8 @@ WARN_LOGFILE           =
 # with spaces.
 
 INPUT                  = ../source \
-                         ../source/odtcases \
-                         ../source/linevariables \
-                         ../source/linevariables/soot \
-                         ../source/flmlt \
+                         ../source/domaincases \
+                         ../source/domainvariables \
                          ../source/user_chemical_mechanisms \
                          ../doc/doxygen_build_pages
 

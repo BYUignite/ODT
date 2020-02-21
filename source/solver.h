@@ -44,16 +44,6 @@ class solver {
         double         PaSumC;         ///< sum of Pa of eddies
         int            nPaSumC;        ///< number going into PaSum
 
-        //---------- for hips interface (inherited)
-
-        double         tMix;           ///< parcel mixing timescale
-        vector<int>    pLoc;           ///< parcel index array for fast implementation of swaps
-        int iSc;                       ///< for Sc < 1, tree level index at/below which all parcels are mixed
-
-        int Nm1;                       ///< nLevels - 1
-        int Nm3;                       ///< nLevels - 3
-
-
     //////////////////// MEMBER FUNCTIONS /////////////////
 
     public:

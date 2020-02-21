@@ -15,8 +15,7 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Class implementing child dv_ygas_Rsoot of parent dv_ygas object.
- *  Inherit everything, but add soot rates to the gas source term.
+/** Class implementing child dv_ygas_noRxn of parent dv_ygas object.
  *
  *  @author David O. Lignell
  */

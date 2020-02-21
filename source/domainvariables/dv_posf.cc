@@ -77,11 +77,6 @@ void dv_posf::merge2cells(const int    imrg,
 
     d.erase(d.begin() + imrg+1);
 
-    if(LconstVolume || domn->pram->bcType=="WALL" || domn->pram->bcType=="FLMLTX") {   //todo: generalize this (works for constant density flows only, and not spatial (due to velocity)).
-        domn->pos->merge2cells(imrg, m1, m2, LconstVolume);
-        return;
-    }
-
     double invC = 1.0/domn->pram->cCoord;
     double C    = domn->pram->cCoord;
 

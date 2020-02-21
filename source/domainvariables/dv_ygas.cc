@@ -77,18 +77,6 @@ void dv_ygas::getRhsSrc(const int ipt) {
 
     if(kMe==0) {                 // to save cost, compute needed terms for all dv_ygas objects using this one.
 
-        //-------- Soot source terms
-        //         Soot sources need to be done first: check with L_source_done flag
-        //         If not done, do them here.
-        //         Then when soot sources are done, the L_source_done is true and we'll avoid double computing.
-        //         This allows arbitrary ordering of the domain variables. If soot always comes before ygas in the list we wouldn't need this.
-
-        if(domn->pram->Lsoot && !domn->svar[0]->L_source_done)
-            for(int k=0; k<domn->pram->nsvar; k++)
-                domn->svar[k]->getRhsSrc(ipt);            // this will set L_source_done flag true
-
-        //--------
-
         for(int k=0; k<nspc; k++)
             rrSpc.at(k).resize(domn->ngrd);
 
@@ -107,10 +95,6 @@ void dv_ygas::getRhsSrc(const int ipt) {
         }
 
     }
-
-    if(domn->pram->Lsoot)
-        for(int i=iS; i<=iE; i++)
-            rhsSrc.at(i) += gasSootSources[kMe].at(i);    // gasSootSources set in soot source terms.
 
     for(int i=iS; i<=iE; i++)
         rhsSrc.at(i) = rrSpc.at(kMe).at(i) *
@@ -203,23 +187,11 @@ void dv_ygas::setFlux(const vector<double> &gf,
                 ysp_f.at(k).at(i)       = linearInterpToFace(i, domn->ysp[k]->d);
             }
         }
-        if(domn->pram->bcType=="FLMLTX"){    // Dirichlet condition
-            for (int k=0; k<nspc; k++){
-                rhoD_f[k][0]               = domn->strm->rho0*domn->strm->D0[k];
-                rhoD_f[k][domn->ngrd]      = domn->strm->rho1*domn->strm->D1[k];
-                rhoDYinvM_f[k][0]          = rhoD_f[k][0]         *domn->strm->y0[k]/domn->strm->M0;
-                rhoDYinvM_f[k][domn->ngrd] = rhoD_f[k][domn->ngrd]*domn->strm->y1[k]/domn->strm->M1;
-            }
-        }
 
         dMdx.at(0)          = 0.0;
         dMdx.at(domn->ngrd) = 0.0;
         for (int i=1, im=0; i < domn->ngrd; i++, im++)
             dMdx.at(i) = gf.at(i) * (MMw.at(i) - MMw.at(im));
-        if(domn->pram->bcType=="FLMLTX"){    // Dirichlet condition
-            dMdx[0] = MMw[0] - domn->strm->M0;
-            dMdx[domn->ngrd] = domn->strm->M1 - MMw[domn->ngrd-1];
-        }
 
         //==========================
 
@@ -241,33 +213,9 @@ void dv_ygas::setFlux(const vector<double> &gf,
 
         //---------- Boundary faces
 
-        if(domn->pram->bcType=="FLMLTX"){    // Dirichlet condition
-            jstar = 0.0;
-            int i=0;
-            for(int k=0; k<nspc; k++) {
-                domn->ysp[k]->flux.at(i) = -rhoD_f.at(k).at(i)*gf.at(i)*(domn->ysp[k]->d.at(i) - domn->strm->y0[k])
-                    -rhoDYinvM_f.at(k).at(i)*dMdx.at(i);
-                jstar += domn->ysp[k]->flux.at(i);
-            }
-            for(int k=0; k<nspc; k++)
-                domn->ysp[k]->flux.at(i) -= domn->strm->y0[k] * jstar;
-
-            jstar = 0.0;
-            i=domn->ngrd;
-            for(int k=0; k<nspc; k++) {
-                domn->ysp[k]->flux.at(i) = -rhoD_f.at(k).at(i)*gf.at(i)*(domn->strm->y1[k] - domn->ysp[k]->d.at(i-1))
-                    -rhoDYinvM_f.at(k).at(i)*dMdx.at(i);
-                jstar += domn->ysp[k]->flux.at(i);
-            }
-            for(int k=0; k<nspc; k++)
-                domn->ysp[k]->flux.at(i) -= domn->strm->y1[k] * jstar;
-            
-        }
-        else{
-            for(int k=0; k<nspc; k++) {
-                domn->ysp[k]->flux.at(0)          = 0.0;                          // for wall or outflow; todo: wall flame specifics
-                domn->ysp[k]->flux.at(domn->ngrd) = 0.0;
-            }
+        for(int k=0; k<nspc; k++) {
+            domn->ysp[k]->flux.at(0)          = 0.0;                          // for wall or outflow; todo: wall flame specifics
+            domn->ysp[k]->flux.at(domn->ngrd) = 0.0;
         }
     }
 }

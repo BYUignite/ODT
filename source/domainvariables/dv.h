@@ -39,18 +39,6 @@ class dv {
 
         vector<double>                flux;
 
-        bool                          L_source_done;          ///< flag set true when source updated: (for gas-soot sources)
-
-        //---------- for gas-soot coupling
-
-        static vector<vector<double> > gasSootSources;        ///< [nspc][ngrd] source terms for gas from soot rxns
-
-        //---------- for hips interface (inherited)
-
-        double ScHips;                                        ///< scalar Schmidt number
-        double i_batchelor;                                   ///< Batchelor level for variable Sc scalars in hips
-        int    i_plus;                                        ///< ceil(i_batchelor)
-
     //////////////////// MEMBER FUNCTIONS /////////////////
 
         virtual void   setVar(const int ipt=-1){}
@@ -74,10 +62,6 @@ class dv {
         virtual void   resize();
 
         void           resetSourceFlags();
-
-        //---------- for flmlt interface (inherited)
-
-        virtual void set_hsens(vector<double> &hsens){}
 
     //////////////////// CONSTRUCTOR FUNCTIONS /////////////////
 

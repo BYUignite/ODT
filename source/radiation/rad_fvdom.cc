@@ -62,13 +62,11 @@ rad_fvdom::rad_fvdom(domain *p_domn) : radiation(p_domn) {
  *  Use finite volume discrete ordinates model
  *  @param xMoleSp   \input species mole fractions
  *  @param temp     \input temperature profile
- *  @param fvSoot    \input optional soot volume fraction
  *  @param radSource \output gas radiation volumetric heat source (W/kg)
  */
 void rad_fvdom::getRadHeatSource(const vector<vector<double> > &xMoleSp,
                                  const vector<double>          &temp,
                                  const double                  &pressure,
-                                 const vector<double>          &fvSoot,
                                  vector<double>                &radSource){
 
     vector<vector<double> >          Kabs(1, vector<double>(domn->ngrd));
@@ -78,7 +76,7 @@ void rad_fvdom::getRadHeatSource(const vector<vector<double> > &xMoleSp,
     //-------------- Planck mean
 
     if(domn->pram->radCoefType == "PLANKMEAN") {
-        radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, fvSoot, Kabs[0]);
+        radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, Kabs[0]);
         if(domn->pram->cCoord == 1){
             get_I_planar(temp, Kabs[0], a[0], false, I);
             get_radSource_planar(I, radSource);

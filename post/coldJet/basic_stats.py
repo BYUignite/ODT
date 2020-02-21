@@ -8,7 +8,7 @@ from data_tools import commentHdr
 
 #--------------------------------------------------------------------------------------------
 #COLDJET
-def basic_stats(DI, nfbins=60, nx=-1, favre=False, do_yt=False, soot=False, filter=True) :
+def basic_stats(DI, nfbins=60, nx=-1, favre=False, do_yt=False, filter=True) :
 
     favre = False
     #--------------------------------------------------------------------------------------------

@@ -53,7 +53,7 @@ class micromixer {
 
     //////////////////// MEMBER FUNCTIONS /////////////////
 
-        virtual void advanceOdt(const double p_tstart, const double p_tend, const int iLevel = -1);    // iLevel is for hips
+        virtual void advanceOdt(const double p_tstart, const double p_tend, const int iLevel = -1);   
 
         void check_balance(int io);
 

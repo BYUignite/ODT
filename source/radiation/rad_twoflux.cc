@@ -14,13 +14,11 @@
  *  Use optically thin for Imode == 1, twoflux for Imod == 2.
  *  @param xMoleSp   \input species mole fractions
  *  @param &temp     \input temperature profile
- *  @param fvSoot    \input optional soot volume fraction
  *  @param radSource \output gas radiation volumetric heat source (W/kg)
  */
 void rad_twoflux::getRadHeatSource(const vector<vector<double> > &xMoleSp,
                                    const vector<double>          &temp,
                                    const double                  &pressure,
-                                   const vector<double>          &fvSoot,
                                    vector<double>                &radSource) {
 
     if(domn->pram->cCoord != 1){
@@ -44,7 +42,7 @@ void rad_twoflux::getRadHeatSource(const vector<vector<double> > &xMoleSp,
    //------------- Get the gas absorption coefficient
 
    vector<double> Kabs(domn->ngrd);
-   radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, fvSoot, Kabs);
+   radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, Kabs);
    Kabs.insert(Kabs.begin(), Kabs[0]);
    Kabs.push_back(Kabs[Kabs.size()-1]);
 

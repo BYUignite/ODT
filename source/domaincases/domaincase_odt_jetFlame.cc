@@ -19,12 +19,6 @@
 #include "dv_chi.h"
 #include "dv_hr.h"
 #include "dv_aDL.h"
-#include "soot/dv_soot.h"
-#include "soot/dv_soot_MONO.h"
-#include "soot/dv_soot_LOGN.h"
-#include "soot/dv_soot_QMOM.h"
-//#include "soot/dv_soot_CQMOM.h"
-#include "soot/dv_soot_MOMIC.h"
 
 #include "interp_linear.h"
 
@@ -69,52 +63,6 @@ void domaincase_odt_jetFlame::init(domain *p_domn) {
     for(int k=0; k<domn->gas->nSpecies(); k++)
         domn->v.push_back(new dv_ygas(domn, "y_"+domn->gas->speciesName(k), true, true ));
     domn->v.push_back(new dv_enth(  domn, "enth",    true,  true ));  // enth AFTER ygas for enth flux (see dv_enth)
-    
-    // Add soot moments to variable list
-    if (domn->pram->Lsoot) {
-
-        string PSD_method = domn->io->sootParams["PSD_method"].as<string>();
-        stringstream ss;
-
-        if (PSD_method == "MONO") {
-            domn->pram->nsvar = 2;
-            for(int k=0; k<2; k++) {
-                ss.str(""); ss.clear(); ss << k;
-                domn->v.push_back(new dv_soot_MONO(domn, "M"+ss.str(), true, true ));
-            }
-        }
-        else if (PSD_method == "LOGN") {
-            domn->pram->nsvar = 3;
-            for(int k=0; k<3; k++) {
-                ss.str(""); ss.clear(); ss << k;
-                domn->v.push_back(new dv_soot_LOGN(domn, "M"+ss.str(), true, true ));
-            }
-        }
-        else if (PSD_method == "QMOM") {
-            for(int k=0; k<domn->pram->nsvar; k++) {
-                ss.str(""); ss.clear(); ss << k;
-                domn->v.push_back(new dv_soot_QMOM(domn, "M"+ss.str(), true, true ));
-            }
-        }
-        else if (PSD_method == "MOMIC") {
-            for(int k=0; k<domn->pram->nsvar; k++) {
-                ss.str(""); ss.clear(); ss << k;
-                domn->v.push_back(new dv_soot_MOMIC(domn, "M"+ss.str(), true, true ));
-            }
-        }   // end MOMIC
-        //else if (PSD_method == "CQMOM") {
-        //    domn->pram->nsvar = 2*domn->pram->nsvar_v/2*domn->pram->nsvar_s/2 + domn->pram->nsvar_v/2;  // stored and accessed by column
-        //    for (int k=0; k<domn->pram->nsvar_v; k++) {
-        //        domn->v.push_back(new dv_soot_flmlt_CQMOM(domn, "M"+to_string(k)+","+'0', true, true ));          // first s column: M00, M10, M20, etc.
-        //    }
-        //    for (int k=1; k<domn->pram->nsvar_s; k++) {
-        //        for (int j=0; j<domn->pram->nsvar_v/2; j++) {
-        //            domn->v.push_back(new dv_soot_flmlt_CQMOM(domn, "M"+to_string(j)+","+to_string(k), true, true ));       // other s columns: M01, M11, M02, M12, etc.
-        //        }
-        //    }
-        //}   // end CQMOM
-
-    }
 
     int ii = 0;
     domn->pos    = domn->v.at(ii++);
@@ -133,10 +81,6 @@ void domaincase_odt_jetFlame::init(domain *p_domn) {
     domn->ysp = domn->v.begin()+ii;       // access as domn->ysp[k]->d[i], etc. where k is the species starting from 0.
     ii += domn->gas->nSpecies();
     domn->enth   = domn->v.at(ii++);
-    if (domn->pram->Lsoot == true) {
-        domn->svar     = domn->v.begin()+ii;    // access as domn->svar[k]->d[i], etc. where k is the species starting from 0.
-        ii += domn->pram->nsvar;
-    }
 
     //------------------- set variables used for mesh adaption
 
@@ -181,20 +125,6 @@ void domaincase_odt_jetFlame::init(domain *p_domn) {
         Linear_interp Linterp(xprof, uprof);
         for(int i=0; i<domn->ngrd; i++)
             domn->uvel->d.at(i) = Linterp.interp(domn->pos->d.at(i));
-    }
-
-    //------------------- set initial soot profile
-    if (domn->pram->Lsoot) {
-        if (domn->pram->PSD_method == "QMOM" || domn->pram->PSD_method == "MOMIC" || domn->pram->PSD_method == "LOGN") {
-            double M0 = 1.0E0;
-            double sigL = 3.0;
-            double mavg = 1.0E-21;
-            for (int k=0; k<domn->pram->nsvar; k++) {
-                for(int j=0; j<domn->ngrd; j++) {
-                    domn->svar[k]->d[j] = M0 * pow(mavg, k) * exp(0.5 * pow(k,2) * pow(sigL,2));
-                }
-            }
-        }
     }
 
     //--------------------
@@ -247,7 +177,6 @@ void domaincase_odt_jetFlame::setGasStateAtPt(const int &ipt) {
  */
 void domaincase_odt_jetFlame::setCaseSpecificVars() {
 
-    enforceSootMom();
     enforceMassFractions();
     domn->enth->setVar();
     domn->rho->setVar();

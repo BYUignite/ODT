@@ -22,8 +22,6 @@ void radiationProperties::init(domain *p_domn) {
 
     domn = p_domn;
 
-    sootFactor = 1817;              // From Williams, Shaddix, et. al. IJHMT 50, p 1616-1630 (2007). Value = 1477 for Chang (See Modest 3rd edition). Old value was 1863.
-
     // --------------- populate list of gas species indices
 
     bool fmissing = false;
@@ -75,23 +73,6 @@ void radiationProperties::init(domain *p_domn) {
 
 
     return;
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
-/** Soot absorption coefficient
- *  @param T        \input vector of temperature (K) at each point
- *  @param fvSoot   \input vector of soot volume fraction at each point
- *  @param Ka_soot  \output vector of soot volume fraction at each point
- *
- */
-
-void radiationProperties::get_Ka_soot(const vector<double> &T,
-                                      const vector<double> &fvSoot,
-                                      vector<double> &Ka_soot){
-
-    for(int i=0; i<domn->ngrd; i++)
-        Ka_soot[i] = sootFactor * T[i] * fvSoot[i];
 
 }
 
@@ -214,7 +195,6 @@ void radiationProperties::init_RCSLW_coefs() {
 void radiationProperties::get_planck_mean_coefs(const vector<vector<double> > &xMole,
                                                 const vector<double>          &T,
                                                 const double                  &pressure,
-                                                const vector<double>          fvSoot,
                                                 vector<double>                &Kabs) {
 
     double P = pressure/101325.;         // Pa --> atm
@@ -253,14 +233,6 @@ void radiationProperties::get_planck_mean_coefs(const vector<vector<double> > &x
             Kabs[i] += xMole[i][iRadIndx[k]]*P*Ktemp;
         }
     }
-
-    if (domn->pram->LradDoSoot){
-        vector<double> Ka_soot(domn->ngrd, 0.0);
-        get_Ka_soot(T, fvSoot, Ka_soot);
-        for(int i=0; i<domn->ngrd; i++)
-            Kabs[i] += Ka_soot[i];
-    }
-
 
 }
 
