@@ -79,9 +79,6 @@ target_sources(odt.x
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/cvode)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/domainvariables)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/domainvariables/soot)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/flmlt)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/hips)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/radiation)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/nr)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/domaincases)
