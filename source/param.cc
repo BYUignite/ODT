@@ -50,8 +50,6 @@ param::param(inputoutput *p_io) {
     Lsolver        = io->params["Lsolver"]        ? io->params["Lsolver"].as<string>()       : errMsg<string>("Lsolver");
     Lperiodic      = io->params["Lperiodic"]      ? io->params["Lperiodic"].as<bool>()       : false;
     Lspatial       = io->params["Lspatial"]       ? io->params["Lspatial"].as<bool>()        : false;
-    chi0           = io->params["chi0"]           ? io->params["chi0"].as<double>()          : 500.0;   // error check below if not set
-    heatloss       = io->params["heatloss"]       ? io->params["heatloss"].as<double>()      : 0.0;     // error check below if not set
     LTMA           = io->params["LTMA"]           ? io->params["LTMA"].as<bool>()            : false;
     LplanarTau     = io->params["LplanarTau"]     ? io->params["LplanarTau"].as<bool>()      : false;
     Lignition      = io->params["Lignition"]      ? io->params["Lignition"].as<bool>()       : false;
@@ -141,10 +139,6 @@ param::param(inputoutput *p_io) {
         cout << endl << "ERROR: spherical case requires xDomainCenter to be zero";
         exit(0);
     }
-    if( Llem && Lspatial )  {
-        cout << endl << "ERROR: cannot have Llem and Lspatial both true";
-        exit(0);
-    }
 
     if(LTMA && cCoord == 1)
         cout << endl << "ERROR: don't use LTMA=true for cCoord=1. LTMA is for cylindrical/spherical." << endl;
@@ -153,21 +147,6 @@ param::param(inputoutput *p_io) {
 
     if(LdoDL && Lsolver=="STRANG")
         cout << endl << "ERROR: STRANG solver is not set up with Darrieus Landau instability LdoDL" << endl;
-
-    if(LisFlmlt && (!io->params["chi0"] || !io->params["heatloss"]))
-        cout << endl << "ERROR: LisFlmlt requires chi0 and heatloss parameters" << endl;
-
-    if(LisFlmltX && !io->params["heatloss"])
-        cout << endl << "ERROR: LisFlmltX requires heatloss parameter" << endl;
-
-    if((LisFlmlt || LisFlmltX) && heatloss==0.0){
-        cout << endl << "MAKE SURE TO NAME YOUR CASE *_adia so other heatloss cases can find the adiabatic file";
-        cout << endl << "   Example: file test_L0.5_HL0.05 should have a corresponding adiabatic case named test_L0.5_adia";
-        cout << endl << "   That is, everything after the last _ is replaced with adia" << endl;
-    }
-
-    //if(LPeEddy)
-    //    cout << endl << "ERROR: LPeEddy flag is not tested. Verify and implement in eddy.cc" << endl;
 
 }
 

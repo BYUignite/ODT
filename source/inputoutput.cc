@@ -45,7 +45,6 @@ inputoutput::inputoutput(const string p_caseName, const int p_nShift){
     dvParams    = inputFile["dvParams"];
     dTimes      = inputFile["dumpTimes"];
     bcCond      = inputFile["bcCond"];
-    scalarSc    = inputFile["scalarSc"];
 
     for(int i=0; i<dTimes.size(); i++)
         dumpTimes.push_back(dTimes[i].as<double>());
@@ -128,9 +127,6 @@ void inputoutput::outputProperties(const string fname, const double time) {
 
     ofile << "\n# Grid points = "   << domn->ngrd;
 
-    if(!domn->pram->LisHips)
-        ofile << "\n# Domain Size = " << domn->Ldomain();
-
     ofile << "\n# Pressure (Pa) = " << domn->pram->pres << endl;
 
     // HEWSON setting tecplot friendly output
@@ -151,7 +147,6 @@ void inputoutput::outputProperties(const string fname, const double time) {
     ofile << scientific;
     ofile << setprecision(10);
     for(int i=0; i<domn->ngrd; i++) {
-        iploc = (domn->pram->LisHips) ? domn->solv->pLoc[i] : i;    // HiPS uses an index array
         ofile << endl;
         for(int k=0; k<domn->v.size(); k++)
             if(domn->v.at(k)->L_output)

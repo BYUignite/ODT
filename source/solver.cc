@@ -164,10 +164,7 @@ void solver::calculateSolution() {
 
 void solver::computeDtSmean() {
 
-    if(domn->pram->Llem) ;
-    //    dtSmean = 1.0/(domn->pram->lemRateParam * domn->Ldomain());
-
-    else if(!domn->pram->Lspatial)
+    if(!domn->pram->Lspatial)
         dtSmean = 0.1*domn->pram->Pav * domn->Ldomain() * domn->Ldomain() /
                   domn->pram->kvisc0 / domn->ngrd / domn->ngrd / domn->ngrd;
     else
@@ -234,9 +231,6 @@ void solver::diffusionCatchUpIfNeeded(bool Ldoit) {
  */
 
 void solver::raiseDtSmean() {
-
-    if(domn->pram->Llem)
-        return;
 
     if(iEtrials % domn->pram->nDtSmeanWait != 0)
         return;                              // only do this once in a while

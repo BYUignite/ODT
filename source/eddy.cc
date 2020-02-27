@@ -66,10 +66,7 @@ void eddy::init(domain *p_domn, domain *p_eddl) {
  */
 void eddy::sampleEddySize() {
 
-    if(!domn->pram->Llem)
-        eddySize = esdp1 / log( domn->rand->getRand() * esdp2 + esdp3 );
-    else
-        eddySize = domn->pram->Lmin * pow(( 1.0 - ( 1.0 - pow((domn->pram->Lmin/domn->pram->Lmax), 5./3.)) * domn->rand->getRand() ), -0.6);
+    eddySize = domn->pram->Lmin * pow(( 1.0 - ( 1.0 - pow((domn->pram->Lmin/domn->pram->Lmax), 5./3.)) * domn->rand->getRand() ), -0.6);
 
 }
 
@@ -149,14 +146,6 @@ void eddy::tripMap(domain *line, const int iS, int iE, const double C, const boo
         fracVleft = 1.0/3;            // no difference for planar, but affects cylindrical or spherical
         fracVmidl = fracVleft;
         fracVrght = fracVleft;
-    }
-
-    //---------
-
-    if(!domn->pram->Llem) {
-        pos0 = line->pos->d;            // for filling kernel
-        pos0.at(0) = 0.5*(line->posf->d.at(1)+leftEdge);
-        pos0.at(line->ngrd-1) = 0.5*(line->posf->d.at(line->ngrd-1)+rightEdge);
     }
 
     //----------- Grab cell "volume" array (delta(x^c)) in the eddy region
@@ -550,9 +539,6 @@ void eddy::computeEddyAcceptanceProb(const double dtSample) {
  * This is called after the kernel coefficients is computed in eddyTau
  */
 void eddy::applyVelocityKernels(domain *line, const int iS, const int iE) {
-
-    if(domn->pram->Llem ) //|| domn->pram->Lspatial) // vanilla odt for spatial formulation
-        return;
 
     ////////// update velocity profiles
 

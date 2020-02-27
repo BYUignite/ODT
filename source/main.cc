@@ -48,6 +48,7 @@ int main(int argc, char*argv[]) {
     eddy        ed;
     meshManager mesher;
     solver      *solv;
+    micromixer  *mimx;
     solv = new solver();
     mimx = new micromixer();
 

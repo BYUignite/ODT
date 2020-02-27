@@ -1277,9 +1277,7 @@ void meshManager::adaptEddyRegionOfMesh(const double &time, double &tLastDA, int
 
 void meshManager::enforceDomainSize() {
 
-    if( (domn->pram->bcType=="WALL" && (domn->pram->vBClo==0 || domn->pram->vBChi==0)) ||
-        domn->pram->LisFlmlt || domn->pram->LisFlmltX ||
-        domn->pram->LisHips)
+    if( (domn->pram->bcType=="WALL" && (domn->pram->vBClo==0 || domn->pram->vBChi==0))) 
         return;
 
     double Ld = domn->Ldomain();

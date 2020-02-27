@@ -28,7 +28,7 @@ void rad_opthin::getRadHeatSource(const vector<vector<double> > &xMoleSp,
     double TBChi4 = pow(domn->pram->TBChi, 4.0);
 
     vector<double> Kabs(domn->ngrd);
-    radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, fvSoot, Kabs);
+    radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, Kabs);
 
     for(int i=0; i<domn->ngrd; i++)
         radSource[i] = -4*sigmaSB*Kabs[i]*(pow(temp[i],4.0) - TBChi4) / domn->rho->d[i];
