@@ -61,8 +61,6 @@ class dv {
         virtual void   setDvFromRegion(const int i1, const int i2);
         virtual void   resize();
 
-        void           resetSourceFlags();
-
     //////////////////// CONSTRUCTOR FUNCTIONS /////////////////
 
     public:

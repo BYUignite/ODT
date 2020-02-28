@@ -194,4 +194,3 @@ void dv::setDvFromRegion(const int i1, const int i2){
 void dv::resize() {
     d.resize(domn->ngrd);
 }
-

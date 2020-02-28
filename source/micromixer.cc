@@ -141,7 +141,6 @@ void micromixer::advanceOdtSingleStep_Explicit(){
     set_oldrho_or_rhov();
     if(domn->pram->Lspatial) transform(oldrho_or_rhov.begin(), oldrho_or_rhov.end(), domn->uvel->d.begin(), oldrho_or_rhov.begin(), multiplies<double>());
 
-    domn->v[0]->resetSourceFlags();             // sets L_source_done = false for all transported vars
     for(int k=0; k<domn->v.size(); k++)
         if(domn->v.at(k)->L_transported) {
             domn->v.at(k)->getRhsMix(gf, dxc);
@@ -245,7 +244,6 @@ void micromixer::advanceOdtSingleStep_StrangSplit() {
     set_oldrho_or_rhov();
     if(domn->pram->Lspatial) transform(oldrho_or_rhov.begin(), oldrho_or_rhov.end(), domn->uvel->d.begin(), oldrho_or_rhov.begin(), multiplies<double>());
 
-    domn->v[0]->resetSourceFlags();             // sets L_source_done = false for all transported vars
     for(int k=0; k<domn->v.size(); k++)
         if(domn->v.at(k)->L_transported)
             domn->v.at(k)->getRhsSrc();
