@@ -8,14 +8,13 @@ Detailed documentation is available [here](http://ignite.byu.edu/ODT). The follo
    * [D. Lignell et al., Mesh adaption for efficient multiscale implementation of one-dimensional turbulence, Theoretical and Computational Fluid Dynamics, 27:273-295 (2013)](https://ignite.byu.edu/public/ODTmethod.pdf)
 
 ## Directory structure
-* `build_make`: build the code using standard GNU make.
 * `cmake_build`: build the code using cmake.
 * `data`: contains all data files output during a simulation.
     * The code will generate a subfolder with a name corresponding to case name specified in the run script in the run folder.
         * This case subfolder will contain subfolders `input`, `runtime`, `data`, and `post`, which contain the input data files, runtime output, simulation data files, and post-processed data, respectively.
 * `doc`: contains documentation files built using Doxygen.
 * `input`: contains case input files, notably `input.yaml`, which is the primary input file with code parameters.
-    * Other input files are a Cantera mechanism file in `gas_mechanisms` and an optional `restart.yaml` file.
+    * Other input files include a Cantera mechanism file in `gas_mechanisms` and an optional `restart.yaml` file.
 * `post`: contains post-processing scripts and files for given cases. 
    * Output is placed in `data/caseName/post`. These are mostly Python files. Some cases also include experimental data files for comparison and plotting.
 * `run`: contains the code executable `odt.x` and several run scripts. These scripts are run by the user to execute the code.
@@ -43,9 +42,6 @@ Post-processing data produced by ODT and ODT is processed via Python 3 scripts. 
 * yaml
 * sys
 * os
-
-## Build
-Two build systems are available: a standard GNU make, and cmake. We recommend the cmake version whenever possible. See the README files in the `build_make` and `cmake_build` folders for details.
 
 ## Test cases
 ### Channel flow
