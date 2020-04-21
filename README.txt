@@ -1,13 +1,13 @@
-# ODT
-
 This code implements the One-Dimensional Turbulence (ODT) model for turbulent reacting or nonreacting flows. 
 
-## Documentation
-Detailed documentation is available [here](http://ignite.byu.edu/ODT). The following two papers discussing theory and application of the code are available. Additional papers are available [here](http://ignite.byu.edu/publications.html).
+#########################################################################################################
+Documentation
+Detailed documentation is available [here](https://ignite.byu.edu/odt2.0/). The following two papers discussing theory and application of the code are available. Additional papers are available [here](http://ignite.byu.edu/publications.html).
    * [D. Lignell et al., One-dimensioanl turbulence modeling for cylindrical and spherical flows: model formulation and application, Theoretical and Computational Fluid Dynamics, 32:495-520](https://ignite.byu.edu/public/Lignell_2018.pdf)
    * [D. Lignell et al., Mesh adaption for efficient multiscale implementation of one-dimensional turbulence, Theoretical and Computational Fluid Dynamics, 27:273-295 (2013)](https://ignite.byu.edu/public/ODTmethod.pdf)
 
-## Directory structure
+#########################################################################################################
+Directory structure
 * `cmake_build`: build the code using cmake.
 * `data`: contains all data files output during a simulation.
     * The code will generate a subfolder with a name corresponding to case name specified in the run script in the run folder.
@@ -27,13 +27,16 @@ Detailed documentation is available [here](http://ignite.byu.edu/ODT). The follo
     * `changeInputParam.py` is a convenience script for changing a value of a variable in the input file. This is convenient when running several cases changing an input parameter and can be used within the run scripts listed above.
 * `source`: contains source code (including header files) and `CMakeLists.txt` files.
 
-## Dependencies
-### ODT code
+#########################################################################################################
+Dependencies
+
+# ODT code ----------------------------------------------------------------------------------------------
 * [Cantera](http://cantera.org): open-source suite of tools for problems involving chemical kinetics, thermodynamics, and transport.
 * Yaml: input file format. This installation is conveniently built into the ODT build process. 
 * Cmake 3.12 or higher
 * (OPTIONAL) Doxygen: builds documentation. 
-### Post-processing
+
+# Post-processing --------------------------------------------------------------------------------------
 Post-processing data produced by ODT and ODT is processed via Python 3 scripts. We recommend Python 3.2 or higher. Scripts may not function properly using Python 2.x. The following packages are required and can be installed via pip3:
 * numpy
 * scipy
@@ -43,15 +46,18 @@ Post-processing data produced by ODT and ODT is processed via Python 3 scripts. 
 * sys
 * os
 
-## Test cases
-### Channel flow
+#########################################################################################################
+Test cases
+
+# Channel flow ------------------------------------------------------------------------------------------
   1. Build the code using either Cmake or GNU make. We recommend Cmake whenever possible.
   2. Navigate to the `run` directory. Open `runOneRlz.sh` and confirm that the input file path and case name are set properly. The defaults in `runOneRlz.sh` are `inputDir="../input/channelFlow"` and `caseName="channel"`.
   3. Run `./runOneRlz.sh` to run the case. It should take less than two minutes on an average system. 
   4. Navigate to `post/channelFlow`. 
   5. Run `python3 stats.py [caseName]`. With the default case name, this becomes `python3 stats.py channel`. This will generate two plots in `../data/[caseName]/post`. Navigate there to view them. 
   6. In `../data/[caseName]/post`, there should be two newly-generated PDFs. These two plots compare the mean and RMS velocity profiles of the channel flow case just run with ODT to previous DNS data of the same case. 
-### Reacting jet
+
+# Reacting jet ------------------------------------------------------------------------------------------
   1. As before, build the code using either Cmake or GNU make. In `user_config`, change the `CHEMISTRY` parameter to `SIMPLEDLR`. If the code was previously built with this parameter, it does not need to be rebuilt. 
   2. Navigate to the `run` directory. 
       * To run one realization, open `runOneRlz.sh` and change the parameters to `inputDir="../input/jetFlame/DLR_A"` and `caseName="reacting_jet"`. Then run `./runOneRlz.sh` to start the case. On average, this should take 15-20 minutes. The resulting data can be visualized, but it is not very useful on its own. Since ODT is a stochastic model, it works best when many realizations are averaged together. 
