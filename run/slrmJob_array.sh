@@ -21,6 +21,7 @@ date
 
 nSetsToRun=1  
 inputDir="../input/jetFlame/shaddix"
+caseName="test01"
 
 ###############################################################################
 
@@ -46,14 +47,14 @@ runCase () {
     echo "*** RUNNING ***"
     echo "Output is being written to ../$caseName/runtime/runtime_* and ../$caseName/data"
 
-    ./sec.x $caseName $SLURM_ARRAY_TASK_ID
+    ./odt.x $caseName $SLURM_ARRAY_TASK_ID
 
     nshift=0
     it=1
     while [ $it -lt $nSetsToRun ] ; do
         nshift=$(($nshift + $SLURM_ARRAY_TASK_COUNT))
         it=$(($it + 1))
-        ./sec.x $caseName $(($SLURM_ARRAY_TASK_ID + $nshift))
+        ./odt.x $caseName $(($SLURM_ARRAY_TASK_ID + $nshift))
     done
 
 }
@@ -61,9 +62,9 @@ runCase () {
 
 ###############################################################################
 
-runCase "testcase"
-#runCase "case_02" "C_param" "5"
-#runCase "case_03" "C_param" "10"
+runCase $caseName
+#runCase $caseName "C_param" "5"
+#runCase $caseName "C_param" "10"
 
 ###############################################################################
 echo "the end simulation time is"
