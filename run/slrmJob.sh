@@ -21,6 +21,7 @@ date
 
 nSetsToRun=1
 inputDir="../input/coldJet"
+caseName="test01"
 
 ###############################################################################
 
@@ -45,14 +46,14 @@ runCase () {
     echo "*** RUNNING ***"
     echo "Output is being written to ../$caseName/runtime/runtime_* and ../$caseName/data"
 
-    mpiexec -np $SLURM_NTASKS ./sec.x $caseName 0       # 0 is the realization shift
+    mpiexec -np $SLURM_NTASKS ./odt.x $caseName 0       # 0 is the realization shift
 
     nshift=0
     it=1
     while [ $it -lt $nSetsToRun ] ; do
         nshift=$(($nshift + $SLURM_NTASKS))
         it=$(($it + 1))
-        mpiexec -np $SLURM_NTASKS ./sec.x $caseName $nshift
+        mpiexec -np $SLURM_NTASKS ./odt.x $caseName $nshift
     done
 
     mkdir -p "../data/$caseName/slurm"
@@ -62,7 +63,7 @@ runCase () {
 
 ###############################################################################
 
-runCase "case_01"
+runCase $caseName
 #runCase "test_a" "C_param" "10"
 
 ###############################################################################
