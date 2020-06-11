@@ -27,6 +27,7 @@ using namespace std;
  *  Intended for stiff systems (e.g. combustion chemistry).
  *
  *  @author David O. Lignell
+ *
  */
 
 class cvodeDriver {
