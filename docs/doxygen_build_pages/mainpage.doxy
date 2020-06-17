@@ -1,18 +1,15 @@
 /**
 
 @mainpage
-<!--
-This is being rendered into HTML code, so you can comment things out using HTML-style comments.
-You can also insert LaTeX equations...
-An example of an inline equation is \f$ ax^2 + bx + c = 0 \f$, and an example of a nice-looking display equation is:
-\f[ ax^2 + bx + c = 0 \f]
--->
 
-<!--
-\image html montage_odt.png width=250px
+<!-- This is being rendered into HTML, so you can use HTML-style comments. -->
+
+<!-- You can also insert LaTeX equations. An example of an inline equation is \f$ ax^2 + bx + c = 0 \f$, and an example of a nice-looking display equation is \f[ ax^2 + bx + c = 0 \f]. -->
+
+<!-- \image html montage_odt.png width=250px -->
 ![ODT examples](montage_odt.png#left)
--->
 
+THIS PAGE IS UNDER CONSTRUCTION
 
 ## Table of Contents
 
@@ -410,4 +407,3 @@ Documents containing information on the theory behind the ODT code.
 <hr />
 
 */
-
