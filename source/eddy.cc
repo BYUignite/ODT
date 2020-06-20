@@ -147,6 +147,12 @@ void eddy::tripMap(domain *line, const int iS, int iE, const double C, const boo
         fracVmidl = fracVleft;
         fracVrght = fracVleft;
     }
+    
+    //---------
+
+    pos0 = line->pos->d;            // for filling kernel
+    pos0.at(0) = 0.5*(line->posf->d.at(1)+leftEdge);
+    pos0.at(line->ngrd-1) = 0.5*(line->posf->d.at(line->ngrd-1)+rightEdge);
 
     //----------- Grab cell "volume" array (delta(x^c)) in the eddy region
 
