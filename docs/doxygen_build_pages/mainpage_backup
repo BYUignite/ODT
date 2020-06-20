@@ -11,7 +11,7 @@
 <!-- \image html montage_odt.png width=250px
      ![ODT examples](montage_odt.png#left) -->
 
-<!-- @tableofcontents
+## Table of Contents
 
 @ref layout
 @ref obtain
@@ -22,7 +22,7 @@
 @ref post-processing
 @ref code_structure
 @ref style
-@ref odt_theory -->
+@ref odt_theory
 
 <!--
 @ref example_anchor
@@ -32,11 +32,14 @@
 <br>
 -->
 
+<hr />
+
 <!--
 @section video Youtube Video
 Note, there is a video that goes through the installation, basic layout, and running of the code [here](https://youtu.be/NnMNmjYvsg0).
 <hr />
 -->
+
 
 <!-- #################################################################### -->
 @sectionIntroduction to ODT
@@ -57,7 +60,7 @@ The ODT code is divided into 6 main directories:
 - \c post/     - Data post-processing tools
 - \c doc/      - Code documentation
 
-*/
+<hr />
 
 <!-- #################################################################### -->
 /** @page building_page Building ODT
@@ -87,7 +90,7 @@ The ODT code is publicly available on [Github](https://github.com). For best res
 <hr />
 
 <!-------------------------------------------------------------------------->
-@section build Building
+@section build Building ODT
 
 Prior to building the ODT code, ensure that you have the required software packages installed on your machine. In particular, keep the file paths to your Cantera installation on hand. The following steps all take place within the `build` directory within the ODT package. 
 
@@ -131,8 +134,8 @@ Prior to building the ODT code, ensure that you have the required software packa
 
 */
 
-<!-- #################################################################### -->
-/** @page inputfiles Input files
+<!-------------------------------------------------------------------------->
+@section inputfiles Input files
 
 - All input files are in the input directory. Specific ODT cases have
   individual subdirectories. For example ```input/channelFlow/```.
@@ -236,10 +239,11 @@ Prior to building the ODT code, ensure that you have the required software packa
       flows) at which to output the domain state as a data file. Get the list of
       values from Python, or Matlab or something.
 
-*/
 
-<!-- #################################################################### -->
-/** @page case_setup Custom Case Setup
+<hr />
+
+<!-------------------------------------------------------------------------->
+@section setup Case setup
 
 - Specific ODT cases (e.g., channelFlow) have their own input directories
   containing input files as specified above.
@@ -255,10 +259,12 @@ Prior to building the ODT code, ensure that you have the required software packa
     - Note, each ```domaincase_someCase``` inherits off a base class
       ```domaincase```.
 
-*/
 
-<!-- #################################################################### -->
-/** @page running Running ODT
+
+<hr />
+
+<!-------------------------------------------------------------------------->
+@section running Running the code
 
 - The exectuable is called ```sec.x``` and is located in the ```run/```
   directory, where the cases are run from.
@@ -286,10 +292,11 @@ Prior to building the ODT code, ensure that you have the required software packa
       and rlz# is the number of the realization, like 0, 1, 2, etc.
     - A non-slurm script could be easily created.
 
-*/
+<hr />
 
-<!-- #################################################################### -->
-/** @page post-processing Post-processing
+
+<!-------------------------------------------------------------------------->
+@section post-processing Post-processing
 
 - Post-processing is performed in the post directory. The user creates a
   directory containing post-processing code files here.
@@ -298,10 +305,11 @@ Prior to building the ODT code, ensure that you have the required software packa
 - Most of the included cases have some post-processing routines included. These
   are primarily python3 codes.
 
-*/
 
-<!-- #################################################################### -->
-/** @page code_structure General Code Structure
+<hr />
+
+<!-------------------------------------------------------------------------->
+@section code_structure General code structure
 
 The ODT code is structured with a collection of C++ classes.
 - Nearly all variables are public. This avoids excessive get and set functions
@@ -362,10 +370,12 @@ The ODT code is structured with a collection of C++ classes.
       ```input.yaml``` file and reading those values in the given odt case
       file. As needed, supporting setup files could be used.
 
-*/
 
-<!-- #################################################################### -->
-/** @page style_guide Style guide
+
+<hr />
+
+<!-------------------------------------------------------------------------->
+@section style Style guide
 
 When editing code, the following guide should be followed.
 - Use the existing code as your guide. Always ask yourself, "is this pretty, can I make it better, is there another way to organize this?""
@@ -392,10 +402,10 @@ When editing code, the following guide should be followed.
 - Put the initial opening curly brace of code blocks on the same line. Put the closing curly brace of code blocks on their own line.
 - Most class members are public on purpose. Lets keep it that way. Private variables can be useful for self-documenting that they are only ever needed in the given class, but we are not trying to "hide" variables in this code.
 
-*/
+<hr />
 
-<!-- #################################################################### -->
-/** @page odt_theory ODT Theory
+<!-------------------------------------------------------------------------->
+@section odt_theory ODT Theory
 
 Documents containing information on the theory behind the ODT code.
 - <a href="http://ignite.byu.edu/public/Lignell_2018.pdf" target="_blank">One-dimensional
@@ -403,6 +413,8 @@ Documents containing information on the theory behind the ODT code.
 - <a href="http://ignite.byu.edu/public/ODTmethod.pdf" target="_blank">Mesh
      adaption for efficient multiscale implemenation of One-Dimensional Turbulence</a> (pdf)
 - <a href="http://ignite.byu.edu/public/eddyEvents.pdf" target="_blank">ODT Eddy Events</a> (pdf)
+
+<hr />
 
 */
 
