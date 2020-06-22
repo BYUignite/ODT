@@ -5,6 +5,6 @@
         <title>Page Redirection</title>
     </head>
     <body>
-        If you are not redirected automatically, follow the <a href="doxygen/html/index.html">link to the documentation</a>
+        If you are not redirected automatically, please follow this <a href="doxygen/html/index.html">link to the documentation</a>
     </body>
 </html>

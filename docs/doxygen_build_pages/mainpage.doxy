@@ -39,28 +39,43 @@ Note, there is a video that goes through the installation, basic layout, and run
 -->
 
 <!-- #################################################################### -->
-@sectionIntroduction to ODT
+@section welcome Welcome to ODT
 
-ODT is a computational fluid dynamics (CFD) software primarily used for modeling and simulation of turbulent flows. It complements other CFD approaches, namely direct numerical simulation (DNS) and large-eddy simulation (LES), by resolving the full range of length and time scales in a turbulent flow in one dimention using a stochastic approach to large-scale turbulent advection. ODT's high computational efficiency and resolution of a full range of scales make it a valuable tool for simulating a range of flow types, including homogenous turbulence, simple wakes and mixing layers, Rayleigh-Taylor mixing, nonreacting jets, counterflow diffusion flames, wall fires, and jet flames. For more information on ODT and its application to turbulent flow research problems, please refer to the literature [LINK TO IT]. 
+Welcome to the ODT documentation, generated via Doxygen and hosted by Github Pages. To obtain the code itself, please visit the [Github repository](github.com/BYUignite/ODT). 
 
-ODT is an object-oriented C++ code. Users typically interact with the code and its data output via a Bash-style command line, which we find to be the most flexible method. It has been sucessfully tested on various Linux, Mac, and Windows operating systems, including supercomputing clusters. While we do our best to provide stable software releases for ODT users, please remember that ODT is an active research code in which features are being implemented, altered, and tested constantly. If you have questions or concerns about the ODT code, please contact us. [LINK TO CONTACT INFO]
+Things you can find here:
+- [A guide to obtaining, building, and running the ODT code](@ref building_and_running)
+- Doxygen-generated [class](../doxygen/html/classes.html) and [file](../doxygen/html/files.html) lists
+- [Structural overview of the ODT code](@ref code_structure)
+- Details on [creating your own case types](case_setup) using the ODT framework
+- Information on the [theory of ODT and related literature](@ref odt_theory)
+- [Style guide](@ref style_guide) for contributing to the ODT code and/or documentation
+
+Please [contact us](@ref contact) with any questions, comments, or concerns.
 
 <!-------------------------------------------------------------------------->
-@section layout Directory structure
+@section intro What is ODT?
 
-The ODT code is divided into 6 main directories:
-- \c build/    - Build files
-- \c source/   - ODT source code
-- \c input/    - \ref inputfiles Input Files 
-- \c run/      - ODT executables and runtime files
-- \c data/     - Data produced by the ODT code
-- \c post/     - Data post-processing tools
-- \c doc/      - Code documentation
+ODT is a computational fluid dynamics (CFD) software primarily used for modeling and simulation of turbulent flows. It complements other CFD approaches, namely direct numerical simulation (DNS) and large-eddy simulation (LES), by resolving the full range of length and time scales in a turbulent flow in one dimention using a stochastic approach to large-scale turbulent advection. ODT's high computational efficiency and resolution of a full range of scales make it a valuable tool for simulating a range of flow types, including homogenous turbulence, simple wakes and mixing layers, Rayleigh-Taylor mixing, nonreacting jets, counterflow diffusion flames, wall fires, and jet flames. For more information on ODT and its application to turbulent flow research problems, please refer to the [literature](@ref odt_theory). 
+
+ODT is an object-oriented C++ code. Users typically interact with the code and its data output via a Bash-style command line, which we find to be the most flexible method. It has been sucessfully tested on various Linux, Mac, and Windows operating systems, including supercomputing clusters. While we do our best to provide stable software releases for ODT users, please remember that ODT is an active research code in which features are being implemented, altered, and tested constantly. If you have questions or concerns about the ODT code, please [contact us](@ref contact).
+
+<!-------------------------------------------------------------------------->
+@section how-to-use How to Use ODT
+
+ODT users will all experience the same basic workflow. For more information on each step, follow the provided documentation links. 
+
+1. [Build the ODT code](@ref building_page), including the relevent [dependencies](@ref dependencies).
+2. Choose an existing case type or [create your own case](@ref case_setup).
+3. Modify the appropriate [input file(s)][@ref input_files].
+4. [Run the code](@ref running).
+5. [Process and interpret the data](@ref post-processing). 
+6. Repeat steps 2-5 as needed. 
 
 */
 
 <!-- #################################################################### -->
-/** @page building_page Building ODT
+/** @page building_and_running Building ODT
 
 <!-------------------------------------------------------------------------->
 @section dependencies Dependencies
@@ -83,6 +98,18 @@ The following software packages are used to generate documentation. They are not
 @section download Download
 
 The ODT code is publicly available on [Github](https://github.com). For best results, we recommend downloading the code via Git. To do so, navigate to the desired download location on your local computer and type, at the command line, `git clone https://github.com/BYUIgnite/ODT.git`. 
+
+The ODT code is divided into seven main directories:
+
+- `build/`    - [Build files](@ref building_page)
+- `source/`   - ODT source code
+- `input/`    - [Input files](@ref input_files) 
+- `run/`      - ODT executables and runtime files
+- `data/`     - Data produced by the ODT code
+- `post/`     - Data [post-processing tools](@ref post-processing)
+- `docs/`     - Code documentation
+
+
 
 <hr />
 
@@ -132,7 +159,7 @@ Prior to building the ODT code, ensure that you have the required software packa
 */
 
 <!-- #################################################################### -->
-/** @page inputfiles Input files
+/** @page input_files Input files
 
 - All input files are in the input directory. Specific ODT cases have
   individual subdirectories. For example ```input/channelFlow/```.
@@ -395,7 +422,7 @@ When editing code, the following guide should be followed.
 */
 
 <!-- #################################################################### -->
-/** @page odt_theory ODT Theory
+/** @page odt_theory ODT Theory and Literature
 
 Documents containing information on the theory behind the ODT code.
 - <a href="http://ignite.byu.edu/public/Lignell_2018.pdf" target="_blank">One-dimensional
@@ -403,6 +430,21 @@ Documents containing information on the theory behind the ODT code.
 - <a href="http://ignite.byu.edu/public/ODTmethod.pdf" target="_blank">Mesh
      adaption for efficient multiscale implemenation of One-Dimensional Turbulence</a> (pdf)
 - <a href="http://ignite.byu.edu/public/eddyEvents.pdf" target="_blank">ODT Eddy Events</a> (pdf)
+
+*/
+
+<!-- #################################################################### -->
+/** @page contact Contact Us
+
+The ODT code is developed and maintained by members of the Computational Turbulent Reacting Flow research group (CTRF), led by Dr. David O. Lignell, Professor of [Chemical Engineering](https://chemicalengineering.byu.edu) at [Brigham Young University](https://byu.edu), located in Provo, Utah, USA. For more information on the CTRF group and its projects, visit our website at [ignite.byu.edu](ignite.byu.edu). 
+
+If you believe you have found an error in the code or its documentation, please notify us by submitting an issue to the [Github repository](https://github.com/BYUignite/ODT). 
+
+For questions related to building, running, or otherwise using the ODT code that cannot be addressed by your project leader, please email [Dr. Lignell](mailto:davidlignell@byu.edu) and include "ODT Code" in the subject line. Note that you may be referred to another CTRF member depending on the nature of your questions. 
+
+For more information on how ODT is used in turbulent flow research and its current development, please refer to the literature, a sampling of which is available on the [ODT Theory and Literature](@ref odt_theory) page, or visit the [CTRF group website](ignite.byu.edu). 
+
+For questions related to collaboration or new research projects using ODT, please email [Dr. Lignell](mailto:davidlignell@byu.edu) and include "ODT Collaboration" or "ODT Project" in the subject line, as appropriate.  
 
 */
 
