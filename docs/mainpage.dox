@@ -47,11 +47,13 @@ Things you can find here:
 - [A guide to obtaining, building, and running the ODT code](@ref building_and_running)
 - Doxygen-generated [class](../doxygen/html/classes.html) and [file](../doxygen/html/files.html) lists
 - [Structural overview of the ODT code](@ref code_structure)
-- Details on [creating your own case types](case_setup) using the ODT framework
+- Details on [creating your own case types](@ref case_setup) using the ODT framework
 - Information on the [theory of ODT and related literature](@ref odt_theory)
 - [Style guide](@ref style_guide) for contributing to the ODT code and/or documentation
 
 Please [contact us](@ref contact) with any questions, comments, or concerns.
+
+Documentation last updated: @date
 
 <!-------------------------------------------------------------------------->
 @section intro What is ODT?
@@ -60,22 +62,22 @@ ODT is a computational fluid dynamics (CFD) software primarily used for modeling
 
 ODT is an object-oriented C++ code. Users typically interact with the code and its data output via a Bash-style command line, which we find to be the most flexible method. It has been sucessfully tested on various Linux, Mac, and Windows operating systems, including supercomputing clusters. While we do our best to provide stable software releases for ODT users, please remember that ODT is an active research code in which features are being implemented, altered, and tested constantly. If you have questions or concerns about the ODT code, please [contact us](@ref contact).
 
-<!-------------------------------------------------------------------------->
-@section how-to-use How to Use ODT
-
-ODT users will all experience the same basic workflow. For more information on each step, follow the provided documentation links. 
-
-1. [Build the ODT code](@ref building_page), including the relevent [dependencies](@ref dependencies).
-2. Choose an existing case type or [create your own case](@ref case_setup).
-3. Modify the appropriate [input file(s)][@ref input_files].
-4. [Run the code](@ref running).
-5. [Process and interpret the data](@ref post-processing). 
-6. Repeat steps 2-5 as needed. 
-
 */
 
 <!-- #################################################################### -->
-/** @page building_and_running Building ODT
+/** @page building_and_running Building and Running ODT
+
+<!-------------------------------------------------------------------------->
+@section workflow ODT Workflow
+
+ODT users will all experience the same basic workflow. For more information on each step, follow the provided documentation links. 
+
+1. [Obtain](@ref download) and [build](@ref build) the ODT code, including the relevent [dependencies](@ref dependencies).
+2. Choose an existing case type or [create your own case](@ref case_setup).
+3. Modify the appropriate [input file(s)](@ref input_files).
+4. [Run the code](@ref running).
+5. [Process and interpret the data](@ref post-processing). 
+6. Repeat steps 2-5 as needed. 
 
 <!-------------------------------------------------------------------------->
 @section dependencies Dependencies
@@ -99,60 +101,56 @@ The following software packages are used to generate documentation. They are not
 
 The ODT code is publicly available on [Github](https://github.com). For best results, we recommend downloading the code via Git. To do so, navigate to the desired download location on your local computer and type, at the command line, `git clone https://github.com/BYUIgnite/ODT.git`. 
 
-The ODT code is divided into seven main directories:
-
-- `build/`    - [Build files](@ref building_page)
-- `source/`   - ODT source code
-- `input/`    - [Input files](@ref input_files) 
-- `run/`      - ODT executables and runtime files
-- `data/`     - Data produced by the ODT code
-- `post/`     - Data [post-processing tools](@ref post-processing)
-- `docs/`     - Code documentation
-
-
+Once downloaded, open the `ODT` folder. You will see the following set of directories:
+- `build/`  — [Build files](@ref building_and_running)
+- `source/` — ODT source code
+- `input/`  — [Input files](@ref input_files) 
+- `run/`    — ODT executables and runtime files
+- `data/`   — Data produced by the ODT code
+- `post/`   — Data [post-processing tools](@ref post-processing)
+- `docs/`   — Code documentation
 
 <hr />
 
 <!-------------------------------------------------------------------------->
 @section build Building
 
-Prior to building the ODT code, ensure that you have the required software packages installed on your machine. In particular, keep the file paths to your Cantera installation on hand. The following steps all take place within the `build` directory within the ODT package. 
+Prior to building the ODT code, ensure that you have the required software packages installed on your machine. In particular, keep the file paths to your Cantera installation on hand. Input files are written in a YAML format, which requires an installed YAML library; it is included as part of the ODT build process and does not need to be installed separately by the user.  
 
-1. Using your favorite text editor, open the `user_config` file and modify appropriately. 
+0. Navigate to the `build/` directory.
+1. Using your favorite text editor, open the `user_config` file and modify the [preprocessor flags](@ref preprocessor_flags) appropriately. 
+2. Configure CMake and generate Makefiles by running the following: 
     
+    cmake -C user_config ../source/
 
+3. Build YAML with the following command:
 
-- Input files are written in a YAML format, so you need a YAML library. This is
-  included with the ODT code. You will need to have cmake installed. Go to the
-  build directory and type the following at the terminal:<br>```./build_yaml.sh```
+    make yaml
 
+4. Compile the ODT code:
 
-- To build the code, at the terminal, type:<br>```make MACH=MYMACH``` <br>where
-  MYMACH matches the extension of the file make.MYMACH.
-    - The make process can be sped up by including the ```-j8``` flag (run in
-      parallel on 8 cores):<br>```make -j8 MACH=MYMACH```
-    - Other commands include the following:<br>```make MACH=MYMACH
-      depend```<br>```make MACH=MYMACH documentation```<br>```make MACH=MYMACH
-      all```<br>```make MACH=MYMACH clean```
+    make
 
-- The following preprocessor flags are used:
-    - ```CHEMISTRY```
-        - Chemical reaction rates may be computed using Cantera's built-in
-          reaction rate based on the reaction rate data provided in the
-          associated chemical mechanism file, or a user-defined reaction rate
-          code may be used (which is common for reduced mechanisms). This flag
-          determines which mechanism code to use.
-        - The value of the flag for the Cantera-based rate is ```CANTERARR```.
-        - The value of the flag for user-defined mechanism codes are defined in
-          the Makefile, but include, e.g., ```CH4RED```, ```C2H4RED```,
-          ```SIMPLEDLR```, etc.
+@subsection preprocessor_flags Preprocessor Flags
 
-    - ```PARALLEL```
-        - Turns on embarrassingly parallel simulations. Code uses MPI.
-        - Values are either ```YES``` or ```NO```
+The following preprocessor flags are used in the CMake `user_config` file:
+- `CHEMISTRY` = `CANTERARR` or `CH4RED` or `C2H4RED` or `SIMPLEDLR` 
+    - This flag specifies the code to be used to calculate chemical reaction rates. Chemical reaction rates can be computed using one of two methods:
+        1. Cantera's built-in reaction rate calculations based on data provided in the associated chemical mechanism file; to use this method, use the `CHEMISTRY = CANTERARR` flag
+        2. User-defined reaction mechanisms (common for reduced chemical mechanisms); flag values for such mechanism are defined in the Makefile and include values such as `CH4RED`, `C2H4RED`, and `SIMPLEDLR`.
+- `PARALLEL` = `YES` or `NO`
+    - Turns on embarrassingly parallel simulations using MPI.
+- `SILENT` = `YES` or `NO`
+    - Controls the amount of CMake console output.
+- `CANTERA_INCLUDE_DIR` = `path_to_cantera_installation\cantera-version\include`
+    - Path to Cantera installation `include` directory.
+- `CANTERA_LIB_DIR` = `path_to_cantera_installation\cantera-version\lib`
+    - Path to Cantera installation libraries (`lib` directory).
 
-
-- The executable is called sec.x and is placed in the run directory.
+@subsection build_notes Notes
+- There is no associated `install` step following the compilation. A successful a build will have no error messages, and warnings can be safely ignored. The executable is called odt.x and is located in the run directory.
+- The YAML installation step only needs to be performed once. Once it is sucessfully built, the code can be recompiled and CMake reconfigured without affecting YAML. You only need to rebuild YAML if you redownload the package from the repository.
+- YAML installation must occur after CMake configuration and requires Git to work properly. If you encounter errors, double check those things.
 
 <hr />
 

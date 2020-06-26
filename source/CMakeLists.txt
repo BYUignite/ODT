@@ -92,7 +92,6 @@ if(DOXYGEN_FOUND)
     add_custom_target(doxygen 
         COMMAND rm -rf ../docs/doxygen/html
         COMMAND mkdir  ../docs/doxygen/html
-        COMMAND cp    ../docs/doxygen_build_pages/montage_odt.png ../docs/doxygen/html
         COMMAND doxygen -s ../docs/Doxyfile
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Building doxygen documentation"

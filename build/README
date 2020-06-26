@@ -25,7 +25,9 @@ STEP 3: build the ODT code
 
 (OPTIONAL) STEP 4:  build documentation
     RUN: make doxygen
-    To generate PDF documentation, navigate to ODT/doc/doxygen/latex and RUN: make pdf 
+    
+    To generate PDF documentation, run the previous command, navigate to ODT/doc/doxygen/latex, and run the following:
+    RUN: make pdf 
 
 # CLEANUP INSTRUCTIONS ----------------------------------------------------
 
@@ -37,7 +39,7 @@ Thorough cleanup:
 
 # NOTES -------------------------------------------------------------------
 
-1. CMakeLists.txt files are located in ../source directory and its subdirectories.
-2. All files in this folder can be deleted except for user_config and this README.
-3. Generating PDF documentation requires pdflatex to be installed on your system. 
+- CMakeLists.txt files are located in ../source directory and its subdirectories.
+- All files in this folder can be deleted except for user_config and this README.
+- Generating PDF documentation requires pdflatex to be installed on your system. 
 
