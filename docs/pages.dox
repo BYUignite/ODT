@@ -23,9 +23,11 @@ Things you can find here:
 - Information on the [theory of ODT and related literature](@ref odt_theory)
 - [Style guide](@ref style_guide) for contributing to the ODT code and/or documentation
 
-Please [contact us](@ref contact) with any questions, comments, or concerns.
 
-Documentation last updated: @today
+Several of our auxiliary documentation pages are still under construction. Thank you for
+your patience. Please [contact us](@ref contact) with any questions, comments, or concerns.
+
+Documentation last updated: \f$\mathrm{\today}\f$
 
 <hr />
 
@@ -65,13 +67,10 @@ on each step, follow the provided documentation links.
 
 1. [Obtain](@ref download) and [build](@ref build) the ODT code, including the relevent
 [dependencies](@ref dependencies).  
-2. [Set up your case](@ref case_setup) by modifying the appropriate [input file(s)](@ref
-input_files) and/or [case files](@ref case_files).
-    -  If you modify case files located in the `source` directory, make sure to rebuild the
-       ODT code before running; otherwise, your changes will not be reflected in the case. 
+2. [Set up your case](@ref case_setup) by modifying the appropriate 
+[input file(s)](@ref input_files) and/or [case files](@ref case_files).
 4. [Run the code](@ref running).  
 5. [Process and interpret the data](@ref post-processing).
-6. Repeat steps 2-5 as needed. 
 
 <B>Special note for Windows users:</B> At the time of this writing, Windows does not offer a
 Bash shell natively installed. In order to follow the build instructions set out here on a
@@ -107,16 +106,9 @@ build or run ODT, and thus are optional:
 
 The ODT code is publicly available on [Github](https://github.com). For best results, we
 recommend downloading the code via Git. To do so, navigate to the desired download location
-on your local computer and run `git clone https://github.com/BYUIgnite/ODT.git`. 
+on your local computer and run 
 
-Once downloaded, open the `ODT` folder. You will see the following set of directories:
-- `build/`  — [Build files](@ref building_and_running)
-- `source/` — ODT source code
-- `input/`  — [Input files](@ref input_files) 
-- `run/`    — ODT executables and runtime files
-- `data/`   — Data produced by the ODT code
-- `post/`   — Data [post-processing tools](@ref post-processing)
-- `docs/`   — Code documentation
+    `git clone https://github.com/BYUIgnite/ODT.git`. 
 
 <hr />
 
@@ -130,8 +122,8 @@ it is included as part of the ODT build process and does not need to be installe
 by the user.  
 
 1. Navigate to the `build/` directory.  
-2. Using your favorite text editor, open the `user_config` file and modify the [preprocessor
-flags](@ref preprocessor_flags) appropriately.  
+2. Using your favorite text editor, open the `user_config` file and modify the 
+[preprocessor flags](@ref preprocessor_flags) appropriately.  
 3. Configure CMake and generate Makefiles by running the following: 
     
     `cmake -C user_config ../source/`
@@ -160,12 +152,13 @@ The resulting executable is called `odt.x`, located in the `run` directory.
 The following preprocessor flags are used in the CMake `user_config` file:
 - `CHEMISTRY` = `CANTERARR` or `CH4RED` or `C2H4RED` or `SIMPLEDLR` 
     - This flag specifies the code to be used to calculate chemical reaction rates. Chemical
-      reaction rates can be computed using one of two methods: 1. Cantera's built-in
-      reaction rate calculations based on data provided in the associated chemical mechanism
-      file; to use this method, use the `CHEMISTRY = CANTERARR` flag 2. User-defined
-      reaction mechanisms (common for reduced chemical mechanisms); flag values for such
-      mechanism are defined in the Makefile and include values such as `CH4RED`, `C2H4RED`,
-      and `SIMPLEDLR`.
+      reaction rates can be computed using one of two methods: 
+        1. Cantera's built-in reaction rate calculations based on data provided in the
+        associated chemical mechanism file; to use this method, use the `CHEMISTRY =
+        CANTERARR` flag. 
+        2. User-defined reaction mechanisms (common for reduced chemical mechanisms); flag
+        values for such mechanisms are defined in the Makefile and include values such as 
+        `CH4RED`, `C2H4RED`, and `SIMPLEDLR`.
 - `PARALLEL` = `YES` or `NO`
     - Turns on embarrassingly parallel simulations using MPI.
 - `SILENT` = `YES` or `NO`
@@ -174,6 +167,8 @@ The following preprocessor flags are used in the CMake `user_config` file:
     - Path to Cantera installation `include` directory.
 - `CANTERA_LIB_DIR` = `path_to_cantera_installation\cantera-version\lib`
     - Path to Cantera installation libraries (`lib` directory).
+
+@todo New page with details on using chemical mechanisms with ODT.
 
 <hr />
 
@@ -207,7 +202,8 @@ subdirectory, is called `input.yaml` and contains all ODT case parameters, inclu
 case-specific variables and those related to case geometry. Most are set to their default
 values, and some are optional.  For a full list of possible parameters and their default
 values, refer to the [`param.cc`](./doxygen/html/param_8cc_source.html) file from within the
-source code or the documentation. 
+source code or the documentation. For more detailed information on selected input
+parameters, click [here][@ref selected_input_params]. 
 
 Some general notes on input files:
 - Formatted as a [standard YAML file](https://en.wikipedia.org/wiki/YAML) organized into
@@ -216,111 +212,74 @@ Some general notes on input files:
   set in `input.yaml`, the case will start at the state specified by `restart.dat`. This can
   be useful for running partial realizations or completing realizations that failed due to
   some runtime errors.
-
-All cases require a Cantera mechanism file regardless of whether the case involves any
-      chemistry. The name of the mechanism file
-          corresponds to the `chemMechFile` parameter specified in the input.yaml file.
-- For cases that do not need chemistry (or variable transport properties), e.g.,
-          channel flow, the file `not_used.xml` can be specified.
-
-@subsection input_params Selected Input Parameters
-The following is a brief description of the input file format and specific parameters of
-interest beyond the descriptions given in the input file.
-- `params` section: general ODT parameters; contains no case-specific parameters
-    - `seed`: randomization seed value. A negative value indicates that the seed itself
-      should be randomized, useful for generating unique realizations in parallel runs.
-      Positive seed values are useful for reproducibility. 
-    - `tEnd`: end time for temporal flows or the ending spatial location for
-      spatial flows.
-    - `rho0` and `kvisc0`: average fluid density and kinematic viscosity. Used in flows
-      without variable transport properties (i.e. channel flow) and in some initial eddy
-      sampling variables (see [`solver.cc`](doxygen/html/solver_8cc_source.html)). For
-      variable property flows, set to a reasonable expected average. 
-    - `probType`: specifies the [case type](@ref case_files).  
-    - User-defined ODT eddy generation parameters; commonly tuned to experimental data for a
-      given simulation configuration.
-        - `Z_param`: viscous penalty parameter
-        - `C_param`: eddy rate parameters
-        - `Z_LES`: large eddy suppression parameter 
-        - `A_param`: eddy distribution parameter; usually set to 2/3 (not tuned), which
-          gives the maximum redistribution of energy among the three velocity components
-    - `LES_type`: indicates the large-eddy suppression model to be used. Frequently used options: 
-        - `ELAPSEDTIME`: common for open flows like jets
-        - `FRACDOMAIN`: common for channel flow cases 
-        - `NONE`: can be used for channel flow cases since the flow is statistically
-          stationary in time/space and the domain enforces a given eddy size
-    - `diffCFL`: multiplies the timestep used for diffusive advancement. Should be less than
-      one, which is the stability limit for purely diffusive (planar) flows, but may need to
-      be set lower. Between 0.1 and 0.2 is common. 
-        - If the code crashes at runtime and everything seems to be set up correctly, this
-          is a good place to start. 
-        - With stiff chemistry, an explicit solver requires this to be very low, but an
-          implicit approach is a much better choice for stiff chemistry anyway.
-    - `cCoord`: specifies whether the case is planar (`cCoord = 1`), cylindrical (`cCoord =
-      2`), or spherical (`cCoord = 3`). The name refers to the power \f$c\f$ on terms in the
-      transport equations used to make the code generic to all three configurations.
-    - `gDens`: grid density for mesh refinement
-        - This can be increased to produce a finer grid resolution, but the mesher
-          normalizes the profiles so that the number of grid points is roughly constant for
-          a given profile "length", so this value rarely needs to be modified. 30 is a
-          generally reasonably value.
-    - `dxmin`: smallest cell size (normalized by domain length)
-        - Becuase `dxmin` is normalized by `domainLength`, if you double the size of your
-          domain for the same turbulence level, you will want to halve `dxmin` to get the
-          same smallest grid size.
-        - A value of 0.001 implies a maximum number of grid cells of 1000 on the domain
-          (though the mesher will normally give fewer than this).
-        - Its a good idea to check the resulting cell size distribution to see how often
-          `dxmin` is limiting the grid. This can be an indication of poor resolution.
-    - `eddyMinCells`: the minimum number of grid cells an eddy has to span to be viable.
-    - `Lmin`: the minimum eddy size sampled/allowed 
-        - This value should be consistent with `dxmin` and `eddyMinCells`.  For example, if
-          `dxmin = 0.001` and `eddyMinCells = 3`, then `Lmin` should be greater than or
-          equal to 0.003. Otherwise, eddies may be sampled that cannot be accepted, which is
-          inefficient.
-    - `modDump`: the number of eddies accepted before the ODT domain is dumped to an output
-      file. Common values are 1, or 1000000 (something big, which effectively turns off output
-      of the ODT domain after eddies).
-        - A value of 1 is useful for visualizing the progression of eddies on the domain,
-          especially during preliminary investigation.
-        - A large value like 1,000,000 effectively turns off output of the ODT domain after
-          eddies begin to occur.  This is useful if you prefer your output files limited to
-          only those times specified by the `dumpTimes` variable (which makes
-          post-processing easier).
-- `dumpTimes`: array of times (or spatial locations for spatial flows) at which
-  to output the domain state as a data file. 
+- All cases require a Cantera mechanism file regardless of whether the case involves any
+  chemistry. The name of the mechanism file corresponds to the `chemMechFile` parameter
+  specified in the input.yaml file. For cases that do not need chemistry, the file `not_used.xml` can be specified.
 
 <!--------------------------------------------------------------------------> 
 @section running Running ODT
 
-- The code is run from run scripts for doing single and multiple realization runs.
-- The run scripts will need a case name.
-- For example, if the case name is myCase in the run script, then:
-    - `./runOneRlz.sh`
-        - This will create `../data/myCase/input, ../data/myCase/runtime,
-          ../data/myCase/data`, etc.
-        - Files in `../input/channelFlow/` will be copied to
-          `../data/channelFlow/input/` and the ODT code will read input files from here.
-    - `./runSingleRlz.sh -r will rebuild the code, which is useful for debugging.`
-    - Note, `../data/myCase` is first deleted if present.
-- For parallel runs, the following slurm job script is included as an example:
-  `slrmJob.sh`
-    - This file hard codes the input directory and case name arguments.
-    - Also, the file is setup to run multiple sets of realizations. So, if I were running on
-      100 processors, but wanted 500 realizations, I would set `nRlz=5` in in the
-      script.
-    - The file structure is the same as for single realization runs.
-    - The code needs to be built with the PARALLEL=YES flag.
-- Alternatively, non-mpi runs can be done with PARALLEL=NO, and using the slrmJob_array.sh
-  script.
-    - This script simply calls ./sec.x caseName rlz#, where caseName is the name of the case
-      (myCase), and rlz# is the number of the realization, like 0, 1, 2, etc.
-    - A non-slurm script could be easily created.
+The ODT code is run from one of several Bash scripts located in the `run` directory, each
+designed for either single- or multiple-realization runs. 
+
+- `runOneRlz.sh`: runs one realization
+- `runManyRlz.sh`: runs multiple realizations in series
+- `slrmJob.sh`: runs multiple realizations in parallel using MPI on systems using 
+[Slurm job management](https://slurm.schedmd.com/documentation.html).
+- `slrmJob_array.sh`: runs multiple realizations in parallel using MPI on systems using
+  [Slurm job management](https://slurm.schedmd.com/documentation.html) in Slurm's array format
+    - This is useful in cases where individual realizations of a parallel run fail; instead
+      of crashing the entire run, failed realizations will fail individually and allow
+      successful ones to finish running. 
+
+For more information on Slurm headers and support, refer to the 
+[Slurm documentation](https://slurm.schedmd.com/documentation.html).
+
+To run an ODT simulation, provided that ODT has compiled properly and the `odt.x` executable
+is present in the `run` folder:
+
+1. Open the appropriate run script and modify the following variables where applicable:
+    - `inputDir`: path to the input file directory to be used
+    - `caseName`: case name; data will be stored in the `data` directory under this name
+        - WARNING: running a new case with the same name as a previous case will overwrite
+          the previous case data. Always change the case name to avoid losing data.
+    - `nRlz`: number of realizations to run (`runManyRlz.sh` only)
+    - `nSetsToRun`: number of realization sets to run, where the number of realizations in a
+      set is specified by the Slurm header information (`slrmJob.sh` and `slrmJob_array.sh`
+      only). 
+        - If `nSetsToRun` is greater than one, the code must be compiled with the `PARALLEL
+          = YES` flag in the `user_config` file.
+2. Run the case from the command line by executing the appropriate script:
+
+    `./runOneRlz.sh`
+
+<!--------------------------------------------------------------------------> 
+@section data_files Data Files 
+
+Data will be written to the `data` directory under a subdirectory corresponding to
+`caseName`, as specified in your run script. Within the `caseName` folder, data is organized
+into several subfolders:
+- `data`: contains the raw data files
+    - Subdivided into folders containing data for each individual realization.
+- `runtime`: contains runtime outputs, which includes eddy data
+- `slurm`: holds Slurm-generated runtime files, if applicable
+- `post`: contains any post-processed data for the case; will not be present if no
+  post-processing has occurred
+- `data_py`: stores raw data in Python format; generated by post-processing tools
+
+@todo make `data_py` folder a subfolder inside `post` rather than its own folder here; more
+organized that way
+
+Raw data is stored in delineated text files and can be interpreted and visualized using a
+method or program of your choosing. For information on the data post-processing tools
+provided with the ODT package, please refer to the [Post-Processing](@ref post-processing) page.
 
 */
 
 <!-- #################################################################### -->
 /** @page custom_case_setup Custom Case Setup
+
+THIS PAGE IS UNDER CONSTRUCTION
 
 - Specific ODT cases (e.g., channelFlow) have their own input directories containing input
   files as specified above.
@@ -340,6 +299,8 @@ interest beyond the descriptions given in the input file.
 <!-- #################################################################### -->
 /** @page post-processing Post-processing
 
+THIS PAGE IS UNDER CONSTRUCTION
+
 - Post-processing is performed in the post directory. The user creates a directory
   containing post-processing code files here.
 - The intention is for post-processed data files to be placed in the
@@ -351,6 +312,17 @@ interest beyond the descriptions given in the input file.
 
 <!-- #################################################################### -->
 /** @page code_structure General Code Structure
+
+THIS PAGE IS UNDER CONSTRUCTION
+
+Once downloaded, open the `ODT` folder. You will see the following set of directories:
+- `build/`  — [Build files](@ref building_and_running)
+- `source/` — ODT source code
+- `input/`  — [Input files](@ref input_files) 
+- `run/`    — ODT executables and runtime files
+- `data/`   — Data produced by the ODT code
+- `post/`   — Data [post-processing tools](@ref post-processing)
+- `docs/`   — Code documentation
 
 The ODT code is structured with a collection of C++ classes.
 - Nearly all variables are public. This avoids excessive get and set functions and allows
@@ -430,6 +402,8 @@ The ODT code is structured with a collection of C++ classes.
 <!-- #################################################################### -->
 /** @page style_guide Style guide
 
+THIS PAGE IS UNDER CONSTRUCTION
+
 When editing code, the following guide should be followed.
 - Use the existing code as your guide. Always ask yourself, "is this pretty, can I make it
   better, is there another way to organize this?""
@@ -484,6 +458,8 @@ When editing code, the following guide should be followed.
 <!-- #################################################################### -->
 /** @page odt_theory ODT Theory and Literature
 
+THIS PAGE IS UNDER CONSTRUCTION
+
 Documents containing information on the theory behind the ODT code.
 - <a href="http://ignite.byu.edu/public/Lignell_2018.pdf" target="_blank">One-dimensional
   turbulence modeling for cylindrical and spherical flows: Model formulation and
@@ -498,7 +474,6 @@ Documents containing information on the theory behind the ODT code.
 <!-- #################################################################### -->
 /** @page contact Contact Us
 
-<!--------------------------------------------------------------------------> 
 The ODT code is developed and maintained by members of the Computational Turbulent Reacting
 Flow research group (CTRF), led by Dr. David O. Lignell, Professor of [Chemical
 Engineering](https://chemicalengineering.byu.edu) at [Brigham Young
@@ -521,3 +496,77 @@ the subject line, as appropriate.
 
 */
 
+<!-- #################################################################### -->
+/** @page selected_input_params Selected Input Parameters
+
+THIS PAGE IS UNDER CONSTRUCTION
+
+The following is a brief overview of the input file format and details on specific parameters of
+interest beyond the descriptions given in the input file.
+
+
+- `params` section: general ODT parameters; contains no case-specific parameters
+    - `seed`: randomization seed value. A negative value indicates that the seed itself
+      should be randomized, useful for generating unique realizations in parallel runs.
+      Positive seed values are useful for reproducibility. 
+    - `tEnd`: end time for temporal flows or the ending spatial location for
+      spatial flows.
+    - `rho0` and `kvisc0`: average fluid density and kinematic viscosity. Used in flows
+      without variable transport properties (i.e. channel flow) and in some initial eddy
+      sampling variables (see
+      [`solver.cc`](@ref doxygen/html/solver_8cc_source.html)). For
+      variable property flows, set to a reasonable expected average. 
+    - `probType`: specifies the [case type](@ref case_files).  
+    - User-defined ODT eddy generation parameters; commonly tuned to experimental data for a
+      given simulation configuration.
+        - `Z_param`: viscous penalty parameter
+        - `C_param`: eddy rate parameters
+        - `Z_LES`: large eddy suppression parameter 
+        - `A_param`: eddy distribution parameter; usually set to 2/3 (not tuned), which
+          gives the maximum redistribution of energy among the three velocity components
+    - `LES_type`: indicates the large-eddy suppression model to be used. Frequently used options: 
+        - `ELAPSEDTIME`: common for open flows like jets
+        - `FRACDOMAIN`: common for channel flow cases 
+        - `NONE`: can be used for channel flow cases since the flow is statistically
+          stationary in time/space and the domain enforces a given eddy size
+    - `diffCFL`: multiplies the timestep used for diffusive advancement. Should be less than
+      one, which is the stability limit for purely diffusive (planar) flows, but may need to
+      be set lower. Between 0.1 and 0.2 is common. 
+        - If the code crashes at runtime and everything seems to be set up correctly, this
+          is a good place to start. 
+        - With stiff chemistry, an explicit solver requires this to be very low, but an
+          implicit approach is a much better choice for stiff chemistry anyway.
+    - `cCoord`: specifies whether the case is planar (`cCoord = 1`), cylindrical (`cCoord =
+      2`), or spherical (`cCoord = 3`). The name refers to the power \f$c\f$ on terms in the
+      transport equations used to make the code generic to all three configurations.
+    - `gDens`: grid density for mesh refinement
+        - This can be increased to produce a finer grid resolution, but the mesher
+          normalizes the profiles so that the number of grid points is roughly constant for
+          a given profile "length", so this value rarely needs to be modified. 30 is a
+          generally reasonably value.
+    - `dxmin`: smallest cell size (normalized by domain length)
+        - Becuase `dxmin` is normalized by `domainLength`, if you double the size of your
+          domain for the same turbulence level, you will want to halve `dxmin` to get the
+          same smallest grid size.
+        - A value of 0.001 implies a maximum number of grid cells of 1000 on the domain
+          (though the mesher will normally give fewer than this).
+        - Its a good idea to check the resulting cell size distribution to see how often
+          `dxmin` is limiting the grid. This can be an indication of poor resolution.
+    - `eddyMinCells`: the minimum number of grid cells an eddy has to span to be viable.
+    - `Lmin`: the minimum eddy size sampled/allowed 
+        - This value should be consistent with `dxmin` and `eddyMinCells`.  For example, if
+          `dxmin = 0.001` and `eddyMinCells = 3`, then `Lmin` should be greater than or
+          equal to 0.003. Otherwise, eddies may be sampled that cannot be accepted, which is
+          inefficient.
+    - `modDump`: the number of eddies accepted before the ODT domain is dumped to an output
+      file. Common values are 1, or 1000000 (something big, which effectively turns off output
+      of the ODT domain after eddies).
+        - A value of 1 is useful for visualizing the progression of eddies on the domain,
+          especially during preliminary investigation.
+        - A large value like 1,000,000 effectively turns off output of the ODT domain after
+          eddies begin to occur.  This is useful if you prefer your output files limited to
+          only those times specified by the `dumpTimes` variable (which makes
+          post-processing easier).
+- `dumpTimes`: array of times (or spatial locations for spatial flows) at which
+  to output the domain state as a data file. 
+*/
