@@ -55,7 +55,6 @@ code, please [contact us](@ref contact).
 
 <!-- #################################################################### -->
 /** @page building_and_running Building and Running ODT
-@brief Instructions for obtaining, building, and running ODT cases
 
 <!--------------------------------------------------------------------------> 
 @section workflow ODT Workflow
@@ -322,7 +321,6 @@ interest beyond the descriptions given in the input file.
 
 <!-- #################################################################### -->
 /** @page custom_case_setup Custom Case Setup
-@brief Custom case setup details
 
 - Specific ODT cases (e.g., channelFlow) have their own input directories containing input
   files as specified above.
@@ -341,7 +339,6 @@ interest beyond the descriptions given in the input file.
 
 <!-- #################################################################### -->
 /** @page post-processing Post-processing
-@ brief Instructions for using and generating post-processing tools
 
 - Post-processing is performed in the post directory. The user creates a directory
   containing post-processing code files here.
@@ -354,7 +351,6 @@ interest beyond the descriptions given in the input file.
 
 <!-- #################################################################### -->
 /** @page code_structure General Code Structure
-@brief Description of general code structure
 
 The ODT code is structured with a collection of C++ classes.
 - Nearly all variables are public. This avoids excessive get and set functions and allows
@@ -433,7 +429,6 @@ The ODT code is structured with a collection of C++ classes.
 
 <!-- #################################################################### -->
 /** @page style_guide Style guide
-@brief Guidelines for contributing to the ODT code
 
 When editing code, the following guide should be followed.
 - Use the existing code as your guide. Always ask yourself, "is this pretty, can I make it
@@ -488,7 +483,6 @@ When editing code, the following guide should be followed.
 
 <!-- #################################################################### -->
 /** @page odt_theory ODT Theory and Literature
-@brief Background and information about the theory behind ODT
 
 Documents containing information on the theory behind the ODT code.
 - <a href="http://ignite.byu.edu/public/Lignell_2018.pdf" target="_blank">One-dimensional
@@ -503,7 +497,6 @@ Documents containing information on the theory behind the ODT code.
 
 <!-- #################################################################### -->
 /** @page contact Contact Us
-@brief Contact information
 
 <!--------------------------------------------------------------------------> 
 The ODT code is developed and maintained by members of the Computational Turbulent Reacting
