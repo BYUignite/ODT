@@ -25,7 +25,9 @@ Things you can find here:
 
 Please [contact us](@ref contact) with any questions, comments, or concerns.
 
-Documentation last updated: @date
+Documentation last updated: @today
+
+<hr />
 
 <!--------------------------------------------------------------------------> 
 @section intro What is ODT?
@@ -79,6 +81,8 @@ choice alongside [Windows Terminal](https://docs.microsoft.com/en-us/windows/ter
 best results. Other workspaces may also work for running ODT in Windows, but we have not
 tested them and cannot offer support in that area.  
 
+<hr />
+
 <!--------------------------------------------------------------------------> 
 @section dependencies Dependencies
 
@@ -125,19 +129,20 @@ on hand. Input files are written in a YAML format, which requires an installed Y
 it is included as part of the ODT build process and does not need to be installed separately
 by the user.  
 
-0. Navigate to the `build/` directory.  1. Using your favorite text editor, open the
-`user_config` file and modify the [preprocessor flags](@ref preprocessor_flags)
-appropriately.  2. Configure CMake and generate Makefiles by running the following: 
+1. Navigate to the `build/` directory.  
+2. Using your favorite text editor, open the `user_config` file and modify the [preprocessor
+flags](@ref preprocessor_flags) appropriately.  
+3. Configure CMake and generate Makefiles by running the following: 
     
-    cmake -C user_config ../source/
+    `cmake -C user_config ../source/`
 
-3. Build YAML with the following command:
+4. Build YAML with the following command:
 
-    make yaml
+    `make yaml`
 
-4. Compile the ODT code:
+5. Compile the ODT code:
 
-    make
+    `make`
 
 The resulting executable is called `odt.x`, located in the `run` directory.
 
