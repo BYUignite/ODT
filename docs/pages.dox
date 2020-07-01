@@ -55,6 +55,7 @@ code, please [contact us](@ref contact).
 
 <!-- #################################################################### -->
 /** @page building_and_running Building and Running ODT
+@brief Instructions for obtaining, building, and running ODT cases
 
 <!--------------------------------------------------------------------------> 
 @section workflow ODT Workflow
@@ -73,7 +74,7 @@ input_files) and/or [case files](@ref case_files).
 5. [Process and interpret the data](@ref post-processing).
 6. Repeat steps 2-5 as needed. 
 
-<B>Special note for Windows users:<\B> At the time of this writing, Windows does not offer a
+<B>Special note for Windows users:</B> At the time of this writing, Windows does not offer a
 Bash shell natively installed. In order to follow the build instructions set out here on a
 Windows machine, you will need to install one. We recommend [Windows Subsystem for Linux
 (WSL)](https://docs.microsoft.com/en-us/windows/wsl) with an Ubuntu distribution of your
@@ -174,6 +175,8 @@ The following preprocessor flags are used in the CMake `user_config` file:
     - Path to Cantera installation `include` directory.
 - `CANTERA_LIB_DIR` = `path_to_cantera_installation\cantera-version\lib`
     - Path to Cantera installation libraries (`lib` directory).
+
+<hr />
 
 <!--------------------------------------------------------------------------> 
 @section case_setup Case Setup
@@ -315,105 +318,11 @@ interest beyond the descriptions given in the input file.
       (myCase), and rlz# is the number of the realization, like 0, 1, 2, etc.
     - A non-slurm script could be easily created.
 
-<hr />
-
-*/
-
-<!-- #################################################################### -->
-/** @page input_files Input files
-
-- All input files are in the input directory. Specific ODT cases have individual
-  subdirectories. For example `input/channelFlow/`.
-- The three main input files are:
-    - `input.yaml`
-        - This is a [standard yaml](https://en.wikipedia.org/wiki/YAML) file.
-        - Yaml easily allows inputting of array quantities. The dumpTimes specification is
-          an example.
-        - All ODT case parameters go in this file. See code odtparam.h and odtparam.cc for
-          parameters that can be set.
-        - Most parameters have default values, and so are optional. See odtparam.cc for the
-          default parameters.
-        - Parameters used to specify a given ODT case, such as geometry parameters should
-          also go in this file. These parameters would normally be read from the specific
-          domaincase_yourcase.cc file.
-    - `cantera_mechanism.xml`
-        - All cases require a Cantera file, even if not used. The name of the mechanism file
-          corresponds to the `chemMechFile` parameter specified in the input.yaml file.
-        - For cases that do not need chemistry (or variable transport properties), e.g.,
-          channel flow, the file `not_used.xml` can be specified.
-    - `restart.dat` is a simple restart file.
-- The following is a brief description of the input file format and specific parameters of
-  interest beyond the description given in the input file.
-    - The `params:` section lists parameters that are only in the odtparams.h file.
-        - `seed` Positive values are useful for reproducibility. A negative value is
-          basically a flag indicating to randomize the seed. This is useful for parallel
-          runs where each realization should be unique.  However, the default behavior is to
-          add the processor id (MPI) to the positive seed, so that parallel realizations are
-          both reproducible and unique for positive seeds.
-        - `tEnd` is the end time for temporal flows, or the ending spatial location for
-          spatial flows.
-        - `rho0, kvisc0` are average density and kinematic viscosity of the fluid. For
-          flows without variable transport properties as specified by the user (usually
-          using Cantera), these values are used. (Channel flow, for example.) They are also
-          used in specifying some initial eddy sampling properties (for example, the average
-          sampling time and diffusion catchup time, see solver.cc). Hence, for variable
-          property flow, these values should be some reasonable expected average.
-        - `probType` this will determine which domainCase is used for solution
-          (described below).
-        - `Z_param, A_param, C_param, Z_LES` are the viscous penalty, eddy distribution,
-          eddy rate, and large-eddy suppression parameters. These are commonly tuned to
-          experimental data for a given simulation. Note the A_param is often not tuned but
-          set to 2/3, which gives the maximum redistribution of energy among the three
-          velocity components.
-        - `LES_type` is a string indicating the large-eddy suppression model to use. The
-          ELAPSEDTIME model is common for open flows like jets. For channel flow, NONE or
-          FRACDOMAIN are common since the domain enforces a given eddy size and the flow is
-          statistically stationary in either time ore space.
-        - `diffCFL` is a factor multiplying the timestep used for diffusive advancement.
-          This should be less than one, which is the stability limit for purely diffusive
-          (planar) flows. Due to the presence of multiple scalars, and dynamical processes
-          (like chemical reaction, particles), this may need to be set lower: 0.1-0.5 is
-          common. If the code crashes and everything seems to be setup right, this is a good
-          place to start. Note, with stiff chemistry, an explicit solver requires this to be
-          Very low, but one of the implicit approaches should be used with stiff chemistry.
-        - `cCoord` specifies whether the case is planar (1), cylindrical (2), or
-          spherical (3). The name relates to the power on terms like x^c or r^c that are
-          used to make the code generic to the configuration using the value of c chosen.
-        - `gDens` controls the grid density for mesh refinement. This can be increased
-          to produce a finer grid resolution, but note that the mesher normalizes the
-          profiles so that the number of grid points is roughly constant for a given profile
-          "length." Hence, this value rarely needs to be modified: 30 is a reasonable value.
-        - `dxmin` is the smallest cell size. But it is normalized by domainLength, so if
-          you double the size of your domain for the same turbulence level, you will want to
-          half dxmin to get the same smallest grid size.
-            - A value of 0.001 implies a maximum number of grid cells of 1000 on the domain,
-              (though the mesher will normally give fewer than this).
-            - Its a good idea to check the resultant cell size distribution to see how often
-              dxmin is limiting the grid. This can be an indication of poor resolution.
-        - `Pmax, Pav, dtfac, nDtSmeanWait, eddyMinCells, DAtimeFac, tdfac, sLastDA` are
-          all rarely modified.
-        - `eddyMinCells` is the minimum number of grid cells an eddy has to span to be
-          viable.
-        - `Lmin` is the minimum eddy size sampled (hence allowed). This value should be
-          consistent with `dxmin` and `eddyMinCells`.  For example, if dxmin is
-          0.001 and `eddyMinCells` is 3, then `Lmin` should be greater than or equal
-          to 0.003. Otherwise eddies may be sampled that cannot be accepted, which is
-          inefficient.
-        - `modDump` is the number of eddies accepted before the ODT domain is dumped.
-          Common values are 1, or 1000000 (something big, which effectively turns off output
-          of the ODT domain after eddies).
-            - A value of 1 is useful for visualizing the progression of eddies on the
-              domain. Especially during preliminary investigation.
-            - A large value is useful when the primary desired output is controlled through
-              the specified dumpTimes (which are more convenient for data processing).
-    - `dumpTimes` is an array of times (or spatial locations for spatial flows) at which
-      to output the domain state as a data file. Get the list of values from Python, or
-      Matlab or something.
-
 */
 
 <!-- #################################################################### -->
 /** @page custom_case_setup Custom Case Setup
+@brief Custom case setup details
 
 - Specific ODT cases (e.g., channelFlow) have their own input directories containing input
   files as specified above.
@@ -431,9 +340,8 @@ interest beyond the descriptions given in the input file.
 */
 
 <!-- #################################################################### -->
-
-<!-- #################################################################### -->
 /** @page post-processing Post-processing
+@ brief Instructions for using and generating post-processing tools
 
 - Post-processing is performed in the post directory. The user creates a directory
   containing post-processing code files here.
@@ -446,6 +354,7 @@ interest beyond the descriptions given in the input file.
 
 <!-- #################################################################### -->
 /** @page code_structure General Code Structure
+@brief Description of general code structure
 
 The ODT code is structured with a collection of C++ classes.
 - Nearly all variables are public. This avoids excessive get and set functions and allows
@@ -524,6 +433,7 @@ The ODT code is structured with a collection of C++ classes.
 
 <!-- #################################################################### -->
 /** @page style_guide Style guide
+@brief Guidelines for contributing to the ODT code
 
 When editing code, the following guide should be followed.
 - Use the existing code as your guide. Always ask yourself, "is this pretty, can I make it
@@ -578,6 +488,7 @@ When editing code, the following guide should be followed.
 
 <!-- #################################################################### -->
 /** @page odt_theory ODT Theory and Literature
+@brief Background and information about the theory behind ODT
 
 Documents containing information on the theory behind the ODT code.
 - <a href="http://ignite.byu.edu/public/Lignell_2018.pdf" target="_blank">One-dimensional
@@ -592,27 +503,26 @@ Documents containing information on the theory behind the ODT code.
 
 <!-- #################################################################### -->
 /** @page contact Contact Us
+@brief Contact information
 
+<!--------------------------------------------------------------------------> 
 The ODT code is developed and maintained by members of the Computational Turbulent Reacting
 Flow research group (CTRF), led by Dr. David O. Lignell, Professor of [Chemical
 Engineering](https://chemicalengineering.byu.edu) at [Brigham Young
 University](https://byu.edu), located in Provo, Utah, USA. For more information on the CTRF
 group and its projects, visit our website at [ignite.byu.edu](ignite.byu.edu). 
 
-If you believe you have found an error in the code or its documentation, please notify us by
+- If you believe you have found an error in the code or its documentation, please notify us by
 submitting an issue to the [Github repository](https://github.com/BYUignite/ODT). 
-
-For questions related to building, running, or otherwise using the ODT code that cannot be
+- For questions related to building, running, or otherwise using the ODT code that cannot be
 addressed by your project leader, please email [Dr. Lignell](mailto:davidlignell@byu.edu)
 and include "ODT Code" in the subject line. Note that you may be referred to another CTRF
 member depending on the nature of your questions. 
-
-For more information on how ODT is used in turbulent flow research and its current
+- For more information on how ODT is used in turbulent flow research and its current
 development, please refer to the literature, a sampling of which is available on the [ODT
 Theory and Literature](@ref odt_theory) page, or visit the [CTRF group
-website](ignite.byu.edu). 
-
-For questions related to collaboration or new research projects using ODT, please email [Dr.
+website](https://ignite.byu.edu). 
+- For questions related to collaboration or new research projects using ODT, please email [Dr.
 Lignell](mailto:davidlignell@byu.edu) and include "ODT Collaboration" or "ODT Project" in
 the subject line, as appropriate.  
 
