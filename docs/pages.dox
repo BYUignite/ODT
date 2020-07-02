@@ -108,7 +108,7 @@ The ODT code is publicly available on [Github](https://github.com). For best res
 recommend downloading the code via Git. To do so, navigate to the desired download location
 on your local computer and run 
 
-    `git clone https://github.com/BYUIgnite/ODT.git`. 
+`git clone https://github.com/BYUIgnite/ODT.git`. 
 
 <hr />
 
@@ -203,7 +203,7 @@ case-specific variables and those related to case geometry. Most are set to thei
 values, and some are optional.  For a full list of possible parameters and their default
 values, refer to the [`param.cc`](./doxygen/html/param_8cc_source.html) file from within the
 source code or the documentation. For more detailed information on selected input
-parameters, click [here][@ref selected_input_params]. 
+parameters, click [here](@ref selected_input_params). 
 
 Some general notes on input files:
 - Formatted as a [standard YAML file](https://en.wikipedia.org/wiki/YAML) organized into
@@ -487,11 +487,11 @@ addressed by your project leader, please email [Dr. Lignell](mailto:davidlignell
 and include "ODT Code" in the subject line. Note that you may be referred to another CTRF
 member depending on the nature of your questions. 
 - For more information on how ODT is used in turbulent flow research and its current
-development, please refer to the literature, a sampling of which is available on the [ODT
-Theory and Literature](@ref odt_theory) page, or visit the [CTRF group
-website](https://ignite.byu.edu). 
-- For questions related to collaboration or new research projects using ODT, please email [Dr.
-Lignell](mailto:davidlignell@byu.edu) and include "ODT Collaboration" or "ODT Project" in
+development, please refer to the literature, a sampling of which is available on the 
+[ODT Theory and Literature](@ref odt_theory) page, or visit the 
+[CTRF group website](https://ignite.byu.edu). 
+- For questions related to collaboration or new research projects using ODT, please email 
+[Dr. Lignell](mailto:davidlignell@byu.edu) and include "ODT Collaboration" or "ODT Project" in
 the subject line, as appropriate.  
 
 */
