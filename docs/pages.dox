@@ -501,72 +501,115 @@ the subject line, as appropriate.
 
 THIS PAGE IS UNDER CONSTRUCTION
 
-The following is a brief overview of the input file format and details on specific parameters of
-interest beyond the descriptions given in the input file.
+This page contains a brief overview of the input file format and details on specific parameters of
+interest beyond the descriptions given in the input file. ODT input files are written in a 
+[standard YAML file](https://en.wikipedia.org/wiki/YAML) and organized into several
+sections, as follows. For a full list of ODT parameters that can be used, please refer to 
+[`param.cc`](./doxygen/html/param_8cc_source.html) from within the source code or this
+documentation.
 
+<!--------------------------------------------------------------------------> 
+@section params_section General ODT parameters: `params`
 
-- `params` section: general ODT parameters; contains no case-specific parameters
-    - `seed`: randomization seed value. A negative value indicates that the seed itself
-      should be randomized, useful for generating unique realizations in parallel runs.
-      Positive seed values are useful for reproducibility. 
-    - `tEnd`: end time for temporal flows or the ending spatial location for
-      spatial flows.
-    - `rho0` and `kvisc0`: average fluid density and kinematic viscosity. Used in flows
-      without variable transport properties (i.e. channel flow) and in some initial eddy
-      sampling variables (see
-      [`solver.cc`](@ref doxygen/html/solver_8cc_source.html)). For
-      variable property flows, set to a reasonable expected average. 
-    - `probType`: specifies the [case type](@ref case_files).  
-    - User-defined ODT eddy generation parameters; commonly tuned to experimental data for a
-      given simulation configuration.
-        - `Z_param`: viscous penalty parameter
-        - `C_param`: eddy rate parameters
-        - `Z_LES`: large eddy suppression parameter 
-        - `A_param`: eddy distribution parameter; usually set to 2/3 (not tuned), which
-          gives the maximum redistribution of energy among the three velocity components
-    - `LES_type`: indicates the large-eddy suppression model to be used. Frequently used options: 
-        - `ELAPSEDTIME`: common for open flows like jets
-        - `FRACDOMAIN`: common for channel flow cases 
-        - `NONE`: can be used for channel flow cases since the flow is statistically
-          stationary in time/space and the domain enforces a given eddy size
-    - `diffCFL`: multiplies the timestep used for diffusive advancement. Should be less than
-      one, which is the stability limit for purely diffusive (planar) flows, but may need to
-      be set lower. Between 0.1 and 0.2 is common. 
-        - If the code crashes at runtime and everything seems to be set up correctly, this
-          is a good place to start. 
-        - With stiff chemistry, an explicit solver requires this to be very low, but an
-          implicit approach is a much better choice for stiff chemistry anyway.
-    - `cCoord`: specifies whether the case is planar (`cCoord = 1`), cylindrical (`cCoord =
-      2`), or spherical (`cCoord = 3`). The name refers to the power \f$c\f$ on terms in the
-      transport equations used to make the code generic to all three configurations.
-    - `gDens`: grid density for mesh refinement
-        - This can be increased to produce a finer grid resolution, but the mesher
-          normalizes the profiles so that the number of grid points is roughly constant for
-          a given profile "length", so this value rarely needs to be modified. 30 is a
-          generally reasonably value.
-    - `dxmin`: smallest cell size (normalized by domain length)
-        - Becuase `dxmin` is normalized by `domainLength`, if you double the size of your
-          domain for the same turbulence level, you will want to halve `dxmin` to get the
-          same smallest grid size.
-        - A value of 0.001 implies a maximum number of grid cells of 1000 on the domain
-          (though the mesher will normally give fewer than this).
-        - Its a good idea to check the resulting cell size distribution to see how often
-          `dxmin` is limiting the grid. This can be an indication of poor resolution.
-    - `eddyMinCells`: the minimum number of grid cells an eddy has to span to be viable.
-    - `Lmin`: the minimum eddy size sampled/allowed 
-        - This value should be consistent with `dxmin` and `eddyMinCells`.  For example, if
-          `dxmin = 0.001` and `eddyMinCells = 3`, then `Lmin` should be greater than or
-          equal to 0.003. Otherwise, eddies may be sampled that cannot be accepted, which is
-          inefficient.
-    - `modDump`: the number of eddies accepted before the ODT domain is dumped to an output
-      file. Common values are 1, or 1000000 (something big, which effectively turns off output
-      of the ODT domain after eddies).
-        - A value of 1 is useful for visualizing the progression of eddies on the domain,
-          especially during preliminary investigation.
-        - A large value like 1,000,000 effectively turns off output of the ODT domain after
-          eddies begin to occur.  This is useful if you prefer your output files limited to
-          only those times specified by the `dumpTimes` variable (which makes
-          post-processing easier).
-- `dumpTimes`: array of times (or spatial locations for spatial flows) at which
-  to output the domain state as a data file. 
+Contains general ODT parameters common to all case types. No case-specific parameters should
+be located here. Notable members:
+- `seed`: randomization seed value
+    - A negative value indicates that the seed itself should be randomized, useful for
+      generating unique realizations in parallel runs.
+    - Positive seed values are useful for reproducibility. 
+- `tEnd`: end time for temporal flows or the ending spatial location for spatial flows
+- `rho0` and `kvisc0`: average fluid density and kinematic viscosity. 
+    - Used in flows without variable transport properties (i.e. channel flow) and in some
+      initial eddy sampling variables (see 
+      [`solver.cc`](@ref doxygen/html/solver_8cc_source.html)). 
+    - For variable property flows, set to a reasonable expected average. 
+- `chemMechFile`: name of the chemical mechanism file to be used 
+    - All cases require a chemical mechanism files, regardless of whether the case includes
+      changing chemistry. In cases where no chemistry is required, the dummy file
+      `not_used.xml` is specified here. 
+    - For a full list of chemical mechanism files that can be used, refer to the `gas_mechanisms`
+      folder within the base `input` directory.
+- `probType`: specifies the [case type](@ref case_files) 
+- User-defined ODT eddy generation parameters; commonly tuned to experimental data for a
+  given simulation configuration
+    - `Z_param`: viscous penalty parameter
+    - `C_param`: eddy rate parameters
+    - `Z_LES`: large eddy suppression parameter 
+    - `A_param`: eddy distribution parameter; usually set to 2/3 (not tuned), which gives
+      the maximum redistribution of energy among the three velocity components
+- `LES_type`: indicates the large-eddy suppression model to be used; frequently used options: 
+    - `ELAPSEDTIME`: common for open flows like jets
+    - `FRACDOMAIN`: common for channel flow cases 
+    - `NONE`: can be used for channel flow cases since the flow is statistically
+      stationary in time/space and the domain enforces a given eddy size
+- `diffCFL`: multiplies the timestep used for diffusive advancement
+    - Should be less than one, which is the stability limit for purely diffusive (planar)
+      flows, but may need to be set lower. Between 0.1 and 0.2 is common. 
+    - If the code crashes at runtime and everything seems to be set up correctly, lowering
+      this parameter is a good place to start. 
+    - With stiff chemistry, an explicit solver requires this to be very low, but an
+      implicit approach is a much better choice for stiff chemistry anyway.
+- `cCoord`: specifies whether the case is planar (`cCoord = 1`), cylindrical (`cCoord =
+  2`), or spherical (`cCoord = 3`) 
+    - The name refers to the power \f$c\f$ on terms in the transport equations used to make
+      the code generic to all three configurations.
+- `gDens`: grid density for mesh refinement
+    - This can be increased to produce a finer grid resolution, but the mesher
+      normalizes the profiles so that the number of grid points is roughly constant for
+      a given profile "length", so this value rarely needs to be modified. 30 is a
+      generally reasonably value.
+- `dxmin`: smallest cell size (normalized by domain length)
+    - Becuase `dxmin` is normalized by `domainLength`, if you double the size of your
+      domain for the same turbulence level, you will want to halve `dxmin` to get the
+      same smallest grid size.
+    - A value of 0.001 implies a maximum number of grid cells of 1000 on the domain
+      (though the mesher will normally give fewer than this).
+    - Its a good idea to check the resulting cell size distribution to see how often
+      `dxmin` is limiting the grid. This can be an indication of poor resolution.
+- `eddyMinCells`: the minimum number of grid cells an eddy has to span to be viable
+- `Lmin`: the minimum eddy size sampled/allowed 
+    - This value should be consistent with `dxmin` and `eddyMinCells`.  For example, if
+      `dxmin = 0.001` and `eddyMinCells = 3`, then `Lmin` should be greater than or
+      equal to 0.003. Otherwise, eddies may be sampled that cannot be accepted, which is
+      inefficient.
+- `modDump`: the number of eddies accepted before the ODT domain is dumped to an output file
+    - A value of 1 is useful for visualizing the progression of eddies on the domain,
+      especially during preliminary investigation.
+    - A large value like 1,000,000 effectively turns off output of the ODT domain after
+      eddies begin to occur.  This is useful if you prefer your output files limited to
+      only those times specified by the `dumpTimes` variable (which makes
+      post-processing easier).
+
+<!--------------------------------------------------------------------------> 
+@section stream_props Stream Properties: `streamProps`
+
+Defines stream properties via temperature and chemical composition. Notable members:
+- `moleOrMass`: specifies whether the stream  chemical compositions that follow are given on
+  a mole or mass basis
+
+<!--------------------------------------------------------------------------> 
+@section boundary_conditions Boundary Conditions: `bcCond`
+
+Defines velocity and temperature boundary conditions for the simulation.
+
+<!--------------------------------------------------------------------------> 
+@section init_params Case-Specific Initialization Parameters: `initParams`
+
+Contains case-specific parameters, usually simulation geometry and initial conditions, that
+are read by the `domaincase_caseType` class upon initialization. As these parameters differ
+between case types, there are no parameters common to all case types to list here, but
+common members include pipe diameter (for jet flames or pipe flows), initial velocity
+profile, or boundary layer thickness (for wall flows), to name a few. For more examples,
+refer to individual case input files or `domaincase_caseType` class files within the source
+code.
+
+<!--------------------------------------------------------------------------> 
+@section dump_times Data Output Times: `dumpTimes`
+
+This is not a section, but an individual variable that does not fall under any other
+category. The `dumpTimes` parameter is an array of times (or spatial locations for spatial
+flows) at which to output the domain state as a data file. It is common to all case types. 
+
+Related parameter: `modDump` (`params` section)
+
 */
