@@ -4,9 +4,9 @@ This code implements the One-Dimensional Turbulence (ODT) model for turbulent re
 nonreacting flows. 
 
 ## Documentation ########
-Detailed documentation is available [here](https://https://byuignite.github.io/ODT/doxygen/html/index.html). 
+Detailed documentation is available [here](https://byuignite.github.io/ODT/doxygen/html/index.html). 
 More information on the theory and application of ODT is available
-[here](://byuignite.github.io/ODT/doxygen/html/odt_theory.html)
+[here](https://byuignite.github.io/ODT/doxygen/html/odt_theory.html)
 
 <!--
 The following two papers discussing theory and application of the code are available. Additional papers are available [here](http://ignite.byu.edu/publications.html).
