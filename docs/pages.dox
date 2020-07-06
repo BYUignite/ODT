@@ -42,8 +42,8 @@ turbulent advection. ODT's high computational efficiency and resolution of a ful
 scales make it a valuable tool for simulating a range of flow types, including homogenous
 turbulence, simple wakes and mixing layers, Rayleigh-Taylor mixing, nonreacting jets,
 counterflow diffusion flames, wall fires, and jet flames. For more information on ODT and
-its application to turbulent flow research problems, please refer to the [literature](@ref
-odt_theory). 
+its application to turbulent flow research problems, please refer to the 
+[literature](@ref odt_theory). 
 
 ODT is an object-oriented C++ code. Users typically interact with the code and its data
 output via a Bash-style command line, which we find to be the most flexible method. It has
@@ -498,8 +498,6 @@ the subject line, as appropriate.
 
 <!-- #################################################################### -->
 /** @page selected_input_params Selected Input Parameters
-
-THIS PAGE IS UNDER CONSTRUCTION
 
 This page contains a brief overview of the input file format and details on specific parameters of
 interest beyond the descriptions given in the input file. ODT input files are written in a 
