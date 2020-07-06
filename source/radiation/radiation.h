@@ -1,6 +1,6 @@
 /**
- *  @file radiation.h
- *  Header file for class radiation
+ * @file radiation.h
+ * @brief Header file for class radiation
  */
 
 #pragma once

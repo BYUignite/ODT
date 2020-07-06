@@ -1,6 +1,6 @@
 /**
  * @file domaincase_odt_isothermalWall.h
- * Header file for class domaincase_odt_isothermalWall
+ * @brief Header file for class domaincase_odt_isothermalWall
  */
 
 #pragma once

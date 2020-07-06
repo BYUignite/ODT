@@ -1,6 +1,6 @@
 /**
  * @file domain.h
- * Header file for class domain
+ * @brief Header file for class domain
  */
 
 #pragma once

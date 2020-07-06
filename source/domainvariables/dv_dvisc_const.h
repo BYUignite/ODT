@@ -1,6 +1,6 @@
 /**
  * @file dv_dvisc_const.h
- * Header file for class dv_dvisc_const
+ * @brief Header file for class dv_dvisc_const
  */
 
 #pragma once

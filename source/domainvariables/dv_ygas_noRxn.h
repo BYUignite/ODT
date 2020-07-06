@@ -1,6 +1,6 @@
 /**
  * @file dv_ygas_noRxn.h
- * Header file for class dv_ygas_noRxn
+ * @brief Header file for class dv_ygas_noRxn
  */
 
 #pragma once

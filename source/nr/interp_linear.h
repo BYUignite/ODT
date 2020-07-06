@@ -1,3 +1,8 @@
+/**
+ * @file interp_linear.h
+ * @brief Header file for class interp_linear
+ */
+
 #ifndef INTERP_LINEAR_H
 #define INTERP_LINEAR_H
 

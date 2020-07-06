@@ -1,8 +1,7 @@
-/** Header file for class radiationProperties
- *
+/** 
  *  @file radiationProperties.h
+ *  @brief Header file for class radiationProperties
  *  @author Victoria B. Lansinger
- *
  */
 
 #pragma once

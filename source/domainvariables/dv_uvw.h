@@ -1,6 +1,6 @@
 /**
  * @file dv_uvw.h
- * Header file for class dv_uvw
+ * @brief Header file for class dv_uvw
  */
 
 #pragma once

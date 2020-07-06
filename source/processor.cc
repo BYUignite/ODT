@@ -1,6 +1,6 @@
 /**
  * @file processor.cc
- * Source file for class processor
+ * @brief Source file for class processor
  */
 
 #include "processor.h"

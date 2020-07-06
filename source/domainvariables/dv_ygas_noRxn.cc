@@ -1,6 +1,6 @@
 /**
  * @file dv_ygas_noRxn.cc
- * Header file for class dv_ygas_noRxn
+ * @brief Source file for class dv_ygas_noRxn
  */
 
 

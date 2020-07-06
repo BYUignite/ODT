@@ -1,3 +1,7 @@
+/**
+ * @file eddy.cc
+ * @brief Source file for class eddy
+ */
 
 #include "eddy.h"
 #include "domain.h"

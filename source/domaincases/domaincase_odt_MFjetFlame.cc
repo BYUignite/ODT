@@ -1,8 +1,7 @@
 /**
  * @file domaincase_odt_MFjetFlame.cc
- * Header file for class domaincase_odt_MFjetFlame
+ * @brief Source file for class domaincase_odt_MFjetFlame
  */
-
 
 #include "domaincase_odt_MFjetFlame.h"
 #include "domain.h"

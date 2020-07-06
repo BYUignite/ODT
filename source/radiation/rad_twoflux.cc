@@ -1,6 +1,6 @@
 /**
  * @file rad_twoflux.cc
- * Source file for class rad_twoflux
+ * @brief Source file for class rad_twoflux
  */
 
 #include "rad_twoflux.h"

@@ -1,6 +1,6 @@
 /**
  * @file domaincase.cc
- * Header file for class domaincase
+ * @brief Source file for class domaincase
  */
 
 #include "domaincase.h"

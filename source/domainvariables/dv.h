@@ -1,6 +1,6 @@
 /**
  * @file dv.h
- * Header file for class dv
+ * @brief Header file for class dv
  */
 
 #pragma once

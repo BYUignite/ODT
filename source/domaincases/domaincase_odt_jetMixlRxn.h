@@ -1,6 +1,6 @@
 /**
  * @file domaincase_odt_jetMixlRxn.h
- * Header file for class domaincase_odt_jetMixlRxn
+ * @brief Header file for class domaincase_odt_jetMixlRxn
  */
 
 #pragma once

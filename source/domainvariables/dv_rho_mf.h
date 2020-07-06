@@ -1,6 +1,6 @@
 /**
  * @file dv_rho_mf.h
- * Header file for class dv_rho_mf
+ * @brief Header file for class dv_rho_mf
  */
 
 #pragma once

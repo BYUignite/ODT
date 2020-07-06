@@ -1,3 +1,7 @@
+/**
+ * @file solver.cc
+ * @brief Source file for class solver
+ */
 
 #include "solver.h"
 #include "domain.h"

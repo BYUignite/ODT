@@ -1,3 +1,8 @@
+/**
+ * @file interp_linear.cc
+ * @brief Source file for class interp_linear
+ */
+
 #include "interp_linear.h"
 
 /////////////////////////////////////////////////////////////////////

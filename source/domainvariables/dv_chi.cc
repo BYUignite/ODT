@@ -1,6 +1,6 @@
 /**
  * @file dv_chi.cc
- * Header file for class dv_chi
+ * @brief Source file for class dv_chi
  */
 
 

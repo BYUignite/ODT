@@ -1,8 +1,7 @@
 /**
  * @file dv_aDL.cc
- * Header file for class dv_aDL
+ * @brief Source file for class dv_aDL
  */
-
 
 #include "dv_aDL.h"
 #include "domain.h"

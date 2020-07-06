@@ -1,6 +1,6 @@
 /**
  * @file dv_chi_dmf.h
- * Header file for class dv_chi_dmf -- uses constant Dmf for computing chi
+ * @brief Header file for class dv_chi_dmf -- uses constant Dmf for computing chi
  */
 
 #pragma once

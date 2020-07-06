@@ -1,6 +1,6 @@
 /**
  * @file rad_opthin.cc
- * Source file for class rad_opthin
+ * @brief Source file for class rad_opthin
  */
 
 #include "rad_opthin.h"

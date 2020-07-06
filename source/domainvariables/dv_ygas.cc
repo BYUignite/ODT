@@ -1,6 +1,6 @@
 /**
  * @file dv_ygas.cc
- * Header file for class dv_ygas
+ * @brief Source file for class dv_ygas
  */
 
 

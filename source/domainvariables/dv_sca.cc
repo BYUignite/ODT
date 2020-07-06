@@ -1,6 +1,6 @@
 /**
  * @file dv_sca.cc
- * Header file for class dv_sca
+ * @brief Source file for class dv_sca
  */
 
 

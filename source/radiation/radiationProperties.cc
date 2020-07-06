@@ -1,8 +1,7 @@
-/** Source file for class radiationProperties
- *
+/** 
  *  @file radiationProperties.cc
+ *  @brief Source file for class radiationProperties
  *  @author Victoria B. Lansinger
- *
  */
 
 #include "radiationProperties.h"

@@ -1,6 +1,6 @@
 /**
  * @file dv_dvisc.cc
- * Header file for class dv_dvisc
+ * @brief Source file for class dv_dvisc
  */
 
 

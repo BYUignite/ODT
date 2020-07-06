@@ -1,6 +1,6 @@
 /**
  * @file domaincase_odt_channel.h
- * Header file for class domaincase_odt_channel
+ * @brief Header file for class domaincase_odt_channel
  */
 
 #pragma once
@@ -12,7 +12,7 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Class implementing child domaincase_odt_channel of parent domaincase object.
+/** @brief Class implementing child domaincase_odt_channel of parent domaincase object
  *
  *  @author David O. Lignell
  */

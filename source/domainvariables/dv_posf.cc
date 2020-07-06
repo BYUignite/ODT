@@ -1,8 +1,7 @@
 /**
  * @file dv_posf.cc
- * Header file for class dv_posf
+ * @brief Source file for class dv_posf
  */
-
 
 #include "dv_posf.h"
 #include "domain.h"

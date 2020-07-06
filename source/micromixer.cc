@@ -1,3 +1,7 @@
+/**
+ * @file micromixer.cc
+ * @brief Source file for class micromixer
+ */
 
 #include "micromixer.h"
 #include "domain.h"

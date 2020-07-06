@@ -1,6 +1,6 @@
 /**
  * @file dv_rho.cc
- * Header file for class dv_rho
+ * @brief Source file for class dv_rho
  */
 
 

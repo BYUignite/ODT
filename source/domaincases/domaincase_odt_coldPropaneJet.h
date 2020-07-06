@@ -1,6 +1,6 @@
 /**
- t @file domaincase_odt_coldPropaneJet.h
- * Header file for class domaincase_odt_coldPropaneJet
+ * @file domaincase_odt_coldPropaneJet.h
+ * @brief Header file for class domaincase_odt_coldPropaneJet
  */
 
 #pragma once

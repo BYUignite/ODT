@@ -1,6 +1,6 @@
 /**
  * @file dv_mixf.h
- * Header file for class dv_mixf
+ * @brief Header file for class dv_mixf
  */
 
 #pragma once

@@ -1,6 +1,6 @@
 /**
  * @file domaincase_odt_RT.cc
- * Header file for class domaincase_odt_RT
+ * @brief Source file for class domaincase_odt_RT
  */
 
 #include "domaincase_odt_RT.h"

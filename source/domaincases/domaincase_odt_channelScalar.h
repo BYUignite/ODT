@@ -1,6 +1,6 @@
 /**
  * @file domaincase_odt_channelScalar.h
- * Header file for class domaincase_odt_channelScalar
+ * @brief Header file for class domaincase_odt_channelScalar
  */
 
 #pragma once

@@ -1,6 +1,6 @@
 /**
  * @file rad_fvdom.cc
- * Source file for class rad_fvdom
+ * @brief Source file for class rad_fvdom
  */
 
 #include "rad_fvdom.h"

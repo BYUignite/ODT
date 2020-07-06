@@ -1,6 +1,6 @@
 /**
  * @file dv_aDL.h
- * Header file for class dv_aDL
+ * @brief Header file for class dv_aDL
  */
 
 #pragma once

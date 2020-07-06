@@ -1,6 +1,6 @@
 /**
  * @file domaincase_odt_coldJet.cc
- * Header file for class domaincase_odt_coldJet
+ * @brief Source file for class domaincase_odt_coldJet
  */
 
 

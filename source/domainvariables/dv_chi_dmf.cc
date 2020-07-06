@@ -1,6 +1,6 @@
 /**
  * @file dv_chi_dmf.cc
- * Source file for class dv_chi_dmf
+ * @brief Source file for class dv_chi_dmf
  */
 
 

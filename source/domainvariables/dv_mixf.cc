@@ -1,8 +1,7 @@
 /**
  * @file dv_mixf.cc
- * Header file for class dv_mixf
+ * @brief Source file for class dv_mixf
  */
-
 
 #include "dv_mixf.h"
 #include "domain.h"

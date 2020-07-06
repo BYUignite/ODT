@@ -1,6 +1,6 @@
 /**
  * @file eddy.h
- * Header file for class eddy
+ * @brief Header file for class eddy
  */
 
 #pragma once

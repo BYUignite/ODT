@@ -1,6 +1,6 @@
 /**
  * @file dv_posf.h
- * Header file for class dv_posf
+ * @brief Header file for class dv_posf
  */
 
 #pragma once

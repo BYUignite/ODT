@@ -1,8 +1,7 @@
 /**
  * @file domaincase_odt_channel.cc
- * Header file for class domaincase_odt_channel
+ * @brief Source file for class domaincase_odt_channel
  */
-
 
 #include "domaincase_odt_channel.h"
 #include "domain.h"

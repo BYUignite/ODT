@@ -1,6 +1,6 @@
 /**
  * @file dv_uvw.cc
- * Header file for class dv_uvw
+ * @brief Source file for class dv_uvw
  */
 
 

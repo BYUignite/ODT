@@ -1,6 +1,6 @@
 /**
  * @file dv_enth.cc
- * Header file for class dv_enth
+ * @brief Source file for class dv_enth
  */
 
 

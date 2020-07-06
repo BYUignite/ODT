@@ -1,6 +1,6 @@
 /**
  * @file randomGenerator.h
- * Header file for classes randomGenerator
+ * @brief Header file for class randomGenerator
  */
 
 ///////////////////////////////////////////////////////////////////////////////////////

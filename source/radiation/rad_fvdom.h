@@ -1,6 +1,6 @@
 /**
  * @file rad_fvdom.h
- * Header file for class radiation
+ * @brief Header file for class radiation
  */
 
 #pragma once

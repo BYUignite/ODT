@@ -1,6 +1,6 @@
 /**
  * @file dv_rho_const.cc
- * Header file for class dv_rho_const
+ * @brief Source file for class dv_rho_const
  */
 
 

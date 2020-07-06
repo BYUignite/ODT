@@ -1,6 +1,6 @@
 /**
  * @file meshManager.h
- * Header file for class meshManager
+ * @brief Header file for class meshManager
  */
 
 #pragma once

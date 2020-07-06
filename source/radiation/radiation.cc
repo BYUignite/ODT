@@ -1,6 +1,6 @@
 /**
- *  @file radiation.cc
- *  Source file for class radiation
+ * @file radiation.cc
+ * @brief Source file for class radiation
  */
 
 #include "radiation.h"

@@ -1,6 +1,6 @@
 /**
  * @file dv_sca.h
- * Header file for class dv_sca
+ * @brief Header file for class dv_sca
  */
 
 #pragma once

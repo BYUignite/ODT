@@ -1,6 +1,6 @@
 /**
  * @file domaincase_odt_RT.h
- * Header file for class domaincase_odt_RT
+ * @brief Header file for class domaincase_odt_RT
  */
 
 #pragma once

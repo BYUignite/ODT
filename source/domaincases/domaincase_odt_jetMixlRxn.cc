@@ -1,8 +1,7 @@
 /**
  * @file domaincase_odt_jetMixlRxn.cc
- * Header file for class domaincase_odt_jetMixlRxn
+ * @brief Source file for class domaincase_odt_jetMixlRxn
  */
-
 
 #include "domaincase_odt_jetMixlRxn.h"
 #include "domain.h"

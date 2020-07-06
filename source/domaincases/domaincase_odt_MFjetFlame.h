@@ -1,6 +1,6 @@
 /**
  * @file domaincase_odt_MFjetFlame.h
- * Header file for class domaincase_odt_MFjetFlame
+ * @brief Header file for class domaincase_odt_MFjetFlame
  */
 
 #pragma once

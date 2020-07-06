@@ -1,6 +1,6 @@
 /**
  * @file streams.cc
- * Header file for class streams
+ * @brief Source file for class streams
  */
 
 #include "streams.h"

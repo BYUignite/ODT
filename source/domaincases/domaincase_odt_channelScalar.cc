@@ -1,6 +1,6 @@
 /**
  * @file domaincase_odt_channelScalar.cc
- * Header file for class domaincase_odt_channelScalar
+ * @brief Source file for class domaincase_odt_channelScalar
  */
 
 

@@ -1,3 +1,7 @@
+/**
+ * @file main.cc
+ * 
+ */
 
 #include "domain.h"
 #include "streams.h"

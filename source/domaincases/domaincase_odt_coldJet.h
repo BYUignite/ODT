@@ -1,6 +1,6 @@
 /**
  * @file domaincase_odt_coldJet.h
- * Header file for class domaincase_odt_coldJet
+ * @brief Header file for class domaincase_odt_coldJet
  */
 
 #pragma once

@@ -1,6 +1,6 @@
 /**
  * @file processor.h
- * Header file for class processor: holds basic processor info
+ * @brief Header file for class processor
  */
 
 #pragma once

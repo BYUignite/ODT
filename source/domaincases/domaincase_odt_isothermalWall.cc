@@ -1,6 +1,6 @@
 /**
  * @file domaincase_odt_isothermalWall.cc
- * Header file for class domaincase_odt_isothermalWall
+ * @brief Source file for class domaincase_odt_isothermalWall
  */
 
 #include "domaincase_odt_isothermalWall.h"

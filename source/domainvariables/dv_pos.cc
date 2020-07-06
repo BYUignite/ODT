@@ -1,8 +1,7 @@
 /**
  * @file dv_pos.cc
- * Header file for class dv_pos
+ * @brief Source file for class dv_pos
  */
-
 
 #include "dv_pos.h"
 #include "domain.h"

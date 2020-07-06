@@ -1,6 +1,6 @@
 /**
  * @file meshManager.cc
- * Header file for class meshManager
+ * @brief Source file for class meshManager
  */
 
 #include "meshManager.h"

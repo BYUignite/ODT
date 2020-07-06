@@ -1,8 +1,7 @@
 /**
  * @file domaincase_odt_coldPropaneJet.cc
- * Header file for class domaincase_odt_coldPropaneJet
+ * @brief Source file for class domaincase_odt_coldPropaneJet
  */
-
 
 #include "domaincase_odt_coldPropaneJet.h"
 #include "domain.h"

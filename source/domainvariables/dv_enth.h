@@ -1,6 +1,6 @@
 /**
  * @file dv_enth.h
- * Header file for class dv_enth
+ * @brief Header file for class dv_enth
  */
 
 #pragma once

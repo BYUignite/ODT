@@ -1,6 +1,6 @@
 /**
  * @file micromixer.h
- * Header file for class micromixer
+ * @brief Header file for class micromixer
  */
 
 #pragma once
@@ -15,7 +15,7 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Class implementing micromixer object
+/** @brief Class implementing `micromixer` object
  *
  *  @author David O. Lignell
  */

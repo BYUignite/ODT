@@ -1,3 +1,7 @@
+/**
+ * @file domain.cc
+ * @brief Source file for class domain
+ */
 
 #include "domain.h"
 #include "processor.h"
