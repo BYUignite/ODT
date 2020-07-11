@@ -73,6 +73,7 @@ target_sources(odt.x
         ${CMAKE_CURRENT_SOURCE_DIR}/eddy.cc             ${CMAKE_CURRENT_SOURCE_DIR}/eddy.h
         ${CMAKE_CURRENT_SOURCE_DIR}/solver.cc           ${CMAKE_CURRENT_SOURCE_DIR}/solver.h
         ${CMAKE_CURRENT_SOURCE_DIR}/cvodeDriver.cc      ${CMAKE_CURRENT_SOURCE_DIR}/cvodeDriver.h
+                                                        ${CMAKE_CURRENT_SOURCE_DIR}/interp_linear.h
 )
 
 #################### Subdirectories
@@ -80,7 +81,6 @@ target_sources(odt.x
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/cvode)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/domainvariables)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/radiation)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/nr)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/domaincases)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/user_chemical_mechanisms)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/yaml)

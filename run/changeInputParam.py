@@ -9,21 +9,28 @@ import sys
 
 #-----------------------------
 
-with open('../data/'+sys.argv[1]+'/input/odt_input.yaml', 'r') as ifile:
-    lines = ifile.readlines()
+if __name__ == __main__:
+    changeInputParam(sys.argv)
 
-for i,line in enumerate(lines):
-    for iarg in range(0,len(sys.argv),2):
-        if sys.argv[iarg] in line :
-            print " In changeParam ",len(sys.argv), iarg , sys.argv[iarg] 
-            words = line.split(None,2)
-            print " Looking for ",sys.argv[iarg] #,sys.argv[iarg+1] 
-            print " Found ",words
-            words[1] = sys.argv[iarg+1]
-            line = "         ".join(words) 
-            line = "    " + line  
-            lines[i] = line
+#-----------------------------
 
-with open('../data/'+sys.argv[1]+'/input/odt_input.yaml', 'w') as ofile:
-    ofile.writelines(lines)
+def changeInputParam(args):
+
+    with open('../data/'+argv[1]+'/input/odt_input.yaml', 'r') as ifile:
+        lines = ifile.readlines()
+    
+    for i,line in enumerate(lines):
+        for iarg in range(0,len(argv),2):
+            if argv[iarg] in line :
+                print " In changeParam ",len(argv), iarg , argv[iarg] 
+                words = line.split(None,2)
+                print " Looking for ",argv[iarg] #,argv[iarg+1] 
+                print " Found ",words
+                words[1] = argv[iarg+1]
+                line = "         ".join(words) 
+                line = "    " + line  
+                lines[i] = line
+    
+    with open('../data/'+argv[1]+'/input/odt_input.yaml', 'w') as ofile:
+        ofile.writelines(lines)
 
