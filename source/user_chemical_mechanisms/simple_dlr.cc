@@ -1,5 +1,6 @@
-/**
+/*
  * @file simple_dlr.cc
+ * @brief Source file for two-step methane/hydrogen/air chemical mechanism
  */
 
 using namespace std;
