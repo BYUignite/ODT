@@ -1,6 +1,6 @@
 /**
  * @file main.cc
- * 
+ * @brief main driver for ODT 
  */
 
 #include "domain.h"
