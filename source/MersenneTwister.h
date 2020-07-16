@@ -14,15 +14,12 @@
  * division, and it benefits from caches and pipelines.  For more information
  * see the inventors' web page at http://www.math.keio.ac.jp/~matumoto/emt.html
  *
- * @copyright Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura, Copyright (C) 2000 - 2003, Richard J. Wagner. All rights reserved.
- *
- * 
- * Reference
- * M. Matsumoto and T. Nishimura, "Mersenne Twister: A 623-Dimensionally
+ * Reference: M. Matsumoto and T. Nishimura, "Mersenne Twister: A 623-Dimensionally
  * Equidistributed Uniform Pseudo-Random Number Generator", ACM Transactions on
  * Modeling and Computer Simulation, Vol. 8, No. 1, January 1998, pp 3-30.
- * 
- * 
+ *
+ * @copyright Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura, Copyright (C) 2000 - 2003, Richard J. Wagner. All rights reserved.
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
