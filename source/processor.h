@@ -1,6 +1,6 @@
 /**
  * @file processor.h
- * @brief Header file for class processor
+ * @brief Header file for class \ref processor
  */
 
 #pragma once

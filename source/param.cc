@@ -1,6 +1,6 @@
 /**
  * @file param.cc
- * @brief Source file for class param
+ * @brief Source file for class \ref param
  */
 
 #include "param.h"

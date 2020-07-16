@@ -1,6 +1,6 @@
 /**
  * @file solver.h
- * @brief Header file for class solver
+ * @brief Header file for class \ref solver
  */
 
 #pragma once

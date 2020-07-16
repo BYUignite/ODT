@@ -1,6 +1,6 @@
 /**
  * @file domaincase.h
- * @brief Header file for class domaincase
+ * @brief Header file for class \ref domaincase
  */
 
 #pragma once

@@ -1,6 +1,6 @@
 /**
  * @file param.h
- * @brief Header file for class param
+ * @brief Header file for class \ref param
  */
 
 #pragma once

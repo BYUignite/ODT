@@ -1,6 +1,6 @@
 /**
  * @file inputoutput.h
- * @brief Header file for class inputoutput
+ * @brief Header file for class \ref inputoutput
  */
 
 #pragma once

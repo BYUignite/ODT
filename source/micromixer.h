@@ -1,6 +1,6 @@
 /**
  * @file micromixer.h
- * @brief Header file for class micromixer
+ * @brief Header file for class \ref micromixer
  */
 
 #pragma once

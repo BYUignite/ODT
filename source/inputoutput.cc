@@ -1,6 +1,6 @@
 /*
  * @file inputoutput.cc
- * @brief Source file for class inputoutput
+ * @brief Source file for class \ref inputoutput
  */
 
 #include "inputoutput.h"

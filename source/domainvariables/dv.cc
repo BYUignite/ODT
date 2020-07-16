@@ -1,8 +1,7 @@
 /**
  * @file dv.cc
- * @brief Source file for class dv
+ * @brief Source file for class \ref dv
  */
-
 
 #include "dv.h"
 #include "domain.h"

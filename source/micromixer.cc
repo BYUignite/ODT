@@ -1,6 +1,6 @@
 /**
  * @file micromixer.cc
- * @brief Source file for class micromixer
+ * @brief Source file for class \ref micromixer
  */
 
 #include "micromixer.h"

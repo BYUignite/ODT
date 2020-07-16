@@ -1,6 +1,6 @@
 /**
  * @file eddy.cc
- * @brief Source file for class eddy
+ * @brief Source file for class \ref eddy
  */
 
 #include "eddy.h"
