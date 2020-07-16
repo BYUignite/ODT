@@ -1,6 +1,6 @@
 /**
  * @file domain.cc
- * @brief Source file for class domain
+ * @brief Source file for class \ref domain
  */
 
 #include "domain.h"
