@@ -15,7 +15,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 /** Contructor for radiation class object
  *
- *  @author Victoria B. Lansinger
+ *  @author Victoria B. Stephens 
  *
  *  @param p_domn \input pointer to domain object
  *

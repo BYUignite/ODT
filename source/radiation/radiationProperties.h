@@ -1,7 +1,7 @@
 /** 
  *  @file radiationProperties.h
  *  @brief Header file for class radiationProperties
- *  @author Victoria B. Lansinger
+ *  @author Victoria B. Stephens 
  */
 
 #pragma once
@@ -26,7 +26,7 @@ using namespace std;
  *              method; see Solovjov et al. (2008) J. Quant. Spectirosc.
  *              Radiat. Transfer 197:26-44
  *
- *  @author Victoria B. Lansinger
+ *  @author Victoria B. Stephens 
  *  @author David O. Lignell
  *
  */

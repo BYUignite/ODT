@@ -31,7 +31,7 @@ using namespace std;
  *      rad_fvdom.h     FVDOM: finite volume discrete ordinates method
  *      rad_raytrace.h  RAYTRACE: ray tracing solution
  *
- *  @author Victoria B. Lansinger
+ *  @author Victoria B. Stephens 
  *  @author David O. Lignell
  *
  */

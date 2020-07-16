@@ -1,7 +1,7 @@
 /** 
  *  @file radiationProperties.cc
  *  @brief Source file for class radiationProperties
- *  @author Victoria B. Lansinger
+ *  @author Victoria B. Stephens 
  */
 
 #include "radiationProperties.h"
@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 /** Constructor for radiationProperties class object
  *
- *  @author Victoria B. Lansinger
+ *  @author Victoria B. Stephens 
  *
  *  @param  p_domn  \input pointer to domain object
  */
