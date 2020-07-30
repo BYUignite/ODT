@@ -75,7 +75,12 @@ void dv_pos::merge2cells(const int    imrg,
                          const double m2,
                          const bool   LconstVolume) {
 
-    setVar();
+    if(LconstVolume || domn->pram->bcType=="WALL") {   
+        d.erase(d.begin() + imrg+1);
+        d.at(imrg) = 0.5*(domn->posf->d.at(imrg) + domn->posf->d.at(imrg+1));
+    }
+    else
+        setVar();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
