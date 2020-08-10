@@ -147,14 +147,13 @@ void inputoutput::outputProperties(const string fname, const double time) {
         }
     }
 
-    int iploc;
     ofile << scientific;
     ofile << setprecision(10);
     for(int i=0; i<domn->ngrd; i++) {
         ofile << endl;
         for(int k=0; k<domn->v.size(); k++)
             if(domn->v.at(k)->L_output)
-                ofile << setw(19) << domn->v.at(k)->d.at(iploc);
+                ofile << setw(19) << domn->v.at(k)->d.at(i);
     }
 
     ofile.close();
