@@ -70,7 +70,7 @@ void eddy::init(domain *p_domn, domain *p_eddl) {
  */
 void eddy::sampleEddySize() {
 
-    eddySize = domn->pram->Lmin * pow(( 1.0 - ( 1.0 - pow((domn->pram->Lmin/domn->pram->Lmax), 5./3.)) * domn->rand->getRand() ), -0.6);
+    eddySize = esdp1 / log( domn->rand->getRand() * esdp2 + esdp3 );
 
 }
 
