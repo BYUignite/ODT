@@ -103,7 +103,7 @@ def get_fstoic(DI) :
         lines = ifile.readlines()
         for line in lines :
             if "mixfStoic" in line :
-                return float(line.split()[4])
+                return float(line.split()[5])
 
 ##########################################################################
 

@@ -53,15 +53,32 @@ def plot_cl(DI, varName, expFname, ylim, expCols) :
 
     fig, ax = plt.subplots()
 
-    ax.plot(odt[:,0],odt[:,1],'k-',label='ODT cL')
-    ax.plot(odt[:,0],odt[:,2],'b-',label='ODT cL rms')
-    ax.plot(exp_cl[:,0],exp_cl[:,expCols[0]],'ko:',label='EXP cL')
-    ax.plot(exp_cl[:,0],exp_cl[:,expCols[1]],'bo:',label='EXP cL rms')
-    ax.set_ylabel(varName+' cL, rms', fontsize=22)
+    ax.plot(odt[:,0],odt[:,1],'k-',label='ODT')
+    ax.plot(odt[:,0],odt[:,2],'k-')
+    ax.plot(exp_cl[:,0],exp_cl[:,expCols[0]],'ko:',label='EXP')
+    ax.plot(exp_cl[:,0],exp_cl[:,expCols[1]],'ko:')
+#    ax.plot(odt[:,0],odt[:,1],'k-',label='ODT cL')
+#    ax.plot(odt[:,0],odt[:,2],'b-',label='ODT cL rms')
+#    ax.plot(exp_cl[:,0],exp_cl[:,expCols[0]],'ko:',label='EXP cL')
+#    ax.plot(exp_cl[:,0],exp_cl[:,expCols[1]],'bo:',label='EXP cL rms')
+#    ax.set_ylabel(varName+' cL, rms', fontsize=22)
     ax.set_xlabel("y/D", fontsize=22)
     ax.legend(loc='upper right', frameon=False, fontsize=16)
     ax.set_ylim(ylim)
 
+    if varName == "uvel" : 
+        ax.set_ylabel("v (m/s)", fontsize=22)
+        ax.text(25, 35,  'CL',  fontsize=22, rotation=0)
+        ax.text(25, 8,   'RMS', fontsize=22, rotation=0)
+    if varName == "temp" : 
+        ax.set_ylabel("T (K)", fontsize=22)
+        ax.text(25, 1600,  'CL',  fontsize=22, rotation=0)
+        ax.text(25, 300,   'RMS', fontsize=22, rotation=0)
+    if varName == "mixf" : 
+        ax.set_ylabel("$\\xi$", fontsize=22)
+        ax.text(25, 0.65,  'CL',  fontsize=22, rotation=0)
+        ax.text(25, 0.15,   'RMS', fontsize=22, rotation=0)
+    
     plt.savefig(DI['pdir']+"cl_"+varName+"_"+DI['cn'].replace(".","o"))
 
 
