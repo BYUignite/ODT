@@ -1,5 +1,5 @@
 ################### Main ODT parameters
-# CHANNEL FLOW: Re_tau = 590. u_tau=1, delta_nu = kvisc0. So, plot <u> vs x/kvisc0 IS u+ vs y+.
+# Couette FLOW
 
 params:
 

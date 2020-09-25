@@ -3,7 +3,7 @@
 params:
 
     seed:          10             #  random number generator seed (negative to randomize it)
-    tEnd:          0.0011         #  ending time of realization (= 70*D for tEnd=0.3682)
+    tEnd:          0.011         #  ending time of realization (= 70*D for tEnd=0.3682)
     domainLength:  4.0            #  length of domain  (=20*D)
     ngrd0:         2000           #  initial grid points
     rho0:          1.0            #  initial uniform density
@@ -44,7 +44,7 @@ params:
     Lp:            0.015          #  Most probable eddy size frac of domainLength
     Lmax:          1.0            #  Max eddy size frac of domainLength
     #----------------------------------------------------------------------------------
-    modDump:       1              #  accepted eddies before output file
+    modDump:       100000000      #  accepted eddies before output file
 
 ################### Stream properties
 
@@ -88,4 +88,12 @@ dumpTimes:
     - 0.000800
     - 0.000900
     - 0.001000
-    - 0.001100
+    - 0.002000
+    - 0.003000
+    - 0.004000
+    - 0.005000
+    - 0.006000
+    - 0.007000
+    - 0.008000
+    - 0.009000
+    - 0.010000
