@@ -32,7 +32,7 @@ def extrap(x, xp, yp):
 #-----------------------------------
 
 with open("../../data/"+caseN+"/input/odt_input.yaml") as ifile :
-    y = yaml.load(ifile)
+    y = yaml.load(ifile, Loader=yaml.FullLoader)
 kvisc = y["params"]["kvisc0"]
 delta = y["params"]["domainLength"] * 0.5
 Retau = 1.0/kvisc

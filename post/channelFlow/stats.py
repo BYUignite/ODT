@@ -26,7 +26,7 @@ if not os.path.exists("../../data/"+caseN+"/post") :
 #-----------------------------------
 
 with open("../../data/"+caseN+"/input/input.yaml") as ifile :
-    yml = yaml.load(ifile)
+    yml = yaml.load(ifile, Loader=yaml.FullLoader)
 kvisc = yml["params"]["kvisc0"]
 dxmin = yml["params"]["dxmin"]
 delta = yml["params"]["domainLength"] * 0.5
