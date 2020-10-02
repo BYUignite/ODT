@@ -466,8 +466,6 @@ Documents containing information on the theory behind the ODT code.
   application</a> (pdf)
 - <a href="http://ignite.byu.edu/public/ODTmethod.pdf" target="_blank">Mesh adaption for
   efficient multiscale implemenation of One-Dimensional Turbulence</a> (pdf)
-- <a href="http://ignite.byu.edu/public/eddyEvents.pdf" target="_blank">ODT Eddy Events</a>
-  (pdf)
 
 */
 
@@ -475,21 +473,21 @@ Documents containing information on the theory behind the ODT code.
 /** @page contact Contact Us
 
 The ODT code is developed and maintained by members of the Computational Turbulent Reacting
-Flow research group (CTRF), led by Dr. David O. Lignell, Professor of [Chemical
+Flow research group (CTRFlow), led by Dr. David O. Lignell, Professor of [Chemical
 Engineering](https://chemicalengineering.byu.edu) at [Brigham Young
-University](https://byu.edu), located in Provo, Utah, USA. For more information on the CTRF
+University](https://byu.edu), located in Provo, Utah, USA. For more information on the CTRFlow
 group and its projects, visit our website at [ignite.byu.edu](ignite.byu.edu). 
 
 - If you believe you have found an error in the code or its documentation, please notify us by
 submitting an issue to the [Github repository](https://github.com/BYUignite/ODT). 
 - For questions related to building, running, or otherwise using the ODT code that cannot be
 addressed by your project leader, please email [Dr. Lignell](mailto:davidlignell@byu.edu)
-and include "ODT Code" in the subject line. Note that you may be referred to another CTRF
+and include "ODT Code" in the subject line. Note that you may be referred to another CTRFlow
 member depending on the nature of your questions. 
 - For more information on how ODT is used in turbulent flow research and its current
 development, please refer to the literature, a sampling of which is available on the 
 [ODT Theory and Literature](@ref odt_theory) page, or visit the 
-[CTRF group website](https://ignite.byu.edu). 
+[CTRFlow group website](https://ignite.byu.edu). 
 - For questions related to collaboration or new research projects using ODT, please email 
 [Dr. Lignell](mailto:davidlignell@byu.edu) and include "ODT Collaboration" or "ODT Project" in
 the subject line, as appropriate.  
