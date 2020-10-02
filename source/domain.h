@@ -15,7 +15,7 @@
 #include "meshManager.h"
 #include "solver.h"
 #include "randomGenerator.h"
-#include "cantera/IdealGasMix.h"
+#include "cantera/thermo/IdealGasPhase.h"
 #include "cantera/transport.h"
 #include <vector>
 #include <string>
@@ -66,7 +66,7 @@ class domain {
 
         map<string,dv*>         varMap;
 
-        IdealGasMix             *gas;        ///< pointer to cantera thermochemistry object (reaction rates, Cp, etc.)
+        IdealGasPhase           *gas;        ///< pointer to cantera thermochemistry object (reaction rates, Cp, etc.)
         Transport               *tran;       ///< pointer to cantera transport object (viscosity, diffusivity, etc.)
         streams                 *strm;       ///< pointer to gas stream properties
         inputoutput             *io;         ///< pointer to input/output object
@@ -101,17 +101,17 @@ class domain {
 
     public:
 
-        void init(inputoutput *p_io,
-                  meshManager *p_mesher,
-                  streams     *p_strm,
-                  IdealGasMix *p_gas,
-                  Transport   *p_tran,
-                  micromixer  *p_mimx,
-                  eddy        *p_ed,
-                  domain      *p_eddl,
-                  solver      *p_solv,
+        void init(inputoutput     *p_io,
+                  meshManager     *p_mesher,
+                  streams         *p_strm,
+                  IdealGasPhase   *p_gas,
+                  Transport       *p_tran,
+                  micromixer      *p_mimx,
+                  eddy            *p_ed,
+                  domain          *p_eddl,
+                  solver          *p_solv,
                   randomGenerator *p_rand,
-                  bool        LisEddyDomain=false);
+                  bool             LisEddyDomain=false);
         domain(domain *p_domn, param *p_pram);
         virtual ~domain() {
             for(int k=0; k<v.size(); k++)

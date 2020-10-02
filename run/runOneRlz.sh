@@ -36,8 +36,7 @@ runCase () {
 
 rebuild () {
   echo '*** REBUILDING ***'
-  #cd ../build_make
-  cd ../cmake_build
+  cd ../build
   make -j8
   if [ $? -ne 0 ] ; then
     echo ; echo 'FATAL: error in the build' ; echo

@@ -12,7 +12,7 @@
 #include "eddy.h"
 #include "solver.h"
 #include "randomGenerator.h"
-#include "cantera/IdealGasMix.h"
+#include "cantera/thermo/IdealGasPhase.h"
 #include "cantera/transport.h"
 
 #include <iostream>
@@ -47,7 +47,7 @@ int main(int argc, char*argv[]) {
     inputoutput io(caseName, nShiftFileNumbers);
     param       pram(&io);
     streams     strm;
-    IdealGasMix gas("../input/gas_mechanisms/"+pram.chemMechFile);
+    IdealGasPhase gas("../input/gas_mechanisms/"+pram.chemMechFile);
     Transport   *tran = newTransportMgr("Mix", &gas);
     eddy        ed;
     meshManager mesher;

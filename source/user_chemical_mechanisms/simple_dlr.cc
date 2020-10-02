@@ -3,11 +3,12 @@
  * @brief Source file for two-step methane/hydrogen/air chemical mechanism
  */
 
-using namespace std;
 #include <vector>
 #include <cmath>
 #include <iostream>
 #include<stdlib.h>
+
+using namespace std;
 
 void getProblemSpecificRR(double rho, double temp, double pres, double *yi, double *rrsp) {
 /** inputs:

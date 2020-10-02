@@ -43,17 +43,17 @@ domain::domain(domain *p_domn, param *p_pram) {
 /** Initializer
  */
 
-void domain::init(inputoutput *p_io,
-                  meshManager *p_mesher,
-                  streams     *p_strm,
-                  IdealGasMix *p_gas,
-                  Transport   *p_tran,
-                  micromixer  *p_mimx,
-                  eddy        *p_ed,
-                  domain      *p_eddl,
-                  solver      *p_solv,
+void domain::init(inputoutput     *p_io,
+                  meshManager     *p_mesher,
+                  streams         *p_strm,
+                  IdealGasPhase   *p_gas,
+                  Transport       *p_tran,
+                  micromixer      *p_mimx,
+                  eddy            *p_ed,
+                  domain          *p_eddl,
+                  solver          *p_solv,
                   randomGenerator *p_rand,
-                  bool        LisEddyDomain) {
+                  bool             LisEddyDomain) {
 
     //----------------------
 
