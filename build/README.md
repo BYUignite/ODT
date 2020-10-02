@@ -28,9 +28,6 @@ STEP 3: build the ODT code
 (OPTIONAL) STEP 4:  build documentation
     RUN: `make doxygen`
     
-    To generate PDF documentation, run the previous command, navigate to `../doc/doxygen/latex`, and run the following:
-    RUN: `make pdf`
-
 ------------------------------------------------------------------
 
 ### Cleanup instructions 
