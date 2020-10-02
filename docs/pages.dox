@@ -15,7 +15,7 @@ Welcome to the ODT documentation, generated via Doxygen and hosted by Github Pag
 obtain the code itself, please visit the [Github repository](github.com/BYUignite/ODT). 
 
 Things you can find here:
-- [Video summarizing the download, build, run, and processing of the code](https://vimeo.com/461944908)
+- [Video summarizing the download, build, run, and processing of the code](https://vimeo.com/464356759)
 - [A guide to obtaining, building, and running the ODT code](@ref building_and_running)
 - Doxygen-generated [class](../doxygen/html/classes.html) and
   [file](../doxygen/html/files.html) lists
