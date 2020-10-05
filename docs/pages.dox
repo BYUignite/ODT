@@ -280,8 +280,6 @@ provided with the ODT package, please refer to the [Post-Processing](@ref post-p
 <!-- #################################################################### -->
 /** @page custom_case_setup Custom Case Setup
 
-THIS PAGE IS UNDER CONSTRUCTION
-
 - Specific ODT cases (e.g., channelFlow) have their own input directories containing input
   files as specified above.
     - Each case will correspond to one of the types indicated by the `probType` variable
@@ -300,8 +298,6 @@ THIS PAGE IS UNDER CONSTRUCTION
 <!-- #################################################################### -->
 /** @page post-processing Post-processing
 
-THIS PAGE IS UNDER CONSTRUCTION
-
 - Post-processing is performed in the post directory. The user creates a directory
   containing post-processing code files here.
 - The intention is for post-processed data files to be placed in the
@@ -313,8 +309,6 @@ THIS PAGE IS UNDER CONSTRUCTION
 
 <!-- #################################################################### -->
 /** @page code_structure General Code Structure
-
-THIS PAGE IS UNDER CONSTRUCTION
 
 Once downloaded, open the `ODT` folder. You will see the following set of directories:
 - `build/`  — [Build files](@ref building_and_running)
@@ -403,8 +397,6 @@ The ODT code is structured with a collection of C++ classes.
 <!-- #################################################################### -->
 /** @page style_guide Style guide
 
-THIS PAGE IS UNDER CONSTRUCTION
-
 When editing code, the following guide should be followed.
 - Use the existing code as your guide. Always ask yourself, "is this pretty, can I make it
   better, is there another way to organize this?""
@@ -458,8 +450,6 @@ When editing code, the following guide should be followed.
 
 <!-- #################################################################### -->
 /** @page odt_theory ODT Theory and Literature
-
-THIS PAGE IS UNDER CONSTRUCTION
 
 Documents containing information on the theory behind the ODT code.
 - <a href="http://ignite.byu.edu/public/Lignell_2018.pdf" target="_blank">One-dimensional
