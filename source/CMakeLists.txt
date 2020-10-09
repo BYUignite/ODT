@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.10)
 
 project(test LANGUAGES CXX C)
 
@@ -49,6 +49,12 @@ target_link_libraries(odt.x ${CMAKE_CURRENT_SOURCE_DIR}/yaml/lib/libyaml-cpp.a)
 
 find_package(Boost REQUIRED COMPONENTS system)
 target_include_directories(odt.x PRIVATE ${Boost_INCLUDE_DIRS})
+
+find_library(LAPACK lapack)
+target_link_libraries(odt.x ${LAPACK})
+
+find_library(BLAS blas)
+target_link_libraries(odt.x ${BLAS})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     target_link_libraries(odt.x "-framework Accelerate")
