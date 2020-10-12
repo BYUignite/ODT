@@ -38,14 +38,14 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 #################### Link: libraries and flags
 
+target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/yaml/include)
+find_library(YAML yaml-cpp HINTS ${CMAKE_CURRENT_SOURCE_DIR}/yaml/lib)
+target_link_libraries(odt.x ${YAML})
+#target_link_libraries(odt.x ${CMAKE_CURRENT_SOURCE_DIR}/yaml/lib/libyaml-cpp.a)
+
 target_include_directories(odt.x PRIVATE ${CANTERA_INCLUDE_DIR}) 
 find_library(CANTERA cantera HINTS ${CANTERA_LIB_DIR})
 target_link_libraries(odt.x ${CANTERA})
-
-target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/yaml/include)
-#find_library(YAML yaml-cpp HINTS ${CMAKE_CURRENT_SOURCE_DIR}/yaml/lib)
-#target_link_libraries(odt.x ${YAML})
-target_link_libraries(odt.x ${CMAKE_CURRENT_SOURCE_DIR}/yaml/lib/libyaml-cpp.a)
 
 find_package(Boost REQUIRED COMPONENTS system)
 target_include_directories(odt.x PRIVATE ${Boost_INCLUDE_DIRS})

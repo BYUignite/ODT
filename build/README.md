@@ -19,7 +19,7 @@ STEP 1: run cmake
     Edit the user_config file for settings and paths.
     RUN: `cmake -C user_config ../source`
 
-STEP 2: build and install yaml
+STEP 2 (optional if yaml is already installed): build and install yaml
     RUN: `make yaml`
 
 STEP 3: build the ODT code

@@ -4,7 +4,6 @@ if(GIT_FOUND)
         COMMAND echo "rm -rf include lib yaml-cpp"                       > delme.sh
         COMMAND echo "git clone https://github.com/jbeder/yaml-cpp.git" >> delme.sh
         COMMAND echo "cd yaml-cpp"                                      >> delme.sh
-        COMMAND echo "git checkout tags/yaml-cpp-0.6.3"                 >> delme.sh
         COMMAND echo "mkdir build"                                      >> delme.sh
         COMMAND echo "cd build"                                         >> delme.sh
         COMMAND echo "cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$PWD/../.."  >> delme.sh
