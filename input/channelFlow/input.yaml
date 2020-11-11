@@ -59,9 +59,14 @@ bcCond:
 
 ################### Dump times
 
-dumpTimes:
+dumpTimesGen:
+    dTimeStart: 50.0     # make < 0 to ignore dumpTimesGen and use dumpTimes (if present)
+    dTimeEnd:   150.0
+    dTimeStep:  0.2
 
-    - 50.0           # start output here to skip the initial transient
+dumpTimes:               # ignored if dumpTimesGen["dTimesStart"] >= 0.0
+
+    - 50.0               # start output here to skip the initial transient
     - 50.2
     - 50.4
     - 50.6

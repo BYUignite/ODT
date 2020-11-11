@@ -43,6 +43,7 @@ class inputoutput {
         YAML::Node               radParams;      ///< yaml sub node
         YAML::Node               dvParams;       ///< yaml sub node
         YAML::Node               dTimes;         ///< yaml sub node
+        YAML::Node               dumpTimesGen;   ///< yaml sub node
         YAML::Node               bcCond;         ///< yaml sub node
 
         vector<double>           dumpTimes;      ///< vector of dump times

@@ -48,10 +48,27 @@ inputoutput::inputoutput(const string p_caseName, const int p_nShift){
     radParams   = inputFile["radParams"];
     dvParams    = inputFile["dvParams"];
     dTimes      = inputFile["dumpTimes"];
+    dumpTimesGen= inputFile["dumpTimesGen"];
     bcCond      = inputFile["bcCond"];
 
-    for(int i=0; i<dTimes.size(); i++)
-        dumpTimes.push_back(dTimes[i].as<double>());
+    //--------- setup dumpTimes. Either set the dumpTimesGen parameters or the dumpTimes list directly
+    //--------- if dumpTimesGen:dTimeStart is negative, then use the dumpTimes list (if present), otherwise
+    //--------- generate the list of dumptimes from the start, stop, and step parameters
+    if(dumpTimesGen && dumpTimesGen["dTimeStart"].as<double>() >= 0.0){ // compute dumpTimes
+        double DTstart = dumpTimesGen["dTimeStart"].as<double>();
+        double DTend   = dumpTimesGen["dTimeEnd"].as<double>();
+        double DTstep  = dumpTimesGen["dTimeStep"].as<double>();
+        double tEnd    = params["tEnd"].as<double>();
+        for(double t=DTstart; t<=tEnd; t+=DTstep){   // note tEnd not DTend
+            if(t > DTend)
+                break;
+            dumpTimes.push_back(t);
+        }
+    }
+    else
+        for(int i=0; i<dTimes.size(); i++)
+            dumpTimes.push_back(dTimes[i].as<double>());
+
     dumpTimes.push_back(1.0E200);                       ///< add an extra "infinity" for easy handling of the last time
     iNextDumpTime = 0;
 
