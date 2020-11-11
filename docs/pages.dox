@@ -564,7 +564,7 @@ be located here. Notable members:
       especially during preliminary investigation.
     - A large value like 1,000,000 effectively turns off output of the ODT domain after
       eddies begin to occur.  This is useful if you prefer your output files limited to
-      only those times specified by the `dumpTimes` variable (which makes
+      only those times specified by either the `dumpTimesGen` or `dumpTimes` variables (which makes
       post-processing easier).
 
 <!--------------------------------------------------------------------------> 
@@ -594,8 +594,11 @@ code.
 @section dump_times Data Output Times: `dumpTimes`
 
 This is not a section, but an individual variable that does not fall under any other
-category. The `dumpTimes` parameter is an array of times (or spatial locations for spatial
+category. The `dumpTimes` key is an array of times (or spatial locations for spatial
 flows) at which to output the domain state as a data file. It is common to all case types. 
+An alternative is the `dumpTimesGen` key, in which sub-keys `dTimeStart`, `dTimeEnd`, and 
+`dTimeStep` are used to specify the list of `dump_times`. If both `dumpTimes` and `dumpTimesGen` are present,
+`dumpTimesGen` takes precedence, uless `dTimeStart` is negative.
 
 Related parameter: `modDump` (`params` section)
 
