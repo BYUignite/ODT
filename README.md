@@ -1,7 +1,7 @@
 # ODT ##################
 
 This code implements the One-Dimensional Turbulence (ODT) model for turbulent reacting or
-nonreacting flows. 
+nonreacting flows. See also the [Basic ODT](https://github.com/BYUignite/basicODT) implementation.
 
 ## Documentation ########
 Detailed documentation is available [here](https://ignite.byu.edu/ODT_documentation). 
