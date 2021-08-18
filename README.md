@@ -8,7 +8,7 @@ Detailed documentation is available [here](https://ignite.byu.edu/ODT_documentat
 More information on the theory and application of ODT is available
 [here](https://ignite.byu.edu/ODT_documentation/odt_theory.html).
 
-A short video overview summarizing downloading, building, running, and processing the code is shown [here](https://vimeo.com/464356759).
+A short video overview summarizing downloading, building, running, and processing the code is shown [here](https://youtu.be/unsMJiDpSVY).
 
 <!--
 The following two papers discussing theory and application of the code are available. Additional papers are available [here](http://ignite.byu.edu/publications.html).
