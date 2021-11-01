@@ -22,6 +22,8 @@ The following two papers discussing theory and application of the code are avail
 * [Cantera](http://cantera.org): open-source suite of tools for problems involving chemical kinetics, thermodynamics, and transport.
 * Yaml: input file format. This installation is conveniently built into the ODT build process. 
 * Cmake 3.12 or higher
+* Boost 1.55 or higher
+* LAPACK 3.1 or higher
 * (OPTIONAL) Doxygen: builds documentation. 
 
 ### Post-processing #############
@@ -47,4 +49,3 @@ Post-processing data produced by ODT and ODT is processed via Python 3 scripts. 
 * `run`: contains the code executable `odt.x` and several run scripts 
     * The user specifies inputDir as the path to the input file containing the case to run and specifies a case name for variable caseName. Files are created and copied into `data/caseName`, as noted above.
 * `source`: contains source code (including header files) and `CMakeLists.txt` files
-

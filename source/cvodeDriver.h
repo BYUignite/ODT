@@ -9,11 +9,16 @@
 
 class domain;
 
-#include "cvode/cvode.h"
-#include "cvode/nvector_serial.h"
-#include "cvode/cvode_dense.h"
-#include "cvode/sundials_dense.h"
-#include "cvode/sundials_types.h"
+//#include "cvode/cvode.h"
+//#include "cvode/nvector_serial.h"
+//#include "cvode/cvode_dense.h"
+//#include "cvode/sundials_dense.h"
+//#include "cvode/sundials_types.h"
+
+#include "../build/_deps/sundials-src/include/cvode/cvode.h"
+#include "../build/_deps/sundials-src/include/nvector/nvector_serial.h"
+#include "../build/_deps/sundials-src/include/sundials/sundials_dense.h"
+#include "../build/_deps/sundials-src/include/sundials/sundials_types.h"
 
 #include <map>
 #include <vector>
@@ -73,5 +78,3 @@ class cvodeDriver {
         ~cvodeDriver();                                           // destructor
 
 };
-
-
