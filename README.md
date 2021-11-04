@@ -23,7 +23,7 @@ The following two papers discussing theory and application of the code are avail
 * Yaml: input file format. This installation is conveniently built into the ODT build process. 
 * Cmake 3.12 or higher
 * Boost 1.55 or higher
-* LAPACK 3.1 or higher
+* fmt package
 * (OPTIONAL) Doxygen: builds documentation. 
 
 ### Post-processing #############

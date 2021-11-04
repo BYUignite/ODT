@@ -7,6 +7,7 @@ Required software:
     cmake (3.12 or higher)
     cantera (visit https://cantera.org/ for information and installation instructions)
     git (for installing yaml)
+    fmt (for cantera installation)
 
 Optional software:
     doxygen (for building documentation)
@@ -45,4 +46,3 @@ Thorough cleanup:
 - `CMakeLists.txt` files are located in `../source` directory and its subdirectories.
 - All files in this folder can be deleted except for user_config and this README.
 - Generating PDF documentation requires pdflatex to be installed on your system. 
-

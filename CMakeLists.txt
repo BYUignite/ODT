@@ -13,6 +13,7 @@ endif()
 ################### BUILD & RUN DIRECTORIES #########################
 
 set(CMAKE_BINARY_DIR "${CMAKE_SOURCE_DIR}/build")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/run")
 
 ###################### PROJECT OPTIONS & FLAGS #########################
@@ -31,10 +32,6 @@ set(CMAKE_CXX_STANDARD 11)
 SET(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
 set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} -ggdb3")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
-
-#################### ODT SOURCE #######################
-
-add_subdirectory(source ${CMAKE_CURRENT_BINARY_DIR}/source)
 
 #################### TESTS ###############################
 
@@ -66,16 +63,6 @@ if(NOT yaml-cpp_POPULATED)
     FetchContent_MakeAvailable(yaml-cpp)
 endif()
 
-##--------------------- LAPACK ------------------------
-#message(STATUS "Looking for lapack")
-#FetchContent_Declare(lapack
-#        GIT_REPOSITORY https://github.com/Reference-LAPACK/lapack.git
-#        GIT_TAG v3.9.1)
-#FetchContent_GetProperties(lapack)
-#if(NOT lapack_POPULATED)
-#    FetchContent_MakeAvailable(lapack)
-#endif()
-
 #--------------------- SUNDIALS ------------------------
 message(STATUS "Looking for sundials")
 FetchContent_Declare(sundials
@@ -106,15 +93,8 @@ if(NOT sundials_POPULATED)
 endif()
 
 #--------------------- CANTERA ------------------------
-message(STATUS "Looking for cantera")
-FetchContent_Declare(cantera
-        GIT_REPOSITORY https://github.com/Cantera/cantera.git
-        GIT_TAG v2.5.1)
-FetchContent_GetProperties(cantera)
-if(NOT cantera_POPULATED)
-    FetchContent_MakeAvailable(cantera)
-endif()
-add_definitions(-DDOCANTERA)
+message(STATUS "Looking for Cantera")
+find_package(Cantera REQUIRED)
 
 ############################### DOCUMENTATION ###########################
 
@@ -126,6 +106,10 @@ if (BUILD_DOCS)
         message(STATUS "Doxygen not found---documentation will not be built")
     endif()
 endif()
+
+#################### ODT SOURCE #######################
+
+add_subdirectory(source ${CMAKE_CURRENT_BINARY_DIR}/source)
 
 #################### PREPROCESSOR DIRECTIVES ####################
 # TODO do we need this with CMake? Is there a better way to do it?
