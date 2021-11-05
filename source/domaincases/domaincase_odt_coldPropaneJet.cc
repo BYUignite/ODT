@@ -46,8 +46,8 @@ void domaincase_odt_coldPropaneJet::init(domain *p_domn) {
     domn->v.push_back(new dv_mixf(  domn, "mixf",    false, true ));
     domn->v.push_back(new dv_chi(   domn, "chi",     false, true ));
     domn->v.push_back(new dv_aDL(   domn, "aDL",     false, false ));
-    for(int k=0; k<domn->gas->nSpecies(); k++)
-        domn->v.push_back(new dv_ygas_noRxn(domn, "y_"+domn->gas->speciesName(k), true, true ));
+    for(int k=0; k<domn->gas->thermo()->nSpecies(); k++)
+        domn->v.push_back(new dv_ygas_noRxn(domn, "y_"+domn->gas->thermo()->speciesName(k), true, true ));
 
     int ii = 0;
     domn->pos    = domn->v.at(ii++);
@@ -61,7 +61,7 @@ void domaincase_odt_coldPropaneJet::init(domain *p_domn) {
     domn->chi    = domn->v.at(ii++);
     domn->aDL    = domn->v.at(ii++);
     domn->ysp = domn->v.begin()+ii;       // access as domn->ysp[k]->d[i], etc. where k is the species starting from 0.
-    ii += domn->gas->nSpecies();
+    ii += domn->gas->thermo()->nSpecies();
 
     //------------------- set variables used for mesh adaption
 
@@ -90,7 +90,7 @@ void domaincase_odt_coldPropaneJet::init(domain *p_domn) {
     //--------------------
 
     for(int i=0; i<domn->ngrd; i++)
-        for(int k=0; k<domn->gas->nSpecies(); k++)
+        for(int k=0; k<domn->gas->thermo()->nSpecies(); k++)
             domn->ysp[k]->d.at(i) = domn->mixf->d.at(i) * domn->strm->y1[k] + (1.0-domn->mixf->d.at(i))*domn->strm->y0[k];
 
     enforceMassFractions();
@@ -116,11 +116,11 @@ void domaincase_odt_coldPropaneJet::init(domain *p_domn) {
 
 void domaincase_odt_coldPropaneJet::setGasStateAtPt(const int &ipt) {
 
-    int nsp = domn->gas->nSpecies();
+    int nsp = domn->gas->thermo()->nSpecies();
     vector<double> yi(nsp);
     for(int k=0; k<nsp; k++)
         yi.at(k) = domn->ysp[k]->d.at(ipt);
-    domn->gas->setState_TPY( domn->strm->T0, domn->pram->pres, &yi[0] );
+    domn->gas->thermo()->setState_TPY( domn->strm->T0, domn->pram->pres, &yi[0] );
 
 }
 
@@ -135,4 +135,3 @@ void domaincase_odt_coldPropaneJet::setCaseSpecificVars() {
     domn->rho->setVar();
     domn->dvisc->setVar();
 }
-

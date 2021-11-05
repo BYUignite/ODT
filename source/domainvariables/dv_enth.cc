@@ -30,7 +30,7 @@ dv_enth::dv_enth(domain    *line,
     L_transported = Lt;
     L_output      = Lo;
     d             = vector<double>(domn->ngrd, 0.0);
-    nspc          = domn->gas->nSpecies();
+    nspc          = domn->gas->thermo()->nSpecies();
 
     LdoSpeciesFlux = domn->io->dvParams["LdoSpeciesFlux"] ? domn->io->dvParams["LdoSpeciesFlux"].as<bool>() : true;
 
@@ -85,7 +85,7 @@ void dv_enth::getRhsSrc(const int ipt){
 
         for(int i=0; i<domn->ngrd; i++){
             domn->domc->setGasStateAtPt(i);
-            domn->gas->getMoleFractions(&xMoleSp.at(i).at(0));
+            domn->gas->thermo()->getMoleFractions(&xMoleSp.at(i).at(0));
         }
 
         rad->getRadHeatSource(xMoleSp, domn->temp->d, domn->pram->pres, rhsSrc);
@@ -149,11 +149,11 @@ void dv_enth::setFlux(const vector<double> &gf,
 
     for(int i=0; i<domn->ngrd; i++) {
         domn->domc->setGasStateAtPt(i);
-        tcond.at(i) = domn->tran->thermalConductivity();    // W/m*K
+        tcond.at(i) = domn->gas->transport()->thermalConductivity();    // W/m*K
         if(LdoSpeciesFlux) {
-            domn->gas->getEnthalpy_RT(&hh.at(0));               // non-dimensional enthalpy
+            domn->gas->thermo()->getEnthalpy_RT(&hh.at(0));               // non-dimensional enthalpy
             for (int k=0; k<nspc; k++)
-                hsp.at(k).at(i) = hh.at(k) * domn->temp->d.at(i) * GasConstant / domn->gas->molecularWeight(k);        // J/kg
+                hsp.at(k).at(i) = hh.at(k) * domn->temp->d.at(i) * GasConstant / domn->gas->thermo()->molecularWeight(k);        // J/kg
         }
     }
 
@@ -227,4 +227,3 @@ void dv_enth::setFlux(const vector<double> &gf,
     }
 
 }
-

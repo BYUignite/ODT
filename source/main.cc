@@ -1,6 +1,6 @@
 /**
  * @file main.cc
- * @brief main driver for ODT 
+ * @brief main driver for ODT
  */
 
 #include "domain.h"
@@ -47,8 +47,9 @@ int main(int argc, char*argv[]) {
     inputoutput io(caseName, nShiftFileNumbers);
     param       pram(&io);
     streams     strm;
-    IdealGasPhase gas("../input/gas_mechanisms/"+pram.chemMechFile);
-    Transport   *tran = newTransportMgr("Mix", &gas);
+//    IdealGasMix   gas("../input/gas_mechanisms/"+pram.chemMechFile);
+//    Transport     *tran = newTransportMgr("Mix", &gas);
+    shared_ptr<Solution> gas(newSolution("../input/gas_mechanisms/"+pram.chemMechFile,"","Mix"));
     eddy        ed;
     meshManager mesher;
     solver      *solv;
@@ -63,9 +64,11 @@ int main(int argc, char*argv[]) {
     if ( pram.seed >= 0 ) pram.seed += nShiftFileNumbers;
     randomGenerator rand(pram.seed);
 
-    domn.init(&io,  &mesher, &strm, &gas, tran, mimx, &ed, &eddl, solv, &rand);
-    eddl.init(NULL, NULL,    NULL,  NULL, NULL, NULL,  NULL,NULL,  NULL,  NULL, true);
-    //
+//    domn.init(&io,  &mesher, &strm, &gas, tran, mimx, &ed, &eddl, solv, &rand);
+//    eddl.init(NULL, NULL,    NULL,  NULL, NULL, NULL, NULL,NULL,  NULL, NULL,  NULL, true);
+    domn.init(&io, &mesher, &strm, gas, mimx, &ed, &eddl, solv, &rand);
+    eddl.init(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true);
+
     //-------------------
 
     time_t mytimeStart, mytimeEnd;

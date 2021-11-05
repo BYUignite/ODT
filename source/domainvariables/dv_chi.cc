@@ -50,7 +50,7 @@ void dv_chi::setVar(const int ipt){
     }
 
     d.resize(domn->ngrd);
- 
+
     domn->mixf->setVar();     // this may be redundant
 
     vector<double> gradZ(domn->ngrd);
@@ -60,8 +60,8 @@ void dv_chi::setVar(const int ipt){
 
     for(int i=0; i<domn->ngrd; i++) {
         domn->domc->setGasStateAtPt(i);
-        double tcond = domn->tran->thermalConductivity();
-        double cp    = domn->gas->cp_mass();
+        double tcond = domn->gas->transport()->thermalConductivity();
+        double cp    = domn->gas->thermo()->cp_mass();
         Dthm.at(i) = tcond/domn->rho->d.at(i)/cp;
     }
 
@@ -82,4 +82,3 @@ void dv_chi::setVar(const int ipt){
         d.at(i) = 2.0*Dthm.at(i)*gradZ.at(i)*gradZ.at(i);
 
 }
-

@@ -47,7 +47,7 @@ void dv_rho::merge2cells(const int    imrg,
                          const bool   LconstVolume) {
 
     domn->domc->setGasStateAtPt(imrg);
-    d.at(imrg) = domn->gas->density();
+    d.at(imrg) = domn->gas->thermo()->density();
     d.erase(d.begin() + imrg+1);
 
 }
@@ -63,11 +63,10 @@ void dv_rho::setVar(const int ipt){
     if(ipt == -1)
         for(int i=0; i<domn->ngrd; i++) {
             domn->domc->setGasStateAtPt(i);
-            d.at(i) = domn->gas->density();
+            d.at(i) = domn->gas->thermo()->density();
         }
     else {
         domn->domc->setGasStateAtPt(ipt);
-        d.at(ipt) = domn->gas->density();
+        d.at(ipt) = domn->gas->thermo()->density();
     }
 }
-

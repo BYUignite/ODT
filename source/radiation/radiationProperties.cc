@@ -1,7 +1,7 @@
-/** 
+/**
  *  @file radiationProperties.cc
  *  @brief Source file for class radiationProperties
- *  @author Victoria B. Stephens 
+ *  @author Victoria B. Stephens
  */
 
 #include "radiationProperties.h"
@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 /** Constructor for radiationProperties class object
  *
- *  @author Victoria B. Stephens 
+ *  @author Victoria B. Stephens
  *
  *  @param  p_domn  \input pointer to domain object
  */
@@ -30,23 +30,23 @@ void radiationProperties::init(domain *p_domn) {
 
     int isp;
 
-    isp = domn->gas->speciesIndex("CH4");
-    isp = (isp > 0) ? isp : domn->gas->speciesIndex("ch4");
+    isp = domn->gas->thermo()->speciesIndex("CH4");
+    isp = (isp > 0) ? isp : domn->gas->thermo()->speciesIndex("ch4");
     iRadIndx[0] = isp;
     if(isp < 0) fmissing = true;
 
-    isp = domn->gas->speciesIndex("CO2");
-    isp = (isp > 0) ? isp : domn->gas->speciesIndex("co2");
+    isp = domn->gas->thermo()->speciesIndex("CO2");
+    isp = (isp > 0) ? isp : domn->gas->thermo()->speciesIndex("co2");
     iRadIndx[1] = isp;
     if(isp < 0) fmissing = true;
 
-    isp = domn->gas->speciesIndex("H2O");
-    isp = (isp > 0) ? isp : domn->gas->speciesIndex("h2o");
+    isp = domn->gas->thermo()->speciesIndex("H2O");
+    isp = (isp > 0) ? isp : domn->gas->thermo()->speciesIndex("h2o");
     iRadIndx[2] = isp;
     if(isp < 0) fmissing = true;
 
-    isp = domn->gas->speciesIndex("CO");
-    isp = (isp > 0) ? isp : domn->gas->speciesIndex("co");
+    isp = domn->gas->thermo()->speciesIndex("CO");
+    isp = (isp > 0) ? isp : domn->gas->thermo()->speciesIndex("co");
     iRadIndx[3] = isp;
     if(isp < 0) fmissing = true;
 
@@ -303,4 +303,3 @@ void radiationProperties::get_RCSLW_coefs() {
     return;
 
 }
-

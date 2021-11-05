@@ -15,8 +15,12 @@
 #include "meshManager.h"
 #include "solver.h"
 #include "randomGenerator.h"
-#include "cantera/thermo/IdealGasPhase.h"
+//#include "cantera/thermo/IdealGasPhase.h"
+//#include "cantera/transport.h"
+#include "cantera/base/Solution.h"
+#include "cantera/thermo.h"
 #include "cantera/transport.h"
+#include "cantera/kinetics.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -66,8 +70,10 @@ class domain {
 
         map<string,dv*>         varMap;
 
-        IdealGasPhase           *gas;        ///< pointer to cantera thermochemistry object (reaction rates, Cp, etc.)
-        Transport               *tran;       ///< pointer to cantera transport object (viscosity, diffusivity, etc.)
+//        IdealGasPhase           *gas;        ///< pointer to cantera thermochemistry object (reaction rates, Cp, etc.)
+//        Transport               *tran;       ///< pointer to cantera transport object (viscosity, diffusivity, etc.)
+        shared_ptr<Solution>    gas;           ///< pointer to cantera solution object
+
         streams                 *strm;       ///< pointer to gas stream properties
         inputoutput             *io;         ///< pointer to input/output object
         param                   *pram;       ///< pointer to the parameters object
@@ -104,8 +110,9 @@ class domain {
         void init(inputoutput     *p_io,
                   meshManager     *p_mesher,
                   streams         *p_strm,
-                  IdealGasPhase   *p_gas,
-                  Transport       *p_tran,
+//                  IdealGasPhase   *p_gas,
+//                  Transport       *p_tran,
+                  shared_ptr<Solution> p_gas,
                   micromixer      *p_mimx,
                   eddy            *p_ed,
                   domain          *p_eddl,
@@ -116,12 +123,10 @@ class domain {
         virtual ~domain() {
             for(int k=0; k<v.size(); k++)
                 delete v.at(k);
-            delete domc;     
+            delete domc;
         }
 
 };
 
 
 ////////////////////////////////////////////////////////////////////////////////
-
-

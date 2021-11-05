@@ -47,7 +47,7 @@ void dv_hr::setVar(const int ipt){
 
     d.resize(domn->ngrd);
 
-    int nsp = domn->gas->nSpecies();
+    int nsp = domn->gas->thermo()->nSpecies();
     vector<double> rr(nsp);
     vector<double> yi(nsp);
     vector<double> hsp(nsp);
@@ -55,19 +55,18 @@ void dv_hr::setVar(const int ipt){
     for(int i=0; i<domn->ngrd; i++){
         domn->domc->setGasStateAtPt(i);
         // catch extremes of temperature due to diff-diff
-        double temperatureHere = domn->gas->temperature();
+        double temperatureHere = domn->gas->thermo()->temperature();
         temperatureHere = ( temperatureHere < 250.0 ) ? 250.0 : temperatureHere;
 #ifdef PROBLEMSPECIFICRR
         domn->gas->getMassFractions( &yi[0] );
         //        getProblemSpecificRR(domn->gas->density(), domn->gas->temperature(), domn->pram->pres, &yi.at(0), &rr.at(0));
         getProblemSpecificRR(domn->gas->density(), temperatureHere, domn->pram->pres, &yi.at(0), &rr.at(0));
 #else
-        domn->gas->getNetProductionRates(&rr.at(0));
+        domn->gas->kinetics()->getNetProductionRates(&rr.at(0));
 #endif
-        domn->gas->getEnthalpy_RT(&hsp.at(0));               // non-dimensional enthalpy
+        domn->gas->thermo()->getEnthalpy_RT(&hsp.at(0));               // non-dimensional enthalpy
         d.at(i) = 0.0;
         for(int k=0; k<nsp; k++)
             d.at(i) -= rr.at(k)*(hsp.at(k)*temperatureHere*GasConstant);
     }
 }
-

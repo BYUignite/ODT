@@ -33,9 +33,9 @@ void domaincase_odt_jetMixlRxn::init(domain *p_domn) {
     domn = p_domn;
 
     vector<double> gammas(4,0.0);
-    gammas[0] = 2.0/domn->gas->atomicWeight(domn->gas->elementIndex("C"));
-    gammas[1] = 0.5/domn->gas->atomicWeight(domn->gas->elementIndex("H"));
-    gammas[2] = -1.0/domn->gas->atomicWeight(domn->gas->elementIndex("O"));
+    gammas[0] = 2.0/domn->gas->thermo()->atomicWeight(domn->gas->thermo()->elementIndex("C"));
+    gammas[1] = 0.5/domn->gas->thermo()->atomicWeight(domn->gas->thermo()->elementIndex("H"));
+    gammas[2] = -1.0/domn->gas->thermo()->atomicWeight(domn->gas->thermo()->elementIndex("O"));
     gammas[3] = 0.0;
     domn->strm->init(domn, gammas);
 
@@ -50,8 +50,8 @@ void domaincase_odt_jetMixlRxn::init(domain *p_domn) {
     domn->v.push_back(new dv_mixf(  domn, "mixf",    false, true ));
     domn->v.push_back(new dv_chi(   domn, "chi",     false, true ));
     domn->v.push_back(new dv_hr(    domn, "hr",      false, true ));
-    for(int k=0; k<domn->gas->nSpecies(); k++)
-        domn->v.push_back(new dv_ygas(domn, "y_"+domn->gas->speciesName(k), true, true ));
+    for(int k=0; k<domn->gas->thermo()->nSpecies(); k++)
+        domn->v.push_back(new dv_ygas(domn, "y_"+domn->gas->thermo()->speciesName(k), true, true ));
     domn->v.push_back(new dv_enth(  domn, "enth",    true,  true ));  // enth AFTER ygas for enth flux (see dv_enth)
 
     int ii = 0;
@@ -67,7 +67,7 @@ void domaincase_odt_jetMixlRxn::init(domain *p_domn) {
     domn->chi    = domn->v.at(ii++);
     domn->hr     = domn->v.at(ii++);
     domn->ysp = domn->v.begin()+ii;       // access as domn->ysp[k]->d[i], etc. where k is the species starting from 0.
-    ii += domn->gas->nSpecies();
+    ii += domn->gas->thermo()->nSpecies();
     domn->enth   = domn->v.at(ii++);
 
     //------------------- set variables used for mesh adaption
@@ -128,7 +128,7 @@ void domaincase_odt_jetMixlRxn::init(domain *p_domn) {
 
     //--------------------
 
-    int nsp = domn->gas->nSpecies();
+    int nsp = domn->gas->thermo()->nSpecies();
     vector<double> ysp(nsp);               // dummy storage
     for(int i=0; i<domn->ngrd; i++) {
         if ( domn->pram->Lignition ) {
@@ -158,12 +158,12 @@ void domaincase_odt_jetMixlRxn::init(domain *p_domn) {
 
 void domaincase_odt_jetMixlRxn::setGasStateAtPt(const int &ipt) {
 
-    int nsp = domn->gas->nSpecies();
+    int nsp = domn->gas->thermo()->nSpecies();
     vector<double> yi(nsp);
     for(int k=0; k<nsp; k++)
         yi.at(k) = domn->ysp[k]->d.at(ipt);
-    domn->gas->setState_PY(domn->pram->pres, &yi.at(0));
-    domn->gas->setState_HP(domn->enth->d.at(ipt), domn->pram->pres, 1.E-10);
+    domn->gas->thermo()->setState_PY(domn->pram->pres, &yi.at(0));
+    domn->gas->thermo()->setState_HP(domn->enth->d.at(ipt), domn->pram->pres, 1.E-10);
 
 }
 

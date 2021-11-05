@@ -23,7 +23,7 @@ void solver::init(domain *p_domn) {
     if(domn->pram->LES_type=="THIRDS"){
         ed3   = new eddy;
         eddl3 = new domain(domn, domn->pram);
-        eddl3->init(NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true);
+        eddl3->init(NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true);
         ed3->init(domn, eddl3);
     }
 
@@ -364,7 +364,7 @@ bool solver::sampleEddyAndImplementIfAccepted() {
             domn->mesher->enforceDomainSize();     // chop the domain
         }
         else
-            domn->ed->applyVelocityKernels(domn, iStart, iEnd);   
+            domn->ed->applyVelocityKernels(domn, iStart, iEnd);
 
         return true;
     }
@@ -494,4 +494,3 @@ void solver::lowerDtSmean() {
     nPaSumC++;
 
 }
-

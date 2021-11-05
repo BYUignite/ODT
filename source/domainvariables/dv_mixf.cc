@@ -51,7 +51,7 @@ void dv_mixf::setVar(const int ipt){
 
     d.resize(domn->ngrd);
 
-    int nsp = domn->gas->nSpecies();
+    int nsp = domn->gas->thermo()->nSpecies();
     vector<double> yi(nsp);
     for(int i=0; i<domn->ngrd; i++) {
         for(int k=0; k<nsp; k++)
@@ -134,4 +134,3 @@ void dv_mixf::setFlux(const vector<double> &gf,
     flux.at(0)          = 0.0;
     flux.at(domn->ngrd) = 0.0;
 }
-

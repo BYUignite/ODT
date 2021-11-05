@@ -46,8 +46,9 @@ domain::domain(domain *p_domn, param *p_pram) {
 void domain::init(inputoutput     *p_io,
                   meshManager     *p_mesher,
                   streams         *p_strm,
-                  IdealGasPhase   *p_gas,
-                  Transport       *p_tran,
+//                  IdealGasPhase   *p_gas,
+//                  Transport       *p_tran,
+                  shared_ptr<Solution> p_gas,
                   micromixer      *p_mimx,
                   eddy            *p_ed,
                   domain          *p_eddl,
@@ -60,7 +61,7 @@ void domain::init(inputoutput     *p_io,
     io     = p_io;
     mesher = p_mesher;
     gas    = p_gas;
-    tran   = p_tran;
+//    tran   = p_tran;
     strm   = p_strm;
     mimx   = p_mimx;
     ed     = p_ed;
@@ -374,4 +375,3 @@ void domain::backCyclePeriodicDomain(const double backCycleDistance) {
     pos->setVar();     // does a little extra work (whole domain) but doesn't happen that often
                        //    only when periodic eddies are accepted.
 }
-

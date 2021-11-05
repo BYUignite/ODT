@@ -40,11 +40,10 @@ void dv_temp::setVar(const int ipt){
     if(ipt == -1)
         for(int i=0; i<domn->ngrd; i++) {
             domn->domc->setGasStateAtPt(i);
-            d.at(i) = domn->gas->temperature();
+            d.at(i) = domn->gas->thermo()->temperature();
         }
     else {
         domn->domc->setGasStateAtPt(ipt);
-        d.at(ipt) = domn->gas->temperature();
+        d.at(ipt) = domn->gas->thermo()->temperature();
     }
 }
-

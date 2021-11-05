@@ -37,10 +37,10 @@ dv_ygas::dv_ygas(domain  *line,
     L_output           = Lo;
     d                  = vector<double>(domn->ngrd, 0.0);
 
-    nspc = domn->gas->nSpecies();
+    nspc = domn->gas->thermo()->nSpecies();
 
     string spName(var_name.begin()+2, var_name.end());        // var_name is like y_O2. Just want the O2 part.
-    kMe                = domn->gas->speciesIndex(spName);
+    kMe                = domn->gas->thermo()->speciesIndex(spName);
 
     aP   = domn->io->params["aP"]   ? domn->io->params["aP"].as<double>()       : 1.0;
     //aP_x = domn->io->params["aP_x"] ? domn->io->params["aP_x"].as<double>()/4.6 : 1.0E-10;
@@ -88,10 +88,10 @@ void dv_ygas::getRhsSrc(const int ipt) {
             getProblemSpecificRR(domn->rho->d.at(i), domn->temp->d.at(i), domn->pram->pres, &yi.at(0), &rr.at(0));
 #else
             domn->domc->setGasStateAtPt(i);
-            domn->gas->getNetProductionRates(&rr.at(0));
+            domn->gas->kinetics()->getNetProductionRates(&rr.at(0));
 #endif
             for(int k=0; k<nspc; k++)
-                rrSpc.at(k).at(i) = rr.at(k) * domn->gas->molecularWeight(k) / domn->rho->d.at(i);   // kmol/(m³ s)*(kg/kmol)*(kg/m3) = 1/s
+                rrSpc.at(k).at(i) = rr.at(k) * domn->gas->thermo()->molecularWeight(k) / domn->rho->d.at(i);   // kmol/(m³ s)*(kg/kmol)*(kg/m3) = 1/s
         }
 
     }
@@ -168,8 +168,8 @@ void dv_ygas::setFlux(const vector<double> &gf,
         }
         for(int i=0; i<domn->ngrd; i++) {
             domn->domc->setGasStateAtPt(i);
-            MMw.at(i) = domn->gas->meanMolecularWeight();
-            domn->tran->getMixDiffCoeffs(&Di.at(0));
+            MMw.at(i) = domn->gas->thermo()->meanMolecularWeight();
+            domn->gas->transport()->getMixDiffCoeffs(&Di.at(0));
             for (int k=0; k<nspc; k++) {
                 rhoD.at(k).at(i)      = domn->rho->d.at(i)*Di.at(k);
                 rhoDYinvM.at(k).at(i) = rhoD.at(k).at(i)*domn->ysp[k]->d.at(i)/MMw.at(i);
@@ -219,4 +219,3 @@ void dv_ygas::setFlux(const vector<double> &gf,
         }
     }
 }
-

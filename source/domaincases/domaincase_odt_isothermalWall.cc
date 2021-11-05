@@ -79,12 +79,12 @@ void domaincase_odt_isothermalWall::init(domain *p_domn){
     // Also set temperature to initialize the enthalpy field.
     // Hard coding the composition to be air
 
-    int nsp = domn->gas->nSpecies();
+    int nsp = domn->gas->thermo()->nSpecies();
     vector<double> yi(nsp);
-    yi[domn->gas->speciesIndex("O2")] = 0.233;
-    yi[domn->gas->speciesIndex("N2")] = 0.767;
-    domn->gas->setState_TPY(domn->pram->TBChi, domn->pram->pres, &yi.at(0));
-    domn->enth->d = vector<double>(domn->ngrd, domn->gas->enthalpy_mass());
+    yi[domn->gas->thermo()->speciesIndex("O2")] = 0.233;
+    yi[domn->gas->thermo()->speciesIndex("N2")] = 0.767;
+    domn->gas->thermo()->setState_TPY(domn->pram->TBChi, domn->pram->pres, &yi.at(0));
+    domn->enth->d = vector<double>(domn->ngrd, domn->gas->thermo()->enthalpy_mass());
     domn->temp->d = vector<double>(domn->ngrd, domn->pram->TBChi);
 
 }
@@ -111,6 +111,6 @@ void domaincase_odt_isothermalWall::setCaseSpecificVars() {
 
 void domaincase_odt_isothermalWall::setGasStateAtPt(const int &ipt) {
 
-    domn->gas->setState_HP(domn->enth->d.at(ipt), domn->pram->pres, 1.E-10);
+    domn->gas->thermo()->setState_HP(domn->enth->d.at(ipt), domn->pram->pres, 1.E-10);
 
 }
