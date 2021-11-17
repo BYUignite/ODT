@@ -11,7 +11,7 @@
 using namespace std;
 
 ///////////////////////////////////////////////////////////////////////////////
-// Declare the global function prototypes so they can be used in this source file
+// Declare the global function prototypes to be used in this source file
 
 static int RHSF(double t, N_Vector y, N_Vector ydot, void* f_data);
 
@@ -55,22 +55,35 @@ void cvodeDriver::init(domain *p_domn, bool p_LincludeRhsMix) {
     int flag;
 
     cvode_mem = CVodeCreate(CV_BDF, CV_NEWTON);
+//    cvode_mem = CVodeCreate(CV_BDF);
 
     if(!cvode_mem) {
         cout << endl << "ERROR INITIALIZING CVODE MEMORY" << endl;
         exit(0);
     }
 
-    flag = CVodeMalloc(cvode_mem, RHSF, 0.0, var, CV_SS, rtol, &atol);
-            testCVflag(flag, "CVodeMalloc");
-    flag = CVDense(cvode_mem, neq);
-            testCVflag(flag, "CVDense");
+    flag = CVodeInit(cvode_mem, RHSF, 0.0, var);
+        testCVflag(flag, "CVodeInit");
 
-    flag = CVodeSetFdata(cvode_mem, this);
-            testCVflag(flag, "CVodeSetFdata");
+    flag = CVodeSStolerances(cvode_mem, rtol, atol);
+        testCVflag(flag, "CVodeSStolerances");
+
+    SUNMatrix A = SUNDenseMatrix(neq, neq);
+    SUNLinearSolver LS = SUNDenseLinearSolver(var, A);
+
+    flag = CVDlsSetLinearSolver(cvode_mem, LS, A);
+        testCVflag(flag, "CVodeSetLinearSolver");
+
+//    flag = CVodeMalloc(cvode_mem, RHSF, 0.0, var, CV_SS, rtol, &atol);
+//            testCVflag(flag, "CVodeMalloc");
+//    flag = CVDense(cvode_mem, neq);
+//            testCVflag(flag, "CVDense");
+//
+//    flag = CVodeSetFdata(cvode_mem, this);
+//            testCVflag(flag, "CVodeSetFdata");
 
     flag = CVodeSetMaxNumSteps(cvode_mem, 2000);
-            testCVflag(flag, "CVodeSetMaxNumSteps");
+        testCVflag(flag, "CVodeSetMaxNumSteps");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -89,8 +102,8 @@ cvodeDriver::~cvodeDriver() {
  */
 void cvodeDriver::integrateCell(int p_iC, double tres) {
 
-
     iC = p_iC;
+    int flag;
 
     //---------- Initialize the Dependent Variable
 
@@ -99,8 +112,10 @@ void cvodeDriver::integrateCell(int p_iC, double tres) {
 
     //---------- Reset CVode for the new cell
 
-    int flag = CVodeReInit(cvode_mem, RHSF, 0.0, var, CV_SS, rtol, &atol);
-               testCVflag(flag, "CVodeReInit");
+    flag = CVodeReInit(cvode_mem, 0.0, var);
+        testCVflag(flag, "CVodeReInit");
+//    int flag = CVodeReInit(cvode_mem, RHSF, 0.0, var, CV_SS, rtol, &atol);
+//               testCVflag(flag, "CVodeReInit");
 
     //---------- Integrate the solution
 
@@ -159,4 +174,3 @@ void cvodeDriver::testCVflag(int flag, std::string func) {
         exit(0);
     }
 }
-

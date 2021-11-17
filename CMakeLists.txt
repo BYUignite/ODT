@@ -29,7 +29,8 @@ option(BUILD_DOCS       "Build ODT docs"        OFF)
 
 # ---- C++ standard & compiler flags -------------------
 set(CMAKE_CXX_STANDARD 11)
-SET(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
+set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -std=c++11 -pthread -fPIC")
+set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS} -fPIC")
 set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} -ggdb3")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 
@@ -43,7 +44,7 @@ endif()
 #################### EXAMPLES ###############################
 
 if (BUILD_EXAMPLES)
-#    add_subdirectory(examples)
+    #    add_subdirectory(examples)
 endif()
 
 ################### PACKAGES & LIBRARIES #########################
@@ -67,12 +68,12 @@ endif()
 message(STATUS "Looking for sundials")
 FetchContent_Declare(sundials
         GIT_REPOSITORY https://github.com/LLNL/sundials.git
-        GIT_TAG v5.7.0)
+        GIT_TAG v5.3.0)
 FetchContent_GetProperties(sundials)
 if(NOT sundials_POPULATED)
     FetchContent_Populate(sundials)
     set(BUILD_ARKODE             OFF     CACHE INTERNAL "")
-    set(BUILD_CVODE              OFF     CACHE INTERNAL "")
+    set(BUILD_CVODE              ON      CACHE INTERNAL "")
     set(BUILD_CVODES             ON      CACHE INTERNAL "")
     set(BUILD_IDA                OFF     CACHE INTERNAL "")
     set(BUILD_IDAS               OFF     CACHE INTERNAL "")
@@ -80,7 +81,6 @@ if(NOT sundials_POPULATED)
     set(BUILD_NVECTOR_SERIAL     ON      CACHE INTERNAL "")
     set(BUILD_NVECTOR_MANYVECTOR ON      CACHE INTERNAL "")
     set(EXAMPLES_ENABLE          OFF     CACHE INTERNAL "")
-    set(EXAMPLES_INSTALL         OFF     CACHE INTERNAL "")
     set(EXAMPLES_ENABLE_CXX      OFF     CACHE INTERNAL "")
     set(EXAMPLES_ENABLE_C        OFF     CACHE INTERNAL "")
     set(EXAMPLES_ENABLE_F77      OFF     CACHE INTERNAL "")
@@ -92,9 +92,22 @@ if(NOT sundials_POPULATED)
     add_subdirectory(${sundials_SOURCE_DIR} ${sundials_BINARY_DIR})
 endif()
 
+#find_package(Sundials REQUIRED)
+
 #--------------------- CANTERA ------------------------
 message(STATUS "Looking for Cantera")
+
+#FetchContent_Declare(cantera
+#        GIT_REPOSITORY https://github.com/Cantera/cantera.git
+#        GIT_TAG v2.5.1)
+#FetchContent_GetProperties(cantera)
+#if(NOT cantera_POPULATED)
+#    FetchContent_MakeAvailable(cantera)
+#endif()
+#add_definitions(-DDOCANTERA)
+
 find_package(Cantera REQUIRED)
+# TODO require Cantera 2.5+
 
 ############################### DOCUMENTATION ###########################
 

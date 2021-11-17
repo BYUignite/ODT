@@ -12,10 +12,9 @@ target_include_directories(odt.x PRIVATE ${YAML_INCLUDE_DIR}
         ${Boost_INCLUDE_DIR}
         ${LAPACK_INCLUDE_DIR})
 
-set(ODT_LINK_FLAGS "-pthread -lcantera -lyaml-cpp -lblas -llapack -lsundials_cvodes -lsundials_ida -lsundials_nvecserial -lgfortran")
+set(ODT_LINK_FLAGS "-pthread -lcantera -lsundials_cvodes -lsundials_cvode -lsundials_nvecserial -llapack -lyaml-cpp -lblas")
 
-target_link_libraries(odt.x PUBLIC cantera sundials_nvecserial
-        sundials_cvodes lapack yaml-cpp blas ${ODT_LINK_FLAGS})
+target_link_libraries(odt.x PUBLIC cantera sundials_nvecserial sundials_cvodes sundials_cvode lapack yaml-cpp blas ${ODT_LINK_FLAGS})
 
 #################### Local source files
 
