@@ -54,8 +54,8 @@ void cvodeDriver::init(domain *p_domn, bool p_LincludeRhsMix) {
 
     int flag;
 
-    cvode_mem = CVodeCreate(CV_BDF, CV_NEWTON);
-//    cvode_mem = CVodeCreate(CV_BDF);
+//    cvode_mem = CVodeCreate(CV_BDF, CV_NEWTON);
+    cvode_mem = CVodeCreate(CV_BDF);
 
     if(!cvode_mem) {
         cout << endl << "ERROR INITIALIZING CVODE MEMORY" << endl;

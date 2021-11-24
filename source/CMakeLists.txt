@@ -1,21 +1,3 @@
-
-add_executable(odt.x)
-
-#################### Compile options
-
-target_compile_features(odt.x PUBLIC cxx_std_11)
-
-#----------- Link libraries and flags ---------
-target_include_directories(odt.x PRIVATE ${YAML_INCLUDE_DIR}
-        ${CANTERA_INCLUDE_DIR}
-        ${SUNDIALS_INCLUDE_DIR}
-        ${Boost_INCLUDE_DIR}
-        ${LAPACK_INCLUDE_DIR})
-
-set(ODT_LINK_FLAGS "-pthread -lcantera -lsundials_cvodes -lsundials_cvode -lsundials_nvecserial -llapack -lyaml-cpp -lblas")
-
-target_link_libraries(odt.x PUBLIC cantera sundials_nvecserial sundials_cvodes sundials_cvode lapack yaml-cpp blas ${ODT_LINK_FLAGS})
-
 #################### Local source files
 
 target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -46,19 +28,19 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/user_chemical_mechanisms)
 
 #################### Doxygen documentation
 
-find_package(Doxygen)
-if(DOXYGEN_FOUND)
-    add_custom_target(doxygen
-        COMMAND rm -rf ../doc/doxygen/html
-        COMMAND mkdir  ../doc/doxygen/html
-        COMMAND cp    ../doc/doxygen_build_pages/montage_odt.png ../doc/doxygen/html
-        COMMAND doxygen -s ../doc/Doxyfile
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        COMMENT "Building doxygen documentation"
-        VERBATIM
-    )
-else()
-    message("\n********************************************************")
-    message("Cannot build documentation because doxygen was not found")
-    message("********************************************************\n")
-endif()
+#find_package(Doxygen)
+#if(DOXYGEN_FOUND)
+#    add_custom_target(doxygen
+#        COMMAND rm -rf ../doc/doxygen/html
+#        COMMAND mkdir  ../doc/doxygen/html
+#        COMMAND cp    ../doc/doxygen_build_pages/montage_odt.png ../doc/doxygen/html
+#        COMMAND doxygen -s ../doc/Doxyfile
+#        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+#        COMMENT "Building doxygen documentation"
+#        VERBATIM
+#    )
+#else()
+#    message("\n********************************************************")
+#    message("Cannot build documentation because doxygen was not found")
+#    message("********************************************************\n")
+#endif()

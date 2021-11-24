@@ -1,9 +1,0 @@
-# ODT User Configuration
-
-set(CHEMISTRY               "SIMPLEDLR"               CACHE STRING "user mechanism source to add")
-set(PARALLEL                "no"                    CACHE STRING "build with mpi")
-set(SILENT                  "yes"                   CACHE STRING "code output config")
-
-#----- CANTERA LOCATIONS
-set(CANTERA_INCLUDE_DIR     "/usr/local/cantera24/include" CACHE PATH "cantera includes location")
-set(CANTERA_LIB_DIR         "/usr/local/cantera24/lib"     CACHE PATH "cantera library location")
