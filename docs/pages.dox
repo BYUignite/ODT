@@ -24,7 +24,6 @@ Things you can find here:
 - Information on the [theory of ODT and related literature](@ref odt_theory)
 - [Style guide](@ref style_guide) for contributing to the ODT code and/or documentation
 
-
 Several of our auxiliary documentation pages are still under construction. Thank you for
 your patience. Please [contact us](@ref contact) with any questions, comments, or concerns.
 
@@ -35,24 +34,9 @@ Documentation last updated: \f$\mathrm{\today}\f$
 <!--------------------------------------------------------------------------> 
 @section intro What is ODT?
 
-ODT is a computational fluid dynamics (CFD) software primarily used for modeling and
-simulation of turbulent flows. It complements other CFD approaches, namely direct numerical
-simulation (DNS) and large-eddy simulation (LES), by resolving the full range of length and
-time scales in a turbulent flow in one dimention using a stochastic approach to large-scale
-turbulent advection. ODT's high computational efficiency and resolution of a full range of
-scales make it a valuable tool for simulating a range of flow types, including homogenous
-turbulence, simple wakes and mixing layers, Rayleigh-Taylor mixing, nonreacting jets,
-counterflow diffusion flames, wall fires, and jet flames. For more information on ODT and
-its application to turbulent flow research problems, please refer to the 
-[literature](@ref odt_theory). 
+ODT is a computational fluid dynamics (CFD) software primarily used for modeling and simulation of turbulent flows. It complements other CFD approaches, namely direct numerical simulation (DNS) and large-eddy simulation (LES), by resolving the full range of length and time scales in a turbulent flow in one dimension using a stochastic approach to large-scale turbulent advection. ODT's high computational efficiency and resolution of a full range of scales make it a valuable tool for simulating a range of flow types, including homogenous turbulence, simple wakes and mixing layers, Rayleigh-Taylor mixing, nonreacting jets, counterflow diffusion flames, wall fires, and jet flames. For more information on ODT and its application to turbulent flow research problems, please refer to the [literature](@ref odt_theory).
 
-ODT is an object-oriented C++ code. Users typically interact with the code and its data
-output via a Bash-style command line, which we find to be the most flexible method. It has
-been sucessfully tested on various Linux, Mac, and Windows operating systems, including
-supercomputing clusters. While we do our best to provide stable software releases for ODT
-users, please remember that ODT is an active research code in which features are being
-implemented, altered, and tested constantly. If you have questions or concerns about the ODT
-code, please [contact us](@ref contact).
+ODT is an object-oriented C++ code. Users typically interact with the code and its data output via a Bash-style command line, which we find to be the most flexible method. It has been successfully tested on various Linux, Mac, and Windows operating systems, including supercomputing clusters. While we do our best to provide stable software releases for ODT users, please remember that ODT is an active research code in which features are being implemented, altered, and tested constantly. If you have questions or concerns about the ODT code, please [contact us](@ref contact).
 
 */
 
@@ -62,96 +46,77 @@ code, please [contact us](@ref contact).
 <!--------------------------------------------------------------------------> 
 @section workflow ODT Workflow
 
-ODT users typically interact with the code and its data output via a Bash-style command line
-in a terminal. ODT users will all experience the same basic workflow. For more information
-on each step, follow the provided documentation links. 
+ODT users typically interact with the code and its data output via a Bash-style command line in a terminal. ODT users will all experience the same basic workflow. For more information on each step, follow the provided documentation links.
 
-1. [Obtain](@ref download) and [build](@ref build) the ODT code, including the relevent
-[dependencies](@ref dependencies).  
-2. [Set up your case](@ref case_setup) by modifying the appropriate 
-[input file(s)](@ref input_files) and/or [case files](@ref case_files).
+1. [Obtain](@ref download) and [build](@ref build) the ODT code, including the relevant [dependencies](@ref dependencies).
+2. [Set up your case](@ref case_setup) by modifying the appropriate [input file(s)](@ref input_files) and/or [case files](@ref case_files).
 4. [Run the code](@ref running).  
 5. [Process and interpret the data](@ref post-processing).
 
-<B>Special note for Windows users:</B> At the time of this writing, Windows does not offer a
-Bash shell natively installed. In order to follow the build instructions set out here on a
-Windows machine, you will need to install one. We recommend [Windows Subsystem for Linux
-(WSL)](https://docs.microsoft.com/en-us/windows/wsl) with an Ubuntu distribution of your
-choice alongside [Windows Terminal](https://docs.microsoft.com/en-us/windows/terminal/) for
-best results. Other workspaces may also work for running ODT in Windows, but we have not
-tested them and cannot offer support in that area.  
+<B>Special note for Windows users:</B> In order to follow the build instructions set out here on a Windows machine, you will need a Bash shell. We recommend [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl) with an Ubuntu distribution of your choice alongside [Windows Terminal](https://docs.microsoft.com/en-us/windows/terminal/) for best results. Other workspaces may also work for running ODT in Windows, but we have not tested them and cannot offer support in that area.
 
 <hr />
 
 <!--------------------------------------------------------------------------> 
 @section dependencies Dependencies
 
-In order to build and run ODT, you will need the following software:
-- Git
-- CMake 3.12+
-- [Cantera](http://www.cantera.org/docs/sphinx/html/install.html)
+ODT is an object-oriented C++ code built via CMake. In order to build it, you will need C++11 or newer, appropriate C and CXX compilers, CMake 3.14+, and the [C++ Boost libraries](https://www.boost.org/). You will also need the following software packages:
 
-If you plan to use the included data post-processing tools, you will also need the
-following:
-- Python 3.x
+@subsection deps_yaml YAML
+ODT requires yaml-cpp 0.6.3+. If it is not installed system-wide or CMake cannot find it, CMake will fetch and build [yaml-cpp 0.6.3](https://github.com/jbeder/yaml-cpp) from its GitHub repository automatically, provided Git is installed. When installed by CMake via ODT, yaml-cpp files are located in the `build/_deps` directory.
 
-The following software packages are used to generate documentation. They are not required to
-build or run ODT, and thus are optional:  
-- Doxygen
-- LaTeX
+@subsection deps_sundials Sundials
+ODT requires [Sundials](https://computing.llnl.gov/projects/sundials), a suite of nonlinear, differential, and algebraic equation solvers, for solutions to its governing equations. The minimum requirement is Sundials 3.0.0+, but we recommend Sundials 5.8.0. When building and installing Sundials, you must specify `-DCMAKE_C_FLAGS="-fPIC"` and `-DENABLE_LAPACK="ON"` at the CMake configure step. For more information on the Sundials installation procedure, refer to Appendix A of any of the Sundials package guides, which can be found on the [Sundials softare releases page](https://computing.llnl.gov/projects/sundials/sundials-software).
+
+@subsection deps_cantera Cantera
+[Cantera](https://cantera.org/) is a set of open-source tools used to solve chemical kinetics, thermodynamics, and transport problems. ODT requires Cantera 2.4+, but we recommend Cantera 2.5.1+. For installation instructions, refer to Cantera's [installation page](https://cantera.org/install/). For best results, we recommend [compiling Cantera from source](https://cantera.org/install/compiling-install.html). Cantera also requires Sundials, but will obtain and compile against its own subset of Sundials tools if it cannot find a system-wide installation. When configuring the ODT code, CMake will search for Cantera's header and library files in the default installation locations provided when installing Cantera. Note that you do not need to install Cantera's Python modules for use with ODT.
+
+@subsection deps_post Post-processing Tools
+If you plan to use ODT's included data post-processing tools, you will also need Python 3.x. Depending on the case and tools used, you will need some subset of the following Python packages:
+- sys
+- os
+- numpy
+- scipy
+- yaml
+- glob
+- matplotlib
+
+@subsection deps_doxygen Doxygen
+ODT's documentation is generated with [Doxygen](https://www.doxygen.nl/index.html). It is not required in order to build or run ODT. If you do want to generate your own documentation for ODT, you will need the latest version of [Doxygen](https://www.doxygen.nl/download.html) and the [graphviz](https://graphviz.org/) package, which Doxygen uses to generate graphs and figures.
 
 <hr />
 
 <!--------------------------------------------------------------------------> 
 @section download Download
 
-The ODT code is publicly available on [Github](https://github.com). For best results, we
-recommend downloading the code via Git. To do so, navigate to the desired download location
-on your local computer and run 
-
-`git clone https://github.com/BYUIgnite/ODT.git`. 
+The ODT code is publicly available on [Github](https://github.com/BYUIgnite/ODT). For best results, we recommend cloning the code via Git. To do so, navigate to the desired download location on your local computer and run `git clone https://github.com/BYUIgnite/ODT.git`.
 
 <hr />
 
 <!--------------------------------------------------------------------------> 
 @section build Building ODT
 
-Prior to building the ODT code, ensure that you have the required software packages
-installed on your machine. In particular, keep the file paths to your Cantera installation
-on hand. Input files are written in a YAML format, which requires an installed YAML library;
-it is included as part of the ODT build process and does not need to be installed separately
-by the user.  
+Prior to building the ODT code, ensure that you have the required [dependencies](@ref dependencies) installed on your machine.
 
-1. Navigate to the `build/` directory.  
-2. Using your favorite text editor, open the `user_config` file and modify the 
-[preprocessor flags](@ref preprocessor_flags) appropriately.  
+1. Navigate into the `ODT` directory.
+2. Navigate to the `build` directory.
+3. Using your favorite text editor, open the `user_config.in` file and modify the [preprocessor flags](@ref preprocessor_flags) appropriately for your case.
 3. Configure CMake and generate Makefiles by running the following: 
     
-    `cmake -C user_config ../source/`
-
-4. Build YAML with the following command:
-
-    `make yaml`
+    `cmake -C user_config.in ..`
 
 5. Compile the ODT code:
 
     `make`
 
-The resulting executable is called `odt.x`, located in the `run` directory.
-
 @subsection build_notes Notes
-- There is no associated `install` step following the compilation. A successful a build will
-  have no error messages, and warnings can be safely ignored. The executable is called odt.x
-  and is located in the run directory.
-- The YAML installation step only needs to be performed once. Once it is sucessfully built,
-  the code can be recompiled and CMake reconfigured without affecting YAML. You only need to
-  rebuild YAML if you redownload the package from the repository.
-- YAML installation must occur after CMake configuration and requires Git to work properly.
-  If you encounter errors, double check those things.
+- There is no associated `install` step following the compilation. The executable is called `odt.x`
+  and is located in the `run` directory.
+- A successful a build will have no error messages. Warnings can be safely ignored.
 
 @subsection preprocessor_flags Preprocessor Flags
-The following preprocessor flags are used in the CMake `user_config` file:
-- `CHEMISTRY` = `CANTERARR` or `CH4RED` or `C2H4RED` or `SIMPLEDLR` 
+The following preprocessor flags are specified by the user in the `user_config.in` file. Bold text indicates the default values.
+- `CHEMISTRY` = **`CANTERARR`** or `CH4RED` or `C2H4RED` or `SIMPLEDLR`
     - This flag specifies the code to be used to calculate chemical reaction rates. Chemical
       reaction rates can be computed using one of two methods: 
         1. Cantera's built-in reaction rate calculations based on data provided in the
@@ -160,14 +125,21 @@ The following preprocessor flags are used in the CMake `user_config` file:
         2. User-defined reaction mechanisms (common for reduced chemical mechanisms); flag
         values for such mechanisms are defined in the Makefile and include values such as 
         `CH4RED`, `C2H4RED`, and `SIMPLEDLR`.
-- `PARALLEL` = `YES` or `NO`
+- `PARALLEL` = `YES` or **`NO`**
     - Turns on embarrassingly parallel simulations using MPI.
-- `SILENT` = `YES` or `NO`
+- `SILENT` = **`YES`** or `NO`
     - Controls the amount of CMake console output.
-- `CANTERA_INCLUDE_DIR` = `path_to_cantera_installation\cantera-version\include`
+- `BUILD_EXAMPLES` = `ON` or **`OFF`**
+    - Builds ODT examples, located in the `examples` folder
+- `BUILD_TESTS` = `ON` or **`OFF`**
+    - Builds ODT tests, located in the `tests` folder
+- `BUILD_DOCS` = `ON` or **`OFF`**
+    - Builds ODT documentation, located in the `docs` folder
+
+<! - `CANTERA_INCLUDE_DIR` = `path_to_cantera_installation\cantera-version\include`
     - Path to Cantera installation `include` directory.
 - `CANTERA_LIB_DIR` = `path_to_cantera_installation\cantera-version\lib`
-    - Path to Cantera installation libraries (`lib` directory).
+    - Path to Cantera installation libraries (`lib` directory). >
 
 @todo New page with details on using chemical mechanisms with ODT.
 
@@ -178,50 +150,26 @@ The following preprocessor flags are used in the CMake `user_config` file:
 
 @subsection case_files Case Files
 
-In ODT, the "case" refers to the simulation type and is often a reference to the simulation
-geometry. Case types can differ significantly, and each has its own source code and
-transported variables. For organization and ease of use, each case also has its own input
-directory and files, the location of which is specified in the run script. 
+In ODT, the "case" refers to the simulation type and is often a reference to the simulation geometry. Case types can differ significantly, and each has its own source code and transported variables. For organization and ease of use, each case also has its own input directory and files, the location of which is specified in the run script.
 
 Some notes on case files:
-- In input files, case type is indicated by the `probType` variable. The code does not care
-  if the `probType` variable does not match the input directory name, but may encounter
-  errors if certain case-specific variables are missing from the input file as a result.
-  Always double check that your `probType` variable is set correctly.
-- Source code for each case type is located in the `source/domaincases/` directory.
-  Typically, it consists of two files: a `.h` header file (`domaincase_caseType.h`) and a
-  `.cc` source code file (`domaincase_caseType.cc`). If you modify one of these, the code
-  must be rebuilt in order to reflect your changes.  
-- You can use one of the existing cases or [create your own](@ref custom_case_setup) using
-  the existing cases as a guide. 
+- In input files, case type is indicated by the `probType` variable. The code does not care if the `probType` variable does not match the input directory name, but may encounter errors if certain case-specific variables are missing from the input file as a result. Always double check that your `probType` variable is set correctly.
+- Source code for each case type is located in the `source/domaincases/` directory. Typically, it consists of two files: a `.h` header file (`domaincase_caseType.h`) and a `.cc` source code file (`domaincase_caseType.cc`). If you modify one of these, the code must be rebuilt in order to reflect your changes.
+- You can use one of the existing cases or [create your own](@ref custom_case_setup) using the existing cases as a guide.
 
 @subsection input_files Input Files
 
-All input files are located in the `input` directory. Specific case types have individual
-subdirectories within the `input` directory. The main input file, located within the case
-subdirectory, is called `input.yaml` and contains all ODT case parameters, including
-case-specific variables and those related to case geometry. Most are set to their default
-values, and some are optional.  For a full list of possible parameters and their default
-values, refer to the [`param.cc`](./doxygen/html/param_8cc_source.html) file from within the
-source code or the documentation. For more detailed information on selected input
-parameters, click [here](@ref selected_input_params). 
+All input files are located in the `input` directory. Specific case types have individual subdirectories within the `input` directory. The main input file, located within the case subdirectory, is called `input.yaml` and contains all ODT case parameters, including case-specific variables and those related to case geometry. Most are set to their default values, and some are optional.  For a full list of possible parameters and their default values, refer to the [`param.cc`](./doxygen/html/param_8cc_source.html) file from within the source code or the documentation. For more detailed information on selected input parameters, click [here](@ref selected_input_params).
 
 Some general notes on input files:
-- Formatted as a [standard YAML file](https://en.wikipedia.org/wiki/YAML) organized into
-  subsections that correspond to various variable types and subprocesses.
-- The input case subdirectory may also contain a `restart.dat` file. If `Lrestart = TRUE` is
-  set in `input.yaml`, the case will start at the state specified by `restart.dat`. This can
-  be useful for running partial realizations or completing realizations that failed due to
-  some runtime errors.
-- All cases require a Cantera mechanism file regardless of whether the case involves any
-  chemistry. The name of the mechanism file corresponds to the `chemMechFile` parameter
-  specified in the input.yaml file. For cases that do not need chemistry, the file `not_used.xml` can be specified.
+- Input files are formatted as [standard YAML files](https://en.wikipedia.org/wiki/YAML) organized into subsections that correspond to various variable types and subprocesses.
+- The input case subdirectory may also contain a `restart.dat` file. If `Lrestart = TRUE` is set in `input.yaml`, the case will start at the state specified by `restart.dat`. This can be useful for running partial realizations or completing realizations that failed due to some runtime errors.
+- All cases require a Cantera mechanism file regardless of whether the case involves any chemistry. The name of the mechanism file corresponds to the `chemMechFile` parameter specified in the input.yaml file. For cases that do not need chemistry, the file `not_used.xml` can be specified.
 
 <!--------------------------------------------------------------------------> 
 @section running Running ODT
 
-The ODT code is run from one of several Bash scripts located in the `run` directory, each
-designed for either single- or multiple-realization runs. 
+The ODT code is run from one of several Bash scripts located in the `run` directory, each designed for either single- or multiple-realization runs.
 
 - `runOneRlz.sh`: runs one realization
 - `runManyRlz.sh`: runs multiple realizations in series
@@ -229,27 +177,19 @@ designed for either single- or multiple-realization runs.
 [Slurm job management](https://slurm.schedmd.com/documentation.html).
 - `slrmJob_array.sh`: runs multiple realizations in parallel using MPI on systems using
   [Slurm job management](https://slurm.schedmd.com/documentation.html) in Slurm's array format
-    - This is useful in cases where individual realizations of a parallel run fail; instead
-      of crashing the entire run, failed realizations will fail individually and allow
-      successful ones to finish running. 
+    - This is useful in cases where individual realizations of a parallel run fail; instead of crashing the entire run, failed realizations will fail individually and allow successful ones to finish running.
 
-For more information on Slurm headers and support, refer to the 
-[Slurm documentation](https://slurm.schedmd.com/documentation.html).
+For more information on Slurm headers and support, refer to the [Slurm documentation](https://slurm.schedmd.com/documentation.html).
 
-To run an ODT simulation, provided that ODT has compiled properly and the `odt.x` executable
-is present in the `run` folder:
+To run an ODT simulation, provided that ODT has compiled properly and the `odt.x` executable is present in the `run` folder:
 
 1. Open the appropriate run script and modify the following variables where applicable:
     - `inputDir`: path to the input file directory to be used
     - `caseName`: case name; data will be stored in the `data` directory under this name
-        - WARNING: running a new case with the same name as a previous case will overwrite
-          the previous case data. Always change the case name to avoid losing data.
+        - WARNING: running a new case with the same name as a previous case will overwrite the previous case data. Always change the case name to avoid losing data.
     - `nRlz`: number of realizations to run (`runManyRlz.sh` only)
-    - `nSetsToRun`: number of realization sets to run, where the number of realizations in a
-      set is specified by the Slurm header information (`slrmJob.sh` and `slrmJob_array.sh`
-      only). 
-        - If `nSetsToRun` is greater than one, the code must be compiled with the `PARALLEL
-          = YES` flag in the `user_config` file.
+    - `nSetsToRun`: number of realization sets to run, where the number of realizations in a set is specified by the Slurm header information (`slrmJob.sh` and `slrmJob_array.sh` only).
+        - If `nSetsToRun` is greater than one, the code must be configured and compiled with the `PARALLEL = YES` flag in the `user_config.in` file.
 2. Run the case from the command line by executing the appropriate script:
 
     `./runOneRlz.sh`
@@ -257,19 +197,15 @@ is present in the `run` folder:
 <!--------------------------------------------------------------------------> 
 @section data_files Data Files 
 
-Data will be written to the `data` directory under a subdirectory corresponding to
-`caseName`, as specified in your run script. Within the `caseName` folder, data is organized
-into several subfolders:
+Data will be written to the `data` directory under a subdirectory corresponding to `caseName`, as specified in your run script. Within the `caseName` folder, data is organized into several subfolders:
 - `data`: contains the raw data files
     - Subdivided into folders containing data for each individual realization.
 - `runtime`: contains runtime outputs, which includes eddy data
 - `slurm`: holds Slurm-generated runtime files, if applicable
-- `post`: contains any post-processed data for the case; will not be present if no
-  post-processing has occurred
+- `post`: contains any post-processed data for the case; will not be present if no post-processing has occurred
 - `data_py`: stores raw data in Python format; generated by post-processing tools
 
-@todo make `data_py` folder a subfolder inside `post` rather than its own folder here; more
-organized that way
+@todo make `data_py` folder a subfolder inside `post` rather than its own folder here; more organized that way
 
 Raw data is stored in delineated text files and can be interpreted and visualized using a
 method or program of your choosing. For information on the data post-processing tools
@@ -308,10 +244,11 @@ provided with the ODT package, please refer to the [Post-Processing](@ref post-p
 */
 
 <!-- #################################################################### -->
-/** @page code_structure General Code Structure
+/** @page code_structure Code Structure
 
-Once downloaded, open the `ODT` folder. You will see the following set of directories:
+Once downloaded, the `ODT` folder contains the following set of directories:
 - `build/`  — [Build files](@ref building_and_running)
+- `cmake/`  — CMake config files
 - `source/` — ODT source code
 - `input/`  — [Input files](@ref input_files) 
 - `run/`    — ODT executables and runtime files
@@ -319,78 +256,29 @@ Once downloaded, open the `ODT` folder. You will see the following set of direct
 - `post/`   — Data [post-processing tools](@ref post-processing)
 - `docs/`   — Code documentation
 
-The ODT code is structured with a collection of C++ classes.
-- Nearly all variables are public. This avoids excessive get and set functions and allows
-  easy access to class members. (We are responsible adults here...)
-
-
-- The `domain.cc` is the main class. It contains all the domain variables (cell
-  positions, velocities, and all scalar profiles). It holds the Cantera objects, solver,
-  eddy, mesh manager, odt case and other basic class objects.
-    - This class a vector of pointers called `v` to `dv` objects (domain variables).
-      This is convenient for treating the collection. There are also explicit pointers to
-      specific domain variable objects, so that these can be conveniently referenced by
-      name. Because they are pointers, they may not all be instantiated though.
+The ODT code is structured as a collection of C++ classes.
+- Nearly all variables are public. This avoids excessive get and set functions and allows easy access to class members. (We are responsible adults here...)
+- The `domain.cc` is the main class. It contains all the domain variables (cell positions, velocities, and all scalar profiles). It holds the Cantera objects, solver, eddy, mesh manager, odt case and other basic class objects.
+    - This class a vector of pointers called `v` to `dv` objects (domain variables). This is convenient for treating the collection. There are also explicit pointers to specific domain variable objects, so that these can be conveniently referenced by name. Because they are pointers, they may not all be instantiated though.
     - Basic domain operations are included in this class, like `domainPositionToIndex`.
-    - There are generally two instantiations of `domain`s, the main domain `domn`,
-      and an eddy domain `eddl`, which holds fewer variables. The eddy domain object is
-      only used for eddy events.
-
-    - Nearly every class in the code has a back pointer to the domain object so that every
-      class has access to every other class.
-
-- The `domain` objects `domn` and `eddl` are instantiated in `main.cc`, as
-  are many other key classes, such as the solver, mesh manager, cantera objects, random
-  generator.
-- All domain profile variables (such as grid positions, velocities, temperatures, densities,
-  etc.) are somain variable classes `dv_uvw` that inherit from a parent: `dv`.
-    - The `dv` class holds the variable name, a vector of its data values on the domain,
-      flags for whether it is transported or output in a data file, and vectors holding its
-      source and transport terms in the case it is a transported quantity.
-    - It also performs functions for setting itself, as well as merging and splitting cells,
-      and setting its source and transport quantities.
-        - These functions serve as defaults, and are only specialized by children as needed.
-    - The child classes specialize functions and define variables that are only needed by
-      themselves. For example, the `dv_ygas` class has `nspc` that holds the number
-      of gas species (effectively the number of `dv_ygas`), along with a `kMe` index
-      so that each `dv_ygas` object knows its place. This is useful for allowing the
-      first `dv_ygas` object to set properties for all the others to avoid redundancy.
-      For example, normally all reaction rates for species are computed at once, but that
-      needs special treatment when each species is its own domain variable and computes its
-      own source term.
+    - There are generally two instantiations of `domain`s, the main domain `domn`, and an eddy domain `eddl`, which holds fewer variables. The eddy domain object is only used for eddy events.
+    - Nearly every class in the code has a back pointer to the domain object so that every class has access to every other class.
+- The `domain` objects `domn` and `eddl` are instantiated in `main.cc`, as are many other key classes, such as the solver, mesh manager, cantera objects, random generator.
+- All domain profile variables (such as grid positions, velocities, temperatures, densities, etc.) are domain variable classes `dv_uvw` that inherit from a parent: `dv`.
+    - The `dv` class holds the variable name, a vector of its data values on the domain, flags for whether it is transported or output in a data file, and vectors holding its source and transport terms in the case it is a transported quantity.
+    - It also performs functions for setting itself, as well as merging and splitting cells, and setting its source and transport quantities.
+        - These functions serve as defaults, and are only specialized by child classes as needed.
+    - The child classes specialize functions and define variables that are only needed by themselves. For example, the `dv_ygas` class has `nspc` that holds the number of gas species (effectively the number of `dv_ygas`), along with a `kMe` index so that each `dv_ygas` object knows its place. This is useful for allowing the first `dv_ygas` object to set properties for all the others to avoid redundancy. For example, normally all reaction rates for species are computed at once, but that needs special treatment when each species is its own domain variable and computes its own source term.
 - The `solver` class organizes the eddy sampling and diffusive advancement progression.
-    - The `eddy` class contains functions for performing triplet maps, eddy time scales,
-      sampling eddy locations and sizes, and applying velocity kernels.
-    - The `micromixer` class contains functions for performing the diffusive
-      advancement. This includes the time (for temporal flows) or space (for spatial flows)
-      integration of the governing PDEs, which is done using the method of domains with a
-      finite volume scheme on an adaptive mesh. The micromixer calls the rate functions for
-      all domain variable source and transport terms and performs explicit or semi-implicit
-      time (or space) integration.
-    - the `meshManager` class performs mesh adaption, as described in the theory paper
-      below.
-- Other supporting classes include the `streams` class for defining mixing streams, and
-  performing mixture fraction calculations, the `radiation` class, which contributes to
-  the enthalpy source term for combustion simulations, the `randomGenerator` class, the
-  `processor` class for handling parallel MPI details, and the `inputoutput` class
-  for I/O.
-- The `odtparam` class holds most of the ODT parameters that are read from input files
-  and used throughout the code.
-- ODT case files were mentioned previously. These are in the `domaincases/` directory,
-  for example `domaincase_channel`. They inherit from a parent `domaincase`.
-    - These cases are used to specify the domain variables needed for a given case. Some are
-      fairly common: `pos, posf, rho, dvisc, uvel, vvel, wvel`, while others are more
-      specific, such as `chi, mixf, temp, hr`.
-    - The parent class holds only a pointer to the `domn` object, but defines functions
-      like those that set the gas state, or set case specific variables, that are useful for
-      the children. These make it very easy to have generic code that can support multiple
-      cases with multiple domain variables. The defaults allow certain children, such as
-      `domaincase_channel` to be fairly small. Other classes can specialize as needed.
-    - The `domaincase_*` classes also are responsible for initializing the domain
-      variable profiles prior to running. Each domain variable has its own defaults, but the
-      specific case allows for, e.g., initializing a jet velocity profile. This can be done
-      by adding parameters to the `input.yaml` file and reading those values in the
-      given odt case file. As needed, supporting setup files could be used.
+    - The `eddy` class contains functions for performing triplet maps, eddy time scales, sampling eddy locations and sizes, and applying velocity kernels.
+    - The `micromixer` class contains functions for performing the diffusive advancement. This includes the time (for temporal flows) or space (for spatial flows) integration of the governing PDEs, which is done using the method of domains with a finite volume scheme on an adaptive mesh. The micromixer calls the rate functions for all domain variable source and transport terms and performs explicit or semi-implicit time (or space) integration.
+    - the `meshManager` class performs mesh adaption, as described in the theory paper below.
+- Other supporting classes include the `streams` class for defining mixing streams, and performing mixture fraction calculations, the `radiation` class, which contributes to the enthalpy source term for combustion simulations, the `randomGenerator` class, the `processor` class for handling parallel MPI details, and the `inputoutput` class for I/O.
+- The `odtparam` class holds most of the ODT parameters that are read from input files and used throughout the code.
+- ODT case files were mentioned previously. These are in the `domaincases/` directory, for example `domaincase_channel`. They inherit from a parent `domaincase`.
+    - These cases are used to specify the domain variables needed for a given case. Some are fairly common: `pos, posf, rho, dvisc, uvel, vvel, wvel`, while others are more specific, such as `chi, mixf, temp, hr`.
+    - The parent class holds only a pointer to the `domn` object, but defines functions like those that set the gas state, or set case specific variables, that are useful for the children. These make it very easy to have generic code that can support multiple cases with multiple domain variables. The defaults allow certain children, such as `domaincase_channel` to be fairly small. Other classes can specialize as needed.
+    - The `domaincase_*` classes also are responsible for initializing the domain variable profiles prior to running. Each domain variable has its own defaults, but the specific case allows for, e.g., initializing a jet velocity profile. This can be done by adding parameters to the `input.yaml` file and reading those values in the given odt case file. As needed, supporting setup files could be used.
 
 */
 
@@ -398,53 +286,29 @@ The ODT code is structured with a collection of C++ classes.
 /** @page style_guide Style guide
 
 When editing code, the following guide should be followed.
-- Use the existing code as your guide. Always ask yourself, "is this pretty, can I make it
-  better, is there another way to organize this?""
+- Use the existing code as your guide. Always ask yourself, "is this pretty, can I make it better, is there another way to organize this?""
 - Use "camelCase" for variables and functions.
-- The pointer to the `domn` object is the primary communicator that allows passage of
-  information between classes and functions. Avoid declaring global variables or passing
-  values through function parameter lists unnecessarily.
-- Be minimally invasive to the code. Inherit from existing classes and use oaverloading. Do
-  not clutter the code with `if` clauses.
+- The pointer to the `domn` object is the primary communicator that allows passage of information between classes and functions. Avoid declaring global variables or passing values through function parameter lists unnecessarily.
+- Be minimally invasive to the code. Inherit from existing classes and use overloading. Do not clutter the code with `if` clauses.
     - The flamelet code (described below) is an example of inheriting off key classes.
-    - For example, a `stats` class should be added. Calls to this class could be made
-      using a single line of code. If stats is not active it would simply return. If it is
-      active, the called function alone determines what to do. It would have nearly full
-      access to the rest of the code through the `domn` pointer. A function argument
-      could indicate the appropriate action to take that is specific to the `stats`
-      class. This avoids `if` statements and preprocessor directives.
-- Code should be self explanatory. Use descriptive but succinct variable names. For example
-  `dv` is used in the code instead of `domainVariable`. Also `d` is used instead
-  of `data`. While in each case, the latter is more descriptive, a simpler name was used
-  due to the frequency of use. Conversely, lesser-used variables, such as `domainLength`
-  are used for clarity.
+    - For example, a `stats` class should be added. Calls to this class could be made using a single line of code. If stats is not active it would simply return. If it is active, the called function alone determines what to do. It would have nearly full access to the rest of the code through the `domn` pointer. A function argument could indicate the appropriate action to take that is specific to the `stats` class. This avoids `if` statements and preprocessor directives.
+- Code should be self explanatory. Use descriptive but succinct variable names. For example `dv` is used in the code instead of `domainVariable`. Also `d` is used instead of `data`. While in each case, the latter is more descriptive, a simpler name was used due to the frequency of use. Conversely, lesser-used variables, such as `domainLength` are used for clarity.
 - Avoid preprocessor directives. They seriously clutter the code.
-- Modular code is good: avoid monolithic blocks of code; fit a function on one page if
-  possible.
-- Header files should be short and consice. Do not put function definitions in header files
-  (unless they are one line long). Code goes in the code files.
-    - In header files, separate the data members from the member functions from the
-      constructors and destructors. They should go in that order.
+- Modular code is good: avoid monolithic blocks of code; fit a function on one page if possible.
+- Header files should be short and concise. Do not put function definitions in header files (unless they are one line long). Code goes in the code files.
+    - In header files, separate the data members from the member functions from the constructors and destructors. They should go in that order.
 - Use English throughout.
-- Boolean flags are usually prepended with an upper case "L" to indicate a "logical"
-  variable.
+- Boolean flags are usually prepended with an upper case "L" to indicate a "logical" variable.
 - Use comments liberally. Comments to the right of code are preferred.
     - Use double slash comments everywhere except in class and function definitions.
-- Document the code using Doxygen-style directives. All variables declared in header files
-  should have Doxygen-style comments. See the header files for examples of this. Also,
-  document functions and classes. Include parameter definitions and whether they are inputs
-  or outputs. Also give return values.
-- Line up the code and comments vertically. Groups of similar statements should have aligned
-  equal signs, and aligned comments.
+- Document the code using Doxygen-style directives. All variables declared in header files should have Doxygen-style comments. See the header files for examples of this. Also, document functions and classes. Include parameter definitions and whether they are inputs or outputs. Also give return values.
+- Line up the code and comments vertically. Groups of similar statements should have aligned equal signs, and aligned comments.
 - Use blank lines liberally to help group and separate code sections.
 - Use indentation with 4 spaces (not 2).
 - No tabs allowed. Use text editors that insert 4 spaces when the tab key is pressed.
 - Avoid inserting trailing whitespace at the end of a line. 
-- Put the initial opening curly brace of code blocks on the same line. Put the closing curly
-  brace of code blocks on their own line.
-- Most class members are public on purpose. Lets keep it that way. Private variables can be
-  useful for self-documenting that they are only ever needed in the given class, but we are
-  not trying to "hide" variables in this code.
+- Put the initial opening curly brace of code blocks on the same line. Put the closing curly brace of code blocks on their own line.
+- Most class members are public on purpose. Lets keep it that way. Private variables can be useful for self-documenting that they are only ever needed in the given class, but we are not trying to "hide" variables in this code.
 
 */
 
@@ -463,116 +327,68 @@ Documents containing information on the theory behind the ODT code.
 <!-- #################################################################### -->
 /** @page contact Contact Us
 
-The ODT code is developed and maintained by members of the Computational Turbulent Reacting
-Flow research group (CTRFlow), led by Dr. David O. Lignell, Professor of [Chemical
-Engineering](https://chemicalengineering.byu.edu) at [Brigham Young
-University](https://byu.edu), located in Provo, Utah, USA. For more information on the CTRFlow
-group and its projects, visit our website at [ignite.byu.edu](ignite.byu.edu). 
+The ODT code is developed and maintained by members of the Computational Turbulent Reacting Flow research group (CTRFlow), led by Dr. David O. Lignell, Professor of [Chemical Engineering](https://chemicalengineering.byu.edu) at [Brigham Young University](https://byu.edu), located in Provo, Utah, USA. For more information on the CTRFlow group and its projects, visit our website at [ignite.byu.edu](ignite.byu.edu).
 
-- If you believe you have found an error in the code or its documentation, please notify us by
-submitting an issue to the [Github repository](https://github.com/BYUignite/ODT). 
-- For questions related to building, running, or otherwise using the ODT code that cannot be
-addressed by your project leader, please email [Dr. Lignell](mailto:davidlignell@byu.edu)
-and include "ODT Code" in the subject line. Note that you may be referred to another CTRFlow
-member depending on the nature of your questions. 
-- For more information on how ODT is used in turbulent flow research and its current
-development, please refer to the literature, a sampling of which is available on the 
-[ODT Theory and Literature](@ref odt_theory) page, or visit the 
-[CTRFlow group website](https://ignite.byu.edu). 
-- For questions related to collaboration or new research projects using ODT, please email 
-[Dr. Lignell](mailto:davidlignell@byu.edu) and include "ODT Collaboration" or "ODT Project" in
-the subject line, as appropriate.  
+- If you believe you have found an error in the code or its documentation, please notify us by submitting an issue to the [Github repository](https://github.com/BYUignite/ODT).
+- For questions related to building, running, or otherwise using the ODT code that cannot be addressed by your project leader, please email [Dr. Lignell](mailto:davidlignell@byu.edu) and include "ODT Code" in the subject line. Note that you may be referred to another CTRFlow member depending on the nature of your questions.
+- For more information on how ODT is used in turbulent flow research and its current development, please refer to the literature, a sampling of which is available on the [ODT Theory and Literature](@ref odt_theory) page, or visit the [CTRFlow group website](https://ignite.byu.edu).
+- For questions related to collaboration or new research projects using ODT, please email [Dr. Lignell](mailto:davidlignell@byu.edu) and include "ODT Collaboration" or "ODT Project" in the subject line, as appropriate.
 
 */
 
 <!-- #################################################################### -->
 /** @page selected_input_params Selected Input Parameters
 
-This page contains a brief overview of the input file format and details on specific parameters of
-interest beyond the descriptions given in the input file. ODT input files are written in a 
-[standard YAML file](https://en.wikipedia.org/wiki/YAML) and organized into several
-sections, as follows. For a full list of ODT parameters that can be used, please refer to 
-[`param.cc`](./doxygen/html/param_8cc_source.html) from within the source code or this
-documentation.
+This page contains a brief overview of the input file format and details on specific parameters of interest beyond the descriptions given in the input file. ODT input files are written in [standard YAML file format](https://en.wikipedia.org/wiki/YAML) and organized into several sections, as follows. For a full list of ODT parameters that can be used, please refer to [`param.cc`](./doxygen/html/param_8cc_source.html) from within the source code or this documentation.
 
 <!--------------------------------------------------------------------------> 
 @section params_section General ODT parameters: `params`
 
-Contains general ODT parameters common to all case types. No case-specific parameters should
-be located here. Notable members:
+Contains general ODT parameters common to all case types. No case-specific parameters should be located here. Notable members:
 - `seed`: randomization seed value
-    - A negative value indicates that the seed itself should be randomized, useful for
-      generating unique realizations in parallel runs.
+    - A negative value indicates that the seed itself should be randomized, useful for generating unique realizations in parallel runs.
     - Positive seed values are useful for reproducibility. 
 - `tEnd`: end time for temporal flows or the ending spatial location for spatial flows
 - `rho0` and `kvisc0`: average fluid density and kinematic viscosity. 
-    - Used in flows without variable transport properties (i.e. channel flow) and in some
-      initial eddy sampling variables (see 
-      [`solver.cc`](@ref doxygen/html/solver_8cc_source.html)). 
+    - Used in flows without variable transport properties (i.e. channel flow) and in some initial eddy sampling variables (see [`solver.cc`](@ref doxygen/html/solver_8cc_source.html)).
     - For variable property flows, set to a reasonable expected average. 
 - `chemMechFile`: name of the chemical mechanism file to be used 
-    - All cases require a chemical mechanism files, regardless of whether the case includes
-      changing chemistry. In cases where no chemistry is required, the dummy file
-      `not_used.xml` is specified here. 
-    - For a full list of chemical mechanism files that can be used, refer to the `gas_mechanisms`
-      folder within the base `input` directory.
+    - All cases require a chemical mechanism files, regardless of whether the case includes changing chemistry. In cases where no chemistry is required, the dummy file `not_used.xml` is specified here.
+    - For a full list of chemical mechanism files that can be used, refer to the `gas_mechanisms` folder within the base `input` directory.
 - `probType`: specifies the [case type](@ref case_files) 
-- User-defined ODT eddy generation parameters; commonly tuned to experimental data for a
-  given simulation configuration
+- User-defined ODT eddy generation parameters; commonly tuned to experimental data for a given simulation configuration
     - `Z_param`: viscous penalty parameter
     - `C_param`: eddy rate parameters
     - `Z_LES`: large eddy suppression parameter 
-    - `A_param`: eddy distribution parameter; usually set to 2/3 (not tuned), which gives
-      the maximum redistribution of energy among the three velocity components
+    - `A_param`: eddy distribution parameter; usually set to 2/3 (not tuned), which gives the maximum redistribution of energy among the three velocity components
 - `LES_type`: indicates the large-eddy suppression model to be used; frequently used options: 
     - `ELAPSEDTIME`: common for open flows like jets
     - `FRACDOMAIN`: common for channel flow cases 
-    - `NONE`: can be used for channel flow cases since the flow is statistically
-      stationary in time/space and the domain enforces a given eddy size
+    - `NONE`: can be used for channel flow cases since the flow is statistically stationary in time/space and the domain enforces a given eddy size
 - `diffCFL`: multiplies the timestep used for diffusive advancement
-    - Should be less than one, which is the stability limit for purely diffusive (planar)
-      flows, but may need to be set lower. Between 0.1 and 0.2 is common. 
-    - If the code crashes at runtime and everything seems to be set up correctly, lowering
-      this parameter is a good place to start. 
-    - With stiff chemistry, an explicit solver requires this to be very low, but an
-      implicit approach is a much better choice for stiff chemistry anyway.
-- `cCoord`: specifies whether the case is planar (`cCoord = 1`), cylindrical (`cCoord =
-  2`), or spherical (`cCoord = 3`) 
-    - The name refers to the power \f$c\f$ on terms in the transport equations used to make
-      the code generic to all three configurations.
+    - Should be less than one, which is the stability limit for purely diffusive (planar) flows, but may need to be set lower. Between 0.1 and 0.2 is common.
+    - If the code crashes at runtime and everything seems to be set up correctly, lowering this parameter is a good place to start.
+    - With stiff chemistry, an explicit solver requires this to be very low, but an implicit approach is a much better choice for stiff chemistry anyway.
+- `cCoord`: specifies whether the case is planar (`cCoord = 1`), cylindrical (`cCoord = 2`), or spherical (`cCoord = 3`)
+    - The name refers to the power \f$c\f$ on terms in the transport equations used to make the code generic to all three configurations.
 - `gDens`: grid density for mesh refinement
-    - This can be increased to produce a finer grid resolution, but the mesher
-      normalizes the profiles so that the number of grid points is roughly constant for
-      a given profile "length", so this value rarely needs to be modified. 30 is a
-      generally reasonably value.
+    - This can be increased to produce a finer grid resolution, but the mesher normalizes the profiles so that the number of grid points is roughly constant for a given profile "length", so this value rarely needs to be modified. 30 is a generally reasonably value.
 - `dxmin`: smallest cell size (normalized by domain length)
-    - Becuase `dxmin` is normalized by `domainLength`, if you double the size of your
-      domain for the same turbulence level, you will want to halve `dxmin` to get the
-      same smallest grid size.
-    - A value of 0.001 implies a maximum number of grid cells of 1000 on the domain
-      (though the mesher will normally give fewer than this).
-    - Its a good idea to check the resulting cell size distribution to see how often
-      `dxmin` is limiting the grid. This can be an indication of poor resolution.
+    - Becuase `dxmin` is normalized by `domainLength`, if you double the size of your domain for the same turbulence level, you will want to halve `dxmin` to get the same smallest grid size.
+    - A value of 0.001 implies a maximum number of grid cells of 1000 on the domain (though the mesher will normally give fewer than this).
+    - Its a good idea to check the resulting cell size distribution to see how often `dxmin` is limiting the grid. This can be an indication of poor resolution.
 - `eddyMinCells`: the minimum number of grid cells an eddy has to span to be viable
 - `Lmin`: the minimum eddy size sampled/allowed 
-    - This value should be consistent with `dxmin` and `eddyMinCells`.  For example, if
-      `dxmin = 0.001` and `eddyMinCells = 3`, then `Lmin` should be greater than or
-      equal to 0.003. Otherwise, eddies may be sampled that cannot be accepted, which is
-      inefficient.
+    - This value should be consistent with `dxmin` and `eddyMinCells`.  For example, if `dxmin = 0.001` and `eddyMinCells = 3`, then `Lmin` should be greater than or equal to 0.003. Otherwise, eddies may be sampled that cannot be accepted, which is inefficient.
 - `modDump`: the number of eddies accepted before the ODT domain is dumped to an output file
-    - A value of 1 is useful for visualizing the progression of eddies on the domain,
-      especially during preliminary investigation.
-    - A large value like 1,000,000 effectively turns off output of the ODT domain after
-      eddies begin to occur.  This is useful if you prefer your output files limited to
-      only those times specified by either the `dumpTimesGen` or `dumpTimes` variables (which makes
-      post-processing easier).
+    - A value of 1 is useful for visualizing the progression of eddies on the domain, especially during preliminary investigation.
+    - A large value like 1,000,000 effectively turns off output of the ODT domain after eddies begin to occur.  This is useful if you prefer your output files limited to only those times specified by either the `dumpTimesGen` or `dumpTimes` variables (which makes post-processing easier).
 
 <!--------------------------------------------------------------------------> 
 @section stream_props Stream Properties: `streamProps`
 
 Defines stream properties via temperature and chemical composition. Notable members:
-- `moleOrMass`: specifies whether the stream  chemical compositions that follow are given on
-  a mole or mass basis
+- `moleOrMass`: specifies whether the stream compositions that follow are given on a mole or mass basis
 
 <!--------------------------------------------------------------------------> 
 @section boundary_conditions Boundary Conditions: `bcCond`
@@ -582,23 +398,12 @@ Defines velocity and temperature boundary conditions for the simulation.
 <!--------------------------------------------------------------------------> 
 @section init_params Case-Specific Initialization Parameters: `initParams`
 
-Contains case-specific parameters, usually simulation geometry and initial conditions, that
-are read by the `domaincase_caseType` class upon initialization. As these parameters differ
-between case types, there are no parameters common to all case types to list here, but
-common members include pipe diameter (for jet flames or pipe flows), initial velocity
-profile, or boundary layer thickness (for wall flows), to name a few. For more examples,
-refer to individual case input files or `domaincase_caseType` class files within the source
-code.
+Contains case-specific parameters, usually simulation geometry and initial conditions, that are read by the `domaincase_caseType` class upon initialization. As these parameters differ between case types, there are no parameters common to all case types to list here, but common members include pipe diameter (for jet flames or pipe flows), initial velocity profile, or boundary layer thickness (for wall flows), to name a few. For more examples, refer to individual case input files or `domaincase_caseType` class files within the source code.
 
 <!--------------------------------------------------------------------------> 
 @section dump_times Data Output Times: `dumpTimes`
 
-This is not a section, but an individual variable that does not fall under any other
-category. The `dumpTimes` key is an array of times (or spatial locations for spatial
-flows) at which to output the domain state as a data file. It is common to all case types. 
-An alternative is the `dumpTimesGen` key, in which sub-keys `dTimeStart`, `dTimeEnd`, and 
-`dTimeStep` are used to specify the list of `dump_times`. If both `dumpTimes` and `dumpTimesGen` are present,
-`dumpTimesGen` takes precedence, uless `dTimeStart` is negative.
+This is not a section, but an individual variable that does not fall under any other category. The `dumpTimes` key is an array of times (or spatial locations for spatial flows) at which to output the domain state as a data file. It is common to all case types.  An alternative is the `dumpTimesGen` key, in which sub-keys `dTimeStart`, `dTimeEnd`, and `dTimeStep` are used to specify the list of `dump_times`. If both `dumpTimes` and `dumpTimesGen` are present, `dumpTimesGen` takes precedence, unless `dTimeStart` is negative.
 
 Related parameter: `modDump` (`params` section)
 

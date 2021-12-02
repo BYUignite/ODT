@@ -16,7 +16,6 @@ target_sources(odt.x
         ${CMAKE_CURRENT_SOURCE_DIR}/solver.cc                  ${CMAKE_CURRENT_SOURCE_DIR}/solver.h
         ${CMAKE_CURRENT_SOURCE_DIR}/cvodeDriver.cc             ${CMAKE_CURRENT_SOURCE_DIR}/cvodeDriver.h
                                                                ${CMAKE_CURRENT_SOURCE_DIR}/interp_linear.h
-
 )
 
 #################### Subdirectories
@@ -25,22 +24,3 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/domainvariables)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/radiation)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/domaincases)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/user_chemical_mechanisms)
-
-#################### Doxygen documentation
-
-#find_package(Doxygen)
-#if(DOXYGEN_FOUND)
-#    add_custom_target(doxygen
-#        COMMAND rm -rf ../doc/doxygen/html
-#        COMMAND mkdir  ../doc/doxygen/html
-#        COMMAND cp    ../doc/doxygen_build_pages/montage_odt.png ../doc/doxygen/html
-#        COMMAND doxygen -s ../doc/Doxyfile
-#        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-#        COMMENT "Building doxygen documentation"
-#        VERBATIM
-#    )
-#else()
-#    message("\n********************************************************")
-#    message("Cannot build documentation because doxygen was not found")
-#    message("********************************************************\n")
-#endif()
