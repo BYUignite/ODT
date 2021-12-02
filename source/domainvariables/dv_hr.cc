@@ -58,9 +58,9 @@ void dv_hr::setVar(const int ipt){
         double temperatureHere = domn->gas->thermo()->temperature();
         temperatureHere = ( temperatureHere < 250.0 ) ? 250.0 : temperatureHere;
 #ifdef PROBLEMSPECIFICRR
-        domn->gas->getMassFractions( &yi[0] );
+        domn->gas->thermo()->getMassFractions( &yi[0] );
         //        getProblemSpecificRR(domn->gas->density(), domn->gas->temperature(), domn->pram->pres, &yi.at(0), &rr.at(0));
-        getProblemSpecificRR(domn->gas->density(), temperatureHere, domn->pram->pres, &yi.at(0), &rr.at(0));
+        getProblemSpecificRR(domn->gas->thermo()->density(), temperatureHere, domn->pram->pres, &yi.at(0), &rr.at(0));
 #else
         domn->gas->kinetics()->getNetProductionRates(&rr.at(0));
 #endif
