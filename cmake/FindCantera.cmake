@@ -1,4 +1,3 @@
-#find_package(PkgConfig)
 pkg_check_modules(PC_Cantera QUIET Cantera)
 
 find_path(Cantera_INCLUDE_DIR
