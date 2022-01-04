@@ -139,7 +139,9 @@ The following preprocessor flags are specified by the user in the `user_config.i
 <! - `CANTERA_INCLUDE_DIR` = `path_to_cantera_installation\cantera-version\include`
     - Path to Cantera installation `include` directory.
 - `CANTERA_LIB_DIR` = `path_to_cantera_installation\cantera-version\lib`
-    - Path to Cantera installation libraries (`lib` directory). >
+    - Path to Cantera installation libraries (`lib` directory) >
+- `SUNDIALS_DIR` = `\usr\local\lib`
+    - Path to SundialsConfig.cmake file (if using system installation of Sundials) >
 
 @todo New page with details on using chemical mechanisms with ODT.
 
