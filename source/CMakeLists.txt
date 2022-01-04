@@ -1,44 +1,62 @@
 #################### EXECUTABLE ##########################
 
-add_executable(odt.x)
-target_compile_features(odt.x PUBLIC cxx_std_11)
+# -------- executable targets --------
+add_executable(odt-run)
 
-#################### Local source files
+# -------- target properties --------
+target_compile_features(odt-run PUBLIC cxx_std_11)
+set_target_properties(odt-run PROPERTIES PUBLIC_HEADER "")      # not sure if this is needed
 
-target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+# -------- src files --------
+target_include_directories(odt-run PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_sources(odt-run PRIVATE main.cc
+        inputoutput.cc  inputoutput.h
+        domain.cc       domain.h
+        processor.cc    processor.h
+        streams.cc      streams.h
+        meshManager.cc  meshManager.h
+        param.cc        param.h
+        micromixer.cc   micromixer.h
+        eddy.cc         eddy.h
+        solver.cc       solver.h
+        cvodeDriver.cc  cvodeDriver.h
+        interp_linear.h
+        )
 
-target_sources(odt.x PRIVATE main.cc
-                               inputoutput.cc  inputoutput.h
-                               domain.cc       domain.h
-                               processor.cc    processor.h
-                               streams.cc      streams.h
-                               meshManager.cc  meshManager.h
-                               param.cc        param.h
-                               micromixer.cc   micromixer.h
-                               eddy.cc         eddy.h
-                               solver.cc       solver.h
-                               cvodeDriver.cc  cvodeDriver.h
-                                               interp_linear.h
-              )
-
-#################### Subdirectories
-
+# -------- src subdirectories --------
 add_subdirectory(domainvariables)
 add_subdirectory(radiation)
 add_subdirectory(domaincases)
 add_subdirectory(user_chemical_mechanisms)
 
+# -------- dependencies --------
+target_include_directories(odt-run PRIVATE ${Boost_INCLUDE_DIR} ${YAML_INCLUDE_DIR} ${radlib_INCLUDE_DIR} ${sootlib_INCLUDE_DIR} ${SUNDIALS_INCLUDE_DIR} ${Cantera_INCLUDE_DIR})
 
-#target_include_directories(odt.x PRIVATE ${Boost_INCLUDE_DIR})
-#target_link_libraries(odt.x PUBLIC Threads::Threads -pthread)
-#
-#target_include_directories(odt.x PRIVATE ${YAML_INCLUDE_DIR})
-#target_link_libraries(odt.x PUBLIC yaml-cpp -lyaml-cpp)
-#
-#target_include_directories(odt.x PRIVATE ${SUNDIALS_INCLUDE_DIR})
-#target_link_libraries(odt.x PUBLIC SUNDIALS::cvode SUNDIALS::nvecserial SUNDIALS::sunmatrixdense)
-#
+target_link_libraries(odt-run PUBLIC Threads::Threads -pthread)
+target_link_libraries(odt-run PUBLIC yaml-cpp)
+#target_link_libraries(odt-run PUBLIC radlib sootlib)
+target_link_libraries(odt-run PUBLIC SUNDIALS::cvode SUNDIALS::nvecserial SUNDIALS::sunmatrixdense)
+
 #include_directories("${Cantera_INCLUDE_DIR}/cantera")
 #link_directories("${Cantera_LIBRARY}")
-#target_include_directories(odt.x PRIVATE ${CANTERA_INCLUDE_DIR})
-#target_link_libraries(odt.x PUBLIC cantera sundials_cvodes sundials_sunlinsollapackband sundials_sunlinsollapackdense lapack blas -lyaml-cpp)
+#target_include_directories(odt-run PRIVATE ${CANTERA_INCLUDE_DIR})
+target_link_libraries(odt-run PUBLIC cantera sundials_cvodes sundials_sunlinsollapackband sundials_sunlinsollapackdense lapack blas)
+
+############# INSTALLATION ################
+
+include(GNUInstallDirs)
+
+#---- allow odt to be used in other targets ----
+target_include_directories(odt-run
+        INTERFACE
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
+        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+        )
+
+install(TARGETS odt-run
+        EXPORT  odt
+        RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR}
+        LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        )

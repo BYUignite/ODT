@@ -1,8 +1,9 @@
-target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+#################### TARGET SOURCES ##########################
+
+target_include_directories(odt-run PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(CHEMISTRY STREQUAL "SIMPLEDLR")
-    target_sources(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/simple_dlr.cc)
+    target_sources(odt-run PRIVATE simple_dlr.cc)
 else()
-    message("CHEMISTRY=${CHEMISTRY} not supported")
+    message(FATAL_ERROR "CHEMISTRY=${CHEMISTRY} not supported")
 endif()
-

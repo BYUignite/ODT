@@ -1,24 +1,25 @@
-target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+#################### TARGET SOURCES ##########################
 
-target_sources(odt.x
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv.cc                 ${CMAKE_CURRENT_SOURCE_DIR}/dv.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_pos.cc             ${CMAKE_CURRENT_SOURCE_DIR}/dv_pos.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_posf.cc            ${CMAKE_CURRENT_SOURCE_DIR}/dv_posf.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_rho.cc             ${CMAKE_CURRENT_SOURCE_DIR}/dv_rho.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_rho_const.cc       ${CMAKE_CURRENT_SOURCE_DIR}/dv_rho_const.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_rho_mf.cc          ${CMAKE_CURRENT_SOURCE_DIR}/dv_rho_mf.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_dvisc.cc           ${CMAKE_CURRENT_SOURCE_DIR}/dv_dvisc.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_dvisc_const.cc     ${CMAKE_CURRENT_SOURCE_DIR}/dv_dvisc_const.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_uvw.cc             ${CMAKE_CURRENT_SOURCE_DIR}/dv_uvw.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_sca.cc             ${CMAKE_CURRENT_SOURCE_DIR}/dv_sca.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_enth.cc            ${CMAKE_CURRENT_SOURCE_DIR}/dv_enth.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_temp.cc            ${CMAKE_CURRENT_SOURCE_DIR}/dv_temp.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_mixf.cc            ${CMAKE_CURRENT_SOURCE_DIR}/dv_mixf.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_chi.cc             ${CMAKE_CURRENT_SOURCE_DIR}/dv_chi.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_chi_dmf.cc         ${CMAKE_CURRENT_SOURCE_DIR}/dv_chi_dmf.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_hr.cc              ${CMAKE_CURRENT_SOURCE_DIR}/dv_hr.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_ygas.cc            ${CMAKE_CURRENT_SOURCE_DIR}/dv_ygas.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_ygas_noRxn.cc      ${CMAKE_CURRENT_SOURCE_DIR}/dv_ygas_noRxn.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/dv_aDL.cc             ${CMAKE_CURRENT_SOURCE_DIR}/dv_aDL.h
+target_include_directories(odt-run PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_sources(odt-run PRIVATE
+        dv.cc                 dv.h
+        dv_pos.cc             dv_pos.h
+        dv_posf.cc            dv_posf.h
+        dv_rho.cc             dv_rho.h
+        dv_rho_const.cc       dv_rho_const.h
+        dv_rho_mf.cc          dv_rho_mf.h
+        dv_dvisc.cc           dv_dvisc.h
+        dv_dvisc_const.cc     dv_dvisc_const.h
+        dv_uvw.cc             dv_uvw.h
+        dv_sca.cc             dv_sca.h
+        dv_enth.cc            dv_enth.h
+        dv_temp.cc            dv_temp.h
+        dv_mixf.cc            dv_mixf.h
+        dv_chi.cc             dv_chi.h
+        dv_chi_dmf.cc         dv_chi_dmf.h
+        dv_hr.cc              dv_hr.h
+        dv_ygas.cc            dv_ygas.h
+        dv_ygas_noRxn.cc      dv_ygas_noRxn.h
+        dv_aDL.cc             dv_aDL.h
 )

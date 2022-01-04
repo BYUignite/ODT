@@ -1,10 +1,11 @@
-target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+#################### TARGET SOURCES ##########################
 
-target_sources(odt.x
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/radiation.cc           ${CMAKE_CURRENT_SOURCE_DIR}/radiation.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/radiationProperties.cc ${CMAKE_CURRENT_SOURCE_DIR}/radiationProperties.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/rad_opthin.cc          ${CMAKE_CURRENT_SOURCE_DIR}/rad_opthin.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/rad_twoflux.cc         ${CMAKE_CURRENT_SOURCE_DIR}/rad_twoflux.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/rad_fvdom.cc           ${CMAKE_CURRENT_SOURCE_DIR}/rad_fvdom.h
+target_include_directories(odt-run PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_sources(odt-run PRIVATE
+        radiation.cc            radiation.h
+        radiationProperties.cc  radiationProperties.h
+        rad_opthin.cc           rad_opthin.h
+        rad_twoflux.cc          rad_twoflux.h
+        rad_fvdom.cc            rad_fvdom.h
 )
