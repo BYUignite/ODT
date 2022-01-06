@@ -39,8 +39,8 @@ option(ODT_SYSTEM_SUNDIALS  "Use system-wide Sundials installation"     ON)
 option(ODT_SYSTEM_CANTERA   "Use system-wide Cantera installation"      ON)
 
 # ---- DEBUGGING ONLY ----
-set(FETCHCONTENT_SOURCE_DIR_RADLIB  "/home/vbstephens/codes/radlib"  CACHE STRING "local radlib development location")
-set(FETCHCONTENT_SOURCE_DIR_SOOTLIB "/home/vbstephens/codes/sootlib" CACHE STRING "local sootlib development location")
+#set(FETCHCONTENT_SOURCE_DIR_RADLIB  "/home/vbstephens/codes/radlib"  CACHE STRING "local radlib development location")
+#set(FETCHCONTENT_SOURCE_DIR_SOOTLIB "/home/vbstephens/codes/sootlib" CACHE STRING "local sootlib development location")
 
 # -------- Boost + Threads --------
 find_package(Boost REQUIRED COMPONENTS system)
@@ -54,11 +54,11 @@ FetchContent_Declare(Sundials
         GIT_REPOSITORY https://github.com/LLNL/sundials.git
         GIT_TAG 887af4374af2271db9310d31eaa9b5aeff49e829)           # Sundials-5.3.0
 FetchContent_Declare(radlib
-        GIT_REPOSTIORY https://github.com/BYUignite/radlib.git
-        GIT_TAG a77c8052d3b9373de0f1996800af2878d7d6ea9b)           # radlib-2.0.0
+        GIT_REPOSITORY https://github.com/BYUignite/radlib.git
+        GIT_TAG f3f0a1b223d2d6cc6ecc61f516c468e4920702f3)           # radlib-2.0.0
 FetchContent_Declare(sootlib
-        GIT_REPOSTIORY https://github.com/BYUignite/sootlib.git
-        GIT_TAG cc137fb82107a422df84ecd826575aba2e585beb)           # sootlib-0.1.0
+        GIT_REPOSITORY https://github.com/BYUignite/sootlib.git
+        GIT_TAG ac3a3cdd2439689a99a00997b82b6c39aba8a662)           # sootlib-0.1.0
 
 # -------- YAML --------
 message(STATUS "Looking for yaml-cpp")

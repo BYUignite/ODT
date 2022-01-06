@@ -30,16 +30,15 @@ add_subdirectory(domaincases)
 add_subdirectory(user_chemical_mechanisms)
 
 # -------- dependencies --------
-target_include_directories(odt-run PRIVATE ${Boost_INCLUDE_DIR} ${YAML_INCLUDE_DIR} ${radlib_INCLUDE_DIR} ${sootlib_INCLUDE_DIR} ${SUNDIALS_INCLUDE_DIR} ${Cantera_INCLUDE_DIR})
+target_include_directories(odt-run PRIVATE ${Boost_INCLUDE_DIR} ${YAML_INCLUDE_DIR} ${SUNDIALS_INCLUDE_DIR} ${Cantera_INCLUDE_DIR})
 
 target_link_libraries(odt-run PUBLIC Threads::Threads -pthread)
 target_link_libraries(odt-run PUBLIC yaml-cpp)
-#target_link_libraries(odt-run PUBLIC radlib sootlib)
+target_link_libraries(odt-run PUBLIC radlib::radProps sootlib::sootModel)
 target_link_libraries(odt-run PUBLIC SUNDIALS::cvode SUNDIALS::nvecserial SUNDIALS::sunmatrixdense)
 
 #include_directories("${Cantera_INCLUDE_DIR}/cantera")
 #link_directories("${Cantera_LIBRARY}")
-#target_include_directories(odt-run PRIVATE ${CANTERA_INCLUDE_DIR})
 target_link_libraries(odt-run PUBLIC cantera sundials_cvodes sundials_sunlinsollapackband sundials_sunlinsollapackdense lapack blas)
 
 ############# INSTALLATION ################
