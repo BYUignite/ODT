@@ -7,7 +7,11 @@
 
 #include <vector>
 #include <string>
-#include "radiationProperties.h"
+//#include "radiationProperties.h"
+#include "rad.h"
+#include "rad_planck_mean.h"
+#include "rad_rcslw.h"
+#include "rad_wsgg.h"
 
 class domain;
 
@@ -43,9 +47,14 @@ class radiation {
     public:
 
         domain                      *domn;          ///< pointer to domain
-        radiationProperties         *radProps;      ///< tools for getting k's and a's, etc. // defines radProps
+//        radiationProperties         *radProps;      ///< tools for getting k's and a's, etc. // defines radProps
+        rad                         *radProps;      ///< tools for getting k's and a's, etc. // defines radProps // radlib
 
         double                      sigmaSB;        ///< Stefan Boltzman const
+
+        int                              nRadSp;     ///< number of radiating species
+        vector<int>                      iRadIndx;   ///< index of radiating species
+        int                              nGG;        ///< number of grey gases for WSGG approaches
 
     ////////////////////// MEMBER FUNCTIONS /////////////////////
 
@@ -67,4 +76,3 @@ class radiation {
         virtual ~radiation(){delete radProps;}          // destructor
 
 };
-

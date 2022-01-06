@@ -27,11 +27,35 @@ void rad_opthin::getRadHeatSource(const vector<vector<double> > &xMoleSp,
     // make variables
     double TBChi4 = pow(domn->pram->TBChi, 4.0);
 
-    vector<double> Kabs(domn->ngrd);
-    radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, Kabs);
+//    vector<double> Kabs(domn->ngrd);
+//    radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, Kabs);
+//
+//    for(int i=0; i<domn->ngrd; i++)
+//        radSource[i] = -4*sigmaSB*Kabs[i]*(pow(temp[i],4.0) - TBChi4) / domn->rho->d[i];
 
-    for(int i=0; i<domn->ngrd; i++)
+    vector<double> Kabs(domn->ngrd);
+
+    // todo soot implementation
+    double fvsoot = 0;
+//    if (domn->pram->Lsoot)
+//        fvsoot = 0;
+
+    for(int i=0; i<domn->ngrd; i++) {
+
+        double xCH4 = xMoleSp.at(i).at(iRadIndx[0]);
+        double xCO2 = xMoleSp.at(i).at(iRadIndx[1]);
+        double xH2O = xMoleSp.at(i).at(iRadIndx[2]);
+        double xCO  = xMoleSp.at(i).at(iRadIndx[4]);
+
+        vector<double> K;       // temp storage for k values
+        vector<double> A;       // temp storage for wts values
+
+        radProps->get_k_a(K, A, temp[i], pressure, fvsoot, xH2O, xCO2, xCO, xCH4);
+
+        for (int j=0; j<K.size(); j++)
+            Kabs[i] = K[j]*A[j];
+
         radSource[i] = -4*sigmaSB*Kabs[i]*(pow(temp[i],4.0) - TBChi4) / domn->rho->d[i];
+    }
 
 }
-

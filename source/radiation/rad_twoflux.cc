@@ -42,35 +42,56 @@ void rad_twoflux::getRadHeatSource(const vector<vector<double> > &xMoleSp,
    //------------- Get the gas absorption coefficient
 
    vector<double> Kabs(domn->ngrd);
-   radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, Kabs);
-   Kabs.insert(Kabs.begin(), Kabs[0]);
-   Kabs.push_back(Kabs[Kabs.size()-1]);
+//   radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, Kabs);
 
-   //------------- Get the gas emmision term
+    // todo soot implementation
+    double fvsoot = 0;
+//    if (domn->pram->Lsoot)
+//        fvsoot = 0;
 
-   for(int i=0; i<npts-2; i++)
-       gasEmmTerm[i+1] = 2.0*Kabs[i+1] * sigmaSB*pow(temp[i],4.0);
-   gasEmmTerm[0]      = gasEmmTerm[1];
-   gasEmmTerm[npts-1] = gasEmmTerm[npts-2];
+    for(int i=0; i<domn->ngrd; i++) {
 
-   //------------- Get radiative fluxes: qp, qm
-   // Marching qp low to high, qm high to low
+        double xCH4 = xMoleSp.at(i).at(iRadIndx[0]);
+        double xCO2 = xMoleSp.at(i).at(iRadIndx[1]);
+        double xH2O = xMoleSp.at(i).at(iRadIndx[2]);
+        double xCO  = xMoleSp.at(i).at(iRadIndx[4]);
 
-   double qpBClo = sigmaSB * pow(domn->pram->TBClo,4.0);
-   double qmBChi = sigmaSB * pow(domn->pram->TBChi,4.0);
+        vector<double> K;       // temp storage for k values
+        vector<double> A;       // temp storage for wts values
 
-   qp[0] = qpBClo;
-       for(int i=1; i<npts; i++)
-       qp[i] = ( qp[i-1] + dx[i-1]*gasEmmTerm[i] ) / ( 1. + 2.*Kabs[i]*dx[i-1] );
+        radProps->get_k_a(K, A, temp[i], pressure, fvsoot, xH2O, xCO2, xCO, xCH4);
 
-   qm[npts-1] = qmBChi;
-       for(int i=npts-2; i>=0; i--)
-           qm[i] = ( qm[i+1] + dx[i]*gasEmmTerm[i] ) / ( 1. + 2.*Kabs[i]*dx[i] );
+        for (int j=0; j<K.size(); j++)
+            Kabs[i] = K[j]*A[j];
+    }
 
-   //------------- Get gas radiative source: (div q) (=) W/kg (additive source to E-bal)
+    Kabs.insert(Kabs.begin(), Kabs[0]);
+    Kabs.push_back(Kabs[Kabs.size()-1]);
 
-    for(int i=0, ip=1; i<npts-2; i++, ip++)
-       radSource[i] = -2.*Kabs[ip] * (2.*sigmaSB*pow(temp[i],4.0) - qp[ip] - qm[ip]) /
-                      domn->rho->d[i];
+    //------------- Get the gas emmision term
+
+    for(int i=0; i<npts-2; i++)
+        gasEmmTerm[i+1] = 2.0*Kabs[i+1] * sigmaSB*pow(temp[i],4.0);
+    gasEmmTerm[0]      = gasEmmTerm[1];
+    gasEmmTerm[npts-1] = gasEmmTerm[npts-2];
+
+    //------------- Get radiative fluxes: qp, qm
+    // Marching qp low to high, qm high to low
+
+    double qpBClo = sigmaSB * pow(domn->pram->TBClo,4.0);
+    double qmBChi = sigmaSB * pow(domn->pram->TBChi,4.0);
+
+    qp[0] = qpBClo;
+        for(int i=1; i<npts; i++)
+        qp[i] = ( qp[i-1] + dx[i-1]*gasEmmTerm[i] ) / ( 1. + 2.*Kabs[i]*dx[i-1] );
+
+    qm[npts-1] = qmBChi;
+        for(int i=npts-2; i>=0; i--)
+            qm[i] = ( qm[i+1] + dx[i]*gasEmmTerm[i] ) / ( 1. + 2.*Kabs[i]*dx[i] );
+
+    //------------- Get gas radiative source: (div q) (=) W/kg (additive source to E-bal)
+
+     for(int i=0, ip=1; i<npts-2; i++, ip++)
+        radSource[i] = -2.*Kabs[ip] * (2.*sigmaSB*pow(temp[i],4.0) - qp[ip] - qm[ip]) /
+                       domn->rho->d[i];
 }
-

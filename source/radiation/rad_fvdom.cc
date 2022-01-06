@@ -73,10 +73,35 @@ void rad_fvdom::getRadHeatSource(const vector<vector<double> > &xMoleSp,
     vector<vector<double> >          a(   1, vector<double>(domn->ngrd, 1.0));
     vector<vector<vector<double> > > I(domn->ngrd, vector<vector<double> >(ntheta, vector<double>(npsi))); // total intensity
 
+    //-------------- get absorption coefficients and weights
+
+    for(int i=0; i<domn->ngrd; i++) {
+
+        double xCH4 = xMoleSp.at(i).at(iRadIndx[0]);
+        double xCO2 = xMoleSp.at(i).at(iRadIndx[1]);
+        double xH2O = xMoleSp.at(i).at(iRadIndx[2]);
+        double xCO  = xMoleSp.at(i).at(iRadIndx[4]);
+
+        // todo soot implementation
+        double fvsoot = 0;
+//            if (domn->pram->Lsoot)
+//                fvsoot = 0;
+
+        vector<double> K;       // temp storage for k values
+        vector<double> A;       // temp storage for wts values
+
+        radProps->get_k_a(K, A, temp[i], pressure, fvsoot, xH2O, xCO2, xCO, xCH4);
+
+        for(int j=0; j<K.size(); j++) {
+            Kabs[j][i] = K[j];
+        }
+
+    }
     //-------------- Planck mean
 
     if(domn->pram->radCoefType == "PLANKMEAN") {
-        radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, Kabs[0]);
+//        radProps->get_planck_mean_coefs(xMoleSp, temp, pressure, Kabs[0]);
+
         if(domn->pram->cCoord == 1){
             get_I_planar(temp, Kabs[0], a[0], false, I);
             get_radSource_planar(I, radSource);
@@ -88,12 +113,12 @@ void rad_fvdom::getRadHeatSource(const vector<vector<double> > &xMoleSp,
     }
     //-------------- Spectral
     else {
-        Kabs.resize(radProps->nGG, vector<double>(domn->ngrd));
-        a.resize(   radProps->nGG, vector<double>(domn->ngrd));
-        if (domn->pram->radCoefType == "WSGG")
-            radProps->get_WSGG_coefs(xMoleSp, temp, pressure, Kabs, a);
+        Kabs.resize(radProps->get_nGG(), vector<double>(domn->ngrd));
+        a.resize(   radProps->get_nGG(), vector<double>(domn->ngrd));
+//        if (domn->pram->radCoefType == "WSGG")
+//            radProps->get_WSGG_coefs(xMoleSp, temp, pressure, Kabs, a);
         vector<vector<vector<double> > > Ik(domn->ngrd, vector<vector<double> >(ntheta, vector<double>(npsi))); // spectral intensity
-        for(int k=0; k < radProps->nGG; k++){
+        for(int k=0; k < radProps->get_nGG(); k++){
             if(domn->pram->cCoord == 1)
                 get_I_planar(temp, Kabs[k], a[k], k==0, Ik);
             else       // cCoord == 2
