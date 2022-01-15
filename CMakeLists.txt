@@ -58,7 +58,7 @@ FetchContent_Declare(radlib
         GIT_TAG da2420bc46a94e0c96f487735fda949bca96d07c)           # radlib-2.0.0
 FetchContent_Declare(sootlib
         GIT_REPOSITORY https://github.com/BYUignite/sootlib.git
-        GIT_TAG ac3a3cdd2439689a99a00997b82b6c39aba8a662)           # sootlib-0.1.0
+        GIT_TAG 5f5eeb6fdb1ef66e7d82fd136026bb20f06208e5)           # sootlib-0.1.0
 
 # -------- YAML --------
 message(STATUS "Looking for yaml-cpp")
