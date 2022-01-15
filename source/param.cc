@@ -101,6 +101,21 @@ param::param(inputoutput *p_io) {
     ntheta       = io->radParams["ntheta"]        ? io->radParams["ntheta"].as<int>()           : 40;
     npsi         = io->radParams["npsi"]          ? io->radParams["npsi"].as<int>()             : 80;
 
+    // Soot variables ---------------------
+
+    Lsoot             = io->params["Lsoot"]                ? io->params["Lsoot"].as<bool>()                     : false;
+    nsvar             = io->sootParams["nsvar"]            ? io->sootParams["nsvar"].as<int>()                  : 0;
+    PSD_method        = io->sootParams["PSD_method"]       ? io->sootParams["PSD_method"].as<string>()          : "MONO";
+    rhoSoot           = io->sootParams["rhoSoot"]          ? io->sootParams["rhoSoot"].as<double>()             : 1850.0;    ///< solid soot density, kg/m3
+    nucleation_mech   = io->sootParams["nucleation_mech"]  ? io->sootParams["nucleation_mech"].as<string>()     : "NONE";
+    growth_mech       = io->sootParams["growth_mech"]      ? io->sootParams["growth_mech"].as<string>()         : "NONE";
+    oxidation_mech    = io->sootParams["oxidation_mech"]   ? io->sootParams["oxidation_mech"].as<string>()      : "NONE";
+    coagulation_mech  = io->sootParams["coagulation_mech"] ? io->sootParams["coagulation_mech"].as<string>()    : "NONE";
+    Cmin              = io->sootParams["Cmin"]             ? io->sootParams["Cmin"].as<int>()                   : 100;       ///< minimum number of carbon atoms in a soot particle
+    b_coag            = io->sootParams["b_coag"]           ? io->sootParams["b_coag"].as<double>()              : 0.8536;    ///< coagulation constant; or use 1/sqrt(2), or 1, or avg of those
+    for(int i=0; i<io->sootParams["PAH_species"].size(); i++)
+        PAH_species.push_back(io->sootParams["PAH_species"][i].as<string>());
+
     //---------------------
 
     // Dirichlet velocity BCs (no-slip)
@@ -154,4 +169,3 @@ param::param(inputoutput *p_io) {
         cout << endl << "ERROR: STRANG solver is not set up with Darrieus Landau instability LdoDL" << endl;
 
 }
-

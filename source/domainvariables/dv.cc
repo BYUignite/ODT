@@ -6,6 +6,8 @@
 #include "dv.h"
 #include "domain.h"
 
+vector<vector<double> > dv::gasSootSources;    // define static member
+
 ////////////////////////////////////////////////////////////////////////////////
 /*! dv constructor function
  *
@@ -192,4 +194,17 @@ void dv::setDvFromRegion(const int i1, const int i2){
 
 void dv::resize() {
     d.resize(domn->ngrd);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/*! Reset L_source_done flags
+ *  Used as a flag for the soot source terms, which need to be set before the gas sources.
+ *  But this could be more generally extended if desired.
+ */
+
+void dv::resetSourceFlags() {
+    if(!domn->pram->Lsoot)
+        return;
+    for(int k=0; k<domn->pram->nsvar; k++)
+        domn->svar[k]->L_source_done = false;
 }

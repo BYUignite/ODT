@@ -23,3 +23,19 @@ void domaincase::enforceMassFractions() {
             domn->ysp[k]->d.at(i) /= sum;
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+/** Make sure soot moment values are greater than zero
+ */
+void domaincase::enforceSootMom() {
+
+    if (!domn->pram->Lsoot)
+        return;
+
+    double sum;
+    for(int i=0; i<domn->ngrd; i++) {
+        for(int k=0; k<domn->pram->nsvar; k++)
+            if(domn->svar[k]->d[i] < 0.0)
+                domn->svar[k]->d[i] = 0.0;
+    }
+}

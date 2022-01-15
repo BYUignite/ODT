@@ -9,6 +9,8 @@
 #include <string>
 #include <cstdlib>
 
+#include "constants.h"
+
 class domain;
 
 using namespace std;
@@ -111,10 +113,27 @@ class param {
 
         //----------------- Radiation variables
 
-        string                      radSolveType;   ///< OPTHIN, TWOFLUX, FVDOM
-        string                      radCoefType;    ///< PLANCKMEAN, WSGG, RCSLW
-        int                         npsi;
-        int                         ntheta;
+        string          radSolveType;   ///< OPTHIN, TWOFLUX, FVDOM
+        string          radCoefType;    ///< PLANCKMEAN, WSGG, RCSLW
+        int             npsi;
+        int             ntheta;
+
+        //----------------- Soot variables
+
+        bool           Lsoot;               ///< true for soot, false for no soot
+        int            nsvar;               ///< number of soot variables transported (# soot moments)
+        vector<string> PAH_species;         ///< soot list of pah species in mechanism
+
+        int            Cmin;                ///< minimum number of carbon atoms in a soot particle
+        double         rhoSoot;             ///< solid soot density
+        double         b_coag;              ///< coagulation rate parameter (see Lignell thesis page 58.)
+
+        string nucleation_mech;     ///< soot nucleation chemistry flag
+        string growth_mech;         ///< soot growth chemistry flag
+        string oxidation_mech;      ///< soot oxidation chemistry flag
+        string coagulation_mech;    ///< soot coagulation mechanism flag
+        string PSD_method;          ///< method name for soot PSD: MONO, LOGN, QMOM, MOMIC
+
 
     //////////////////// MEMBER FUNCTIONS /////////////////
 
@@ -140,5 +159,3 @@ class param {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-
-

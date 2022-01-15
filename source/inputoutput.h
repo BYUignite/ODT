@@ -41,6 +41,7 @@ class inputoutput {
         YAML::Node               streamProps;    ///< yaml sub node
         YAML::Node               initParams;     ///< yaml sub node
         YAML::Node               radParams;      ///< yaml sub node
+        YAML::Node               sootParams;     ///< yaml sub node
         YAML::Node               dvParams;       ///< yaml sub node
         YAML::Node               dTimes;         ///< yaml sub node
         YAML::Node               dumpTimesGen;   ///< yaml sub node
@@ -84,5 +85,3 @@ class inputoutput {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-
-

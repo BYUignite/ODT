@@ -39,6 +39,11 @@ class dv {
 
         vector<double>                flux;
 
+        //---------- for gas-soot coupling
+
+        bool                           L_source_done;         ///< flag set true when source updated: (for gas-soot sources)
+        static vector<vector<double> > gasSootSources;        ///< [nspc][ngrd] source terms for gas from soot rxns
+
     //////////////////// MEMBER FUNCTIONS /////////////////
 
         virtual void   setVar(const int ipt=-1){}
@@ -61,6 +66,9 @@ class dv {
         virtual void   setDvFromRegion(const int i1, const int i2);
         virtual void   resize();
 
+        void           resetSourceFlags();
+
+
     //////////////////// CONSTRUCTOR FUNCTIONS /////////////////
 
     public:
@@ -77,4 +85,3 @@ class dv {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-

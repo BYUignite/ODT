@@ -35,6 +35,7 @@ class domaincase {
         virtual void setCaseSpecificVars(){}
         virtual void setCaseSpecificVars_cvode(const int &ipt){}
         virtual void enforceMassFractions();
+        virtual void enforceSootMom();
 
     private:
 
@@ -49,4 +50,3 @@ class domaincase {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-

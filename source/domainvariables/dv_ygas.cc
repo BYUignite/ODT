@@ -77,6 +77,16 @@ void dv_ygas::getRhsSrc(const int ipt) {
 
     if(kMe==0) {                 // to save cost, compute needed terms for all dv_ygas objects using this one.
 
+        //-------- Soot source terms
+        //         Soot sources need to be done first: check with L_source_done flag
+        //         If not done, do them here.
+        //         Then when soot sources are done, the L_source_done is true and we'll avoid double computing.
+        //         This allows arbitrary ordering of the domain variables. If soot always comes before ygas in the list we wouldn't need this.
+
+        if(domn->pram->Lsoot && !domn->svar[0]->L_source_done)
+            for(int k=0; k<domn->pram->nsvar; k++)
+                domn->svar[k]->getRhsSrc(ipt);            // this will set L_source_done flag true
+
         for(int k=0; k<nspc; k++)
             rrSpc.at(k).resize(domn->ngrd);
 
@@ -95,6 +105,10 @@ void dv_ygas::getRhsSrc(const int ipt) {
         }
 
     }
+
+    if(domn->pram->Lsoot)
+        for(int i=iS; i<=iE; i++)
+            rhsSrc.at(i) += gasSootSources[kMe].at(i);    // gasSootSources set in soot source terms
 
     for(int i=iS; i<=iE; i++)
         rhsSrc.at(i) = rrSpc.at(kMe).at(i) *

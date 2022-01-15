@@ -18,6 +18,7 @@
 #include "dv_chi.h"
 #include "dv_hr.h"
 #include "dv_aDL.h"
+#include "dv_soot.h"
 
 #include "interp_linear.h"
 
@@ -62,6 +63,13 @@ void domaincase_odt_jetFlame::init(domain *p_domn) {
     for(int k=0; k<domn->gas->thermo()->nSpecies(); k++)
         domn->v.push_back(new dv_ygas(domn, "y_"+domn->gas->thermo()->speciesName(k), true, true ));
     domn->v.push_back(new dv_enth(  domn, "enth",    true,  true ));  // enth AFTER ygas for enth flux (see dv_enth)
+    if (domn->pram->Lsoot) {
+        stringstream ss;
+        for(int k=0; k<domn->pram->nsvar; k++) {
+            ss.str(""); ss.clear(); ss << k;
+            domn->v.push_back(new dv_soot(domn, "M"+ss.str(), true, true ));
+        }
+    }
 
     int ii = 0;
     domn->pos    = domn->v.at(ii++);
@@ -80,6 +88,10 @@ void domaincase_odt_jetFlame::init(domain *p_domn) {
     domn->ysp = domn->v.begin()+ii;       // access as domn->ysp[k]->d[i], etc. where k is the species starting from 0.
     ii += domn->gas->thermo()->nSpecies();
     domn->enth   = domn->v.at(ii++);
+    if (domn->pram->Lsoot == true) {
+        domn->svar = domn->v.begin()+ii;    // access as domn->svar[k]->d[i], etc. where k is the species starting from 0.
+        ii += domn->pram->nsvar;
+    }
 
     //------------------- set variables used for mesh adaption
 
@@ -124,6 +136,20 @@ void domaincase_odt_jetFlame::init(domain *p_domn) {
         Linear_interp Linterp(xprof, uprof);
         for(int i=0; i<domn->ngrd; i++)
             domn->uvel->d.at(i) = Linterp.interp(domn->pos->d.at(i));
+    }
+
+    //------------------- set initial soot profile
+    if (domn->pram->Lsoot) {
+        if (domn->pram->PSD_method == "QMOM" || domn->pram->PSD_method == "MOMIC" || domn->pram->PSD_method == "LOGN") {
+            double M0 = 1.0E0;
+            double sigL = 3.0;
+            double mavg = 1.0E-21;
+            for (int k=0; k<domn->pram->nsvar; k++) {
+                for(int j=0; j<domn->ngrd; j++) {
+                    domn->svar[k]->d[j] = M0 * pow(mavg, k) * exp(0.5 * pow(k,2) * pow(sigL,2));
+                }
+            }
+        }
     }
 
     //--------------------

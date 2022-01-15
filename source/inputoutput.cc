@@ -46,6 +46,7 @@ inputoutput::inputoutput(const string p_caseName, const int p_nShift){
     streamProps = inputFile["streamProps"];
     initParams  = inputFile["initParams"];
     radParams   = inputFile["radParams"];
+    sootParams  = inputFile["sootParams"];
     dvParams    = inputFile["dvParams"];
     dTimes      = inputFile["dumpTimes"];
     dumpTimesGen= inputFile["dumpTimesGen"];
@@ -347,4 +348,3 @@ void inputoutput::loadVarsFromRestartFile() {
         domn->v[k]->setVar();
 
 }
-

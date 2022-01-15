@@ -22,4 +22,5 @@ target_sources(odt-run PRIVATE
         dv_ygas.cc            dv_ygas.h
         dv_ygas_noRxn.cc      dv_ygas_noRxn.h
         dv_aDL.cc             dv_aDL.h
+        dv_soot.cc            dv_soot.h
 )
