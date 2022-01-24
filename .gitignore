@@ -1,6 +1,6 @@
 data/**
 *~
 *.pyc
-bin
-include
-lib
+bin/*
+include/*
+lib/*
