@@ -107,8 +107,6 @@ if (NOT ODT_SYSTEM_SUNDIALS OR NOT sundials_FOUND)
         set(CMAKE_C_FLAGS            "-fPIC" CACHE INTERNAL "")             # required flag for building shared library
         add_subdirectory(${sundials_SOURCE_DIR} ${sundials_BINARY_DIR})     # Bring the populated content into the build
         message(STATUS "Found---using Sundials fetched from repository")
-    else ()
-        message(FATAL_ERROR "Sundials not found")
     endif ()
 endif ()
 
@@ -122,19 +120,21 @@ if (ODT_SYSTEM_CANTERA)
     endif ()
 endif ()
 
-if (NOT ODT_SYSTEM_CANTERA OR NOT Cantera_FOUND)
-    # TODO add Cantera via ExternalProject_Add commands here
-    if (Cantera_FOUND)
-        message(STATUS "Found---using Cantera fetched from repository")
-    else ()
-        message(FATAL_ERROR "Cantera not found")
-    endif ()
-endif ()
+#if (NOT ODT_SYSTEM_CANTERA OR NOT Cantera_FOUND)
+#    # TODO add Cantera via ExternalProject_Add commands here
+#    if (Cantera_FOUND)
+#        message(STATUS "Found---using Cantera fetched from repository")
+#    else ()
+#        message(FATAL_ERROR "Cantera not found")
+#    endif ()
+#endif ()
 
 # -------- RADLIB --------
+message(STATUS "Fetching RadLib")
 FetchContent_MakeAvailable(radlib)
 
 # -------- SOOTLIB --------
+message(STATUS "Fetching SootLib")
 FetchContent_MakeAvailable(sootlib)
 
 ################### MAIN PROJECT TARGETS #####################
@@ -150,7 +150,6 @@ endif()
 
 # ---- testing ----
 if (BUILD_TESTS)
-    include(Ctest)
     add_subdirectory(tests)
 endif()
 
