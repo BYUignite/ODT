@@ -35,7 +35,7 @@ include(FetchContent)
 
 # ---- Dependency options ----
 option(ODT_SYSTEM_YAML      "Use system-wide yaml installation"         ON)
-option(ODT_SYSTEM_SUNDIALS  "Use system-wide Sundials installation"     ON)
+option(ODT_SYSTEM_SUNDIALS  "Use system-wide Sundials installation"     OFF)
 option(ODT_SYSTEM_CANTERA   "Use system-wide Cantera installation"      ON)
 
 # ---- DEBUGGING ONLY ----
@@ -50,7 +50,7 @@ find_package(Threads REQUIRED)
 FetchContent_Declare(yaml-cpp
         GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
         GIT_TAG 9a3624205e8774953ef18f57067b3426c1c5ada6)           # yaml-cpp-0.6.3
-FetchContent_Declare(Sundials
+FetchContent_Declare(sundials
         GIT_REPOSITORY https://github.com/LLNL/sundials.git
         GIT_TAG 887af4374af2271db9310d31eaa9b5aeff49e829)           # Sundials-5.3.0
 FetchContent_Declare(radlib
@@ -90,10 +90,10 @@ if (ODT_SYSTEM_SUNDIALS)
     endif()
 endif ()
 
-if (NOT ODT_SYSTEM_SUNDIALS OR NOT SUNDIALS_FOUND)
-    FetchContent_GetProperties(SUNDIALS)
-    if (NOT SUNDIALS_POPULATED)
-        FetchContent_Populate(SUNDIALS)                                     # populate content from repository
+if (NOT ODT_SYSTEM_SUNDIALS OR NOT sundials_FOUND)
+    FetchContent_GetProperties(sundials)
+    if (NOT sundials_POPULATED)
+        FetchContent_Populate(sundials)                                     # populate content from repository
         set(BUILD_ARKODE             OFF     CACHE INTERNAL "")             # set options to only build the parts we need
         set(BUILD_CVODE              ON      CACHE INTERNAL "")
         set(BUILD_CVODES             OFF     CACHE INTERNAL "")
@@ -102,12 +102,10 @@ if (NOT ODT_SYSTEM_SUNDIALS OR NOT SUNDIALS_FOUND)
         set(BUILD_KINSOL             OFF     CACHE INTERNAL "")
         set(BUILD_NVECTOR_SERIAL     ON      CACHE INTERNAL "")
         set(BUILD_NVECTOR_MANYVECTOR OFF     CACHE INTERNAL "")
-        set(EXAMPLES_ENABLE          OFF     CACHE INTERNAL "")
+        set(EXAMPLES_ENABLE_C        OFF     CACHE INTERNAL "")
         set(ENABLE_LAPACK            ON      CACHE INTERNAL "")             # required lapack parts will be installed automatically
         set(CMAKE_C_FLAGS            "-fPIC" CACHE INTERNAL "")             # required flag for building shared library
-        add_subdirectory(${SUNDIALS_SOURCE_DIR} ${SUNDIALS_BINARY_DIR})     # Bring the populated content into the build
-    endif ()
-    if (SUNDIALS_FOUND)
+        add_subdirectory(${sundials_SOURCE_DIR} ${sundials_BINARY_DIR})     # Bring the populated content into the build
         message(STATUS "Found---using Sundials fetched from repository")
     else ()
         message(FATAL_ERROR "Sundials not found")
