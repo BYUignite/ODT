@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.15)
 project(ODT VERSION 2.0.0
         LANGUAGES CXX C)
 
-################### PROJECT-WIDE SETUP #######################
+################### PROJECT-WIDE SETUP ######################
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)       # default to Release build
@@ -17,7 +17,7 @@ set(CMAKE_CXX_EXTENSIONS NO)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)          # tells find_package() where to look for Find[pkg].cmake files
 set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}")                   # installation location base directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/run")     # runtime output location
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/run")     # runtime output location
 
 # ---- build options ----
 option(ODT_BUILD_TESTS      "Build ODT tests"       OFF)
@@ -141,11 +141,6 @@ FetchContent_MakeAvailable(sootlib)
 add_subdirectory(source)
 
 ################### OPTIONAL PROJECT TARGETS #####################
-
-# ---- examples ----
-if (BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()
 
 # ---- testing ----
 if (ODT_BUILD_TESTS)
