@@ -35,7 +35,8 @@ target_include_directories(odt-run PRIVATE ${Boost_INCLUDE_DIR} ${YAML_INCLUDE_D
 target_link_libraries(odt-run PUBLIC Threads::Threads -pthread)
 target_link_libraries(odt-run PUBLIC yaml-cpp)
 target_link_libraries(odt-run PUBLIC radlib::radProps sootlib::sootModel)
-target_link_libraries(odt-run PUBLIC cantera sundials_cvodes sundials_sunlinsollapackband sundials_sunlinsollapackdense lapack blas)
+target_link_libraries(odt-run PUBLIC sundials_cvodes sundials_sunlinsollapackband sundials_sunlinsollapackdense lapack blas)
+target_link_libraries(odt-run PUBLIC cantera -lyaml-cpp)
 
 ############# INSTALLATION ################
 
