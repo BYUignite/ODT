@@ -20,14 +20,13 @@ set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}")                   # installati
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/run")     # runtime output location
 
 # ---- build options ----
-option(BUILD_EXAMPLES   "Build ODT examples"    OFF)
-option(BUILD_TESTS      "Build ODT tests"       OFF)
-option(BUILD_DOCS       "Build ODT docs"        OFF)
+option(ODT_BUILD_TESTS      "Build ODT tests"       OFF)
+option(ODT_BUILD_DOCS       "Build ODT docs"        OFF)
 
 # ---- user options ----
-set(CHEMISTRY   "SIMPLEDLR"     CACHE STRING    "User chemical mechanism")
-set(PARALLEL    "OFF"           CACHE STRING    "Build with MPI")
-set(SILENT      "OFF"           CACHE STRING    "Suppresses some runtime output")
+set(ODT_CHEMISTRY   "SIMPLEDLR"     CACHE STRING    "User chemical mechanism")
+set(ODT_PARALLEL    "OFF"           CACHE STRING    "Build with MPI")
+set(ODT_SILENT      "OFF"           CACHE STRING    "Suppresses some runtime output")
 
 ################### DEPENDENCIES #########################
 
@@ -149,27 +148,27 @@ if (BUILD_EXAMPLES)
 endif()
 
 # ---- testing ----
-if (BUILD_TESTS)
+if (ODT_BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
 # ---- documentation ----
-if (BUILD_DOCS)
+if (ODT_BUILD_DOCS)
     add_subdirectory(docs)
 endif()
 
 #################### PREPROCESSOR DIRECTIVES ####################
 
-if(PARALLEL STREQUAL "yes")
+if(ODT_PARALLEL STREQUAL "yes")
     message("MPI is on")
     add_definitions(-DDOMPI)
 endif()
 
-if(NOT CHEMISTRY STREQUAL "CANTERARR" )
+if(NOT ODT_CHEMISTRY STREQUAL "CANTERARR" )
     add_definitions(-DPROBLEMSPECIFICRR)
 endif()
 
-if(SILENT STREQUAL "yes" )
+if(ODT_SILENT STREQUAL "yes" )
     message("ODT will suppress some runtime output")
     add_definitions(-DSILENT)
 endif()
