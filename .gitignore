@@ -4,3 +4,5 @@ data/**
 bin/*
 include/*
 lib/*
+cmake-*
+build*
