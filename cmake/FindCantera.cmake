@@ -2,13 +2,13 @@ include(FindPkgConfig)
 pkg_check_modules(PC_Cantera QUIET Cantera)
 
 find_path(Cantera_INCLUDE_DIR
-        NAMES cantera
-        PATHS ${PC_Cantera_INCLUDE_DIRS} /usr/include
+        NAMES cantera Cantera
+        PATHS ${PC_Cantera_INCLUDE_DIRS} ${ODT_CANTERA_INCLUDE_LOCATION}
         PATH_SUFFIXES Cantera
         )
 find_library(Cantera_LIBRARY
         NAMES libcantera.a
-        PATHS ${PC_Cantera_LIBRARY_DIRS} /usr/lib
+        PATHS ${PC_Cantera_LIBRARY_DIRS} ${ODT_CANTERA_LIBRARY_LOCATION}
         )
 
 set(Cantera_VERSION ${PC_Cantera_VERSION})
