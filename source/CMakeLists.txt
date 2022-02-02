@@ -5,7 +5,6 @@ add_executable(odt-run)
 
 # -------- target properties --------
 target_compile_features(odt-run PUBLIC cxx_std_11)
-set_target_properties(odt-run PROPERTIES PUBLIC_HEADER "")      # not sure if this is needed
 
 # -------- src files --------
 target_include_directories(odt-run PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -30,13 +29,17 @@ add_subdirectory(domaincases)
 add_subdirectory(user_chemical_mechanisms)
 
 # -------- dependencies --------
-target_include_directories(odt-run PRIVATE ${Boost_INCLUDE_DIR} ${YAML_INCLUDE_DIR} ${sundials_INCLUDE_DIR} ${Cantera_INCLUDE_DIR})
+get_target_property(cantera_INCLUDE_DIR cantera-ext INTERFACE_INCLUDE_DIRECTORIES)  # tell CMake where to find cantera headers
+list(APPEND sundials_INCLUDE_DIR ${FETCHCONTENT_BASE_DIR}/sundials-build/include)   # tell CMake where to find sundials headers
+list(APPEND sundials_INCLUDE_DIR ${FETCHCONTENT_BASE_DIR}/sundials-src/include)
+
+target_include_directories(odt-run PRIVATE ${Boost_INCLUDE_DIR} ${yaml-cpp_INCLUDE_DIR} ${sundials_INCLUDE_DIR} ${cantera_INCLUDE_DIR})
 
 target_link_libraries(odt-run PUBLIC Threads::Threads -pthread)
 target_link_libraries(odt-run PUBLIC yaml-cpp)
 target_link_libraries(odt-run PUBLIC radlib::radProps sootlib::sootModel)
 target_link_libraries(odt-run PUBLIC sundials_cvodes sundials_sunlinsollapackband sundials_sunlinsollapackdense lapack blas)
-target_link_libraries(odt-run PUBLIC cantera -lyaml-cpp)
+target_link_libraries(odt-run PUBLIC cantera-ext -lyaml-cpp)
 
 ############# INSTALLATION ################
 

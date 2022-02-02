@@ -1,8 +1,7 @@
 ################### DEPENDENCIES #########################
 
-include(FetchContent)
-include(ExternalProject)
-include(GNUInstallDirs)
+
+
 
 # ---- Dependency options ----
 option(ODT_SYSTEM_YAML      "Use system-wide yaml installation"         OFF)
@@ -11,11 +10,7 @@ option(ODT_SYSTEM_CANTERA   "Use system-wide Cantera installation"      OFF)
 #set(ODT_CANTERA_INCLUDE_LOCATION    /usr/include    CACHE STRING "")
 #set(ODT_CANTERA_LIBRARY_LOCATION    /usr/lib        CACHE STRING "")
 
-# ---- set RPATH (runtime library locations) ----
-file(RELATIVE_PATH reldir
-        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}
-        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
-set(CMAKE_INSTALL_RPATH $ORIGIN $ORIGIN/${reldir})
+
 
 # ---- FetchContent declarations ----
 FetchContent_Declare(yaml-cpp
@@ -30,10 +25,11 @@ FetchContent_Declare(radlib
 FetchContent_Declare(sootlib
         GIT_REPOSITORY https://github.com/BYUignite/sootlib.git
         GIT_TAG 5f5eeb6fdb1ef66e7d82fd136026bb20f06208e5)           # sootlib-0.1.0
+FetchContent_Declare(cantera
+        GIT_REPOSITORY https://github.com/Cantera/cantera
+        GIT_TAG b0bace78223959cd3e5a15317734cacff7b0b0a2)           # cantera-2.5.1
 
-# -------- Boost + Threads --------
-find_package(Boost REQUIRED COMPONENTS system)
-find_package(Threads REQUIRED)
+
 
 # -------- RADLIB --------
 message(STATUS "Fetching RadLib")
@@ -50,14 +46,14 @@ list(APPEND CMAKE_MESSAGE_INDENT "    ")
 if (ODT_SYSTEM_YAML)
     find_package(yaml-cpp)
     if (yaml-cpp_FOUND)
-        message(STATUS "Found---using system installation of yaml-cpp")
+        message(STATUS "Using system installation of yaml-cpp")
     endif ()
 endif ()
 
 if (NOT ODT_SYSTEM_YAML OR NOT yaml-cpp_FOUND)
     FetchContent_MakeAvailable(yaml-cpp)
     list(APPEND yaml-cpp_INCLUDE_DIR ${FETCHCONTENT_BASE_DIR}/yaml-cpp-build/include)
-    message(STATUS "Found---using yaml fetched from repository")
+    message(STATUS "Using yaml fetched from repository")
 endif ()
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)
@@ -66,15 +62,16 @@ list(POP_BACK CMAKE_MESSAGE_INDENT)
 message(STATUS "Looking for Sundials")
 list(APPEND CMAKE_MESSAGE_INDENT "    ")
 
-if (ODT_SYSTEM_SUNDIALS)
-    #    set(SUNDIALS_DIR "/usr/local/lib")
-    find_package(sundials REQUIRED COMPONENTS cvodes nvecserial sunmatrixdense)      # throws an error if required components not found
-    if(sundials_FOUND)
-        message(STATUS "Found---using system installation of Sundials")
-    endif()
-endif ()
+#if (ODT_SYSTEM_SUNDIALS)
+#    set(SUNDIALS_DIR "/usr/local/lib")      # sundials default install location
+#    find_package(sundials REQUIRED COMPONENTS cvodes nvecserial sunmatrixdense)      # throws an error if required components not found
+#    if(sundials_FOUND)
+#        message(STATUS "Using system installation of Sundials")
+#    endif()
+#endif ()
 
 if (NOT ODT_SYSTEM_SUNDIALS OR NOT sundials_FOUND)
+    message(STATUS "Using Sundials fetched from repository")
     FetchContent_GetProperties(sundials)
     if (NOT sundials_POPULATED)
         FetchContent_Populate(sundials)                                     # populate content from repository
@@ -84,17 +81,16 @@ if (NOT ODT_SYSTEM_SUNDIALS OR NOT sundials_FOUND)
         set(BUILD_IDA                OFF     CACHE INTERNAL "")
         set(BUILD_IDAS               OFF     CACHE INTERNAL "")
         set(BUILD_KINSOL             OFF     CACHE INTERNAL "")
-        set(BUILD_NVECTOR_SERIAL     ON      CACHE INTERNAL "")
-        set(BUILD_NVECTOR_MANYVECTOR OFF     CACHE INTERNAL "")
         set(EXAMPLES_ENABLE_C        OFF     CACHE INTERNAL "")
-        set(ENABLE_LAPACK            ON      CACHE INTERNAL "")             # required lapack parts will be installed automatically
+        set(EXAMPLES_ENABLE_F77      OFF     CACHE INTERNAL "")
+        set(EXAMPLES_ENABLE_F90      OFF     CACHE INTERNAL "")
+        set(EXAMPLES_ENABLE_F2003    OFF     CACHE INTERNAL "")
+        set(EXAMPLES_INSTALL         OFF     CACHE INTERNAL "")
+        set(LAPACK_ENABLE            ON      CACHE INTERNAL "")             # required lapack parts will be installed automatically
         set(CMAKE_C_FLAGS            "-fPIC" CACHE INTERNAL "")             # required flag for building shared libraries
-
-        add_subdirectory(${sundials_SOURCE_DIR} ${sundials_BINARY_DIR})                     # Bring the populated content into the build
-        list(APPEND sundials_INCLUDE_DIR ${FETCHCONTENT_BASE_DIR}/sundials-build/include)   # tell CMake where to find sundials headers
-        list(APPEND sundials_INCLUDE_DIR ${FETCHCONTENT_BASE_DIR}/sundials-src/include)
-
-        message(STATUS "Found---using Sundials fetched from repository")
+        set(BUILD_SHARED_LIBS        ON      CACHE INTERNAL "")
+        set(BUILD_STATIC_LIBS        OFF     CACHE INTERNAL "")
+        add_subdirectory(${sundials_SOURCE_DIR} ${sundials_BINARY_DIR})     # Bring the populated content into the build
     endif ()
 endif ()
 
@@ -105,49 +101,35 @@ message(STATUS "Looking for Cantera")
 list(APPEND CMAKE_MESSAGE_INDENT "    ")
 
 #if (ODT_SYSTEM_CANTERA)
-#    find_package(Cantera REQUIRED)      # throws an error if required components not found
-#    if (Cantera_FOUND)
-#        message(STATUS "Found---using system installation of Cantera")
+#    find_package(cantera REQUIRED)      # throws an error if required package not found
+#    if (cantera_FOUND)
+#        message(STATUS "Using system installation of Cantera")
 #    endif ()
 #endif ()
 
-if(NOT cantera_POPULATED)
-    FetchContent_Populate(cantera)
-endif()
-set(CANTERA_PATH ${cantera_SOURCE_DIR})
-message(STATUS "CANTERA SOURCE DIR = ${cantera_INSTALL_DIR}")
-
-include(ExternalProject)
-ExternalProject_Add(cantera
-        PREFIX      ${CANTERA_PATH}
-        SOURCE_DIR  ${CANTERA_PATH}/src
-        BINARY_DIR  ${CANTERA_PATH}
-        INSTALL_DIR ${CANTERA_PATH}/install
+if (NOT ODT_SYSTEM_CANTERA OR NOT cantera_FOUND)
+    FetchContent_GetProperties(cantera)
+    if (NOT cantera_POPULATED)
+        FetchContent_Populate(cantera)
+    endif()
+    ExternalProject_Add(cantera
+        SOURCE_DIR  ${cantera_SOURCE_DIR}
+        BINARY_DIR  ${cantera_SOURCE_DIR}
+        INSTALL_DIR ${CMAKE_CURRENT_LIST_DIR}/cantera
         CONFIGURE_COMMAND ""
-        BUILD_COMMAND scons build python_package=none matlab_toolbox=n f90_interface=n
-        )
+        BUILD_COMMAND scons build python_package=n matlab_toolbox=n f90_interface=n googletest=none prefix=${CMAKE_CURRENT_LIST_DIR}/cantera
+        INSTALL_COMMAND scons install
+    )
+    message(STATUS "Using Cantera fetched from repository")
+endif()
 
-#ExternalProject_Add(Cantera
-#        PREFIX              ${FETCHCONTENT_BASE_DIR}/cantera
-#        GIT_REPOSITORY      https://github.com/Cantera/cantera
-#        GIT_TAG             b0bace78223959cd3e5a15317734cacff7b0b0a2        # cantera 2.5.1
-#        BINARY_DIR          ${FETCHCONTENT_BASE_DIR}/cantera/src/Cantera
-#        CONFIGURE_COMMAND   ""
-#        BUILD_COMMAND       scons build python_package=none matlab_toolbox=n f90_interface=n prefix=${PROJECT_SOURCE_DIR}
-#        INSTALL_COMMAND     scons install
-#        )
+add_library(cantera-ext SHARED IMPORTED GLOBAL)
 
-#list(APPEND Cantera_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
-#list(APPEND Cantera_LIBRARY_DIR ${PROJECT_SOURCE_DIR}/lib)
-
-#add_library(cantera SHARED IMPORTED GLOBAL)
-#
-#set_target_properties(cantera PROPERTIES
-#        IMPORTED_LOCATION ${CANTERA_PATH}/lib/${CANTERA_PATH_SUFFIX}/cantera${CMAKE_LINK_LIBRARY_SUFFIX}
-#        IMPORTED_IMPLIB ${CANTERA_PATH}/lib/${CANTERA_PATH_SUFFIX}/cantera${CMAKE_IMPORT_LIBRARY_SUFFIX}
-#        INTERFACE_INCLUDE_DIRECTORIES ${CANTERA_PATH}/include
-#)
-
-
+set_target_properties(cantera-ext PROPERTIES
+#        IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/cantera/lib/libcantera${CMAKE_LINK_LIBRARY_SUFFIX}
+        IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/cantera/lib/libcantera.a
+        IMPORTED_IMPLIB ${CMAKE_CURRENT_LIST_DIR}/cantera/lib/libcantera${CMAKE_IMPORT_LIBRARY_SUFFIX}
+        INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_LIST_DIR}/cantera/include
+)
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)

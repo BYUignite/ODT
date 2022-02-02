@@ -7,6 +7,10 @@ project(ODT VERSION 2.0.0
 
 ################### PROJECT-WIDE SETUP ######################
 
+include(FetchContent)
+include(ExternalProject)
+include(GNUInstallDirs)
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)       # default to Release build
 endif()
@@ -28,7 +32,17 @@ set(ODT_CHEMISTRY   "SIMPLEDLR"     CACHE STRING    "User chemical mechanism")
 set(ODT_PARALLEL    "OFF"           CACHE STRING    "Build with MPI")
 set(ODT_SILENT      "OFF"           CACHE STRING    "Suppresses some runtime output")
 
+# ---- set RPATH (runtime library locations) ----
+file(RELATIVE_PATH reldir
+        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}
+        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_INSTALL_RPATH $ORIGIN $ORIGIN/${reldir})
+
 ################### DEPENDENCIES #########################
+
+# -------- Boost + Threads --------
+find_package(Boost REQUIRED COMPONENTS system)
+find_package(Threads REQUIRED)
 
 add_subdirectory(ext)
 
