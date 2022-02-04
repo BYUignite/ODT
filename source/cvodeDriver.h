@@ -9,19 +9,13 @@
 
 class domain;
 
-//#include "cvode/cvode.h"
-//#include "cvode/nvector_serial.h"
-//#include "cvode/cvode_dense.h"
-//#include "cvode/sundials_dense.h"
-//#include "cvode/sundials_types.h"
-
-#include <sundials/sundials_dense.h>
-#include <sundials/sundials_types.h>
-#include <cvode/cvode.h>
-#include <cvode/cvode_direct.h>
-#include <nvector/nvector_serial.h>
-#include <sunmatrix/sunmatrix_dense.h>
-#include <sunlinsol/sunlinsol_dense.h>
+#include "sundials/sundials_dense.h"
+#include "sundials/sundials_types.h"
+#include "cvodes/cvodes.h"
+#include "cvodes/cvodes_direct.h"
+#include "nvector/nvector_serial.h"
+#include "sunmatrix/sunmatrix_dense.h"
+#include "sunlinsol/sunlinsol_dense.h"
 
 #include <map>
 #include <vector>

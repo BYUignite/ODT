@@ -30,15 +30,13 @@ add_subdirectory(user_chemical_mechanisms)
 
 # -------- dependencies --------
 get_target_property(cantera_INCLUDE_DIR cantera-ext INTERFACE_INCLUDE_DIRECTORIES)  # tell CMake where to find cantera headers
-list(APPEND sundials_INCLUDE_DIR ${FETCHCONTENT_BASE_DIR}/sundials-build/include)   # tell CMake where to find sundials headers
-list(APPEND sundials_INCLUDE_DIR ${FETCHCONTENT_BASE_DIR}/sundials-src/include)
+list(APPEND sundials_INCLUDE_DIR ${FETCHCONTENT_BASE_DIR}/cantera-install/include/cantera/ext)
 
 target_include_directories(odt-run PRIVATE ${Boost_INCLUDE_DIR} ${yaml-cpp_INCLUDE_DIR} ${sundials_INCLUDE_DIR} ${cantera_INCLUDE_DIR})
 
 target_link_libraries(odt-run PUBLIC Threads::Threads -pthread)
 target_link_libraries(odt-run PUBLIC yaml-cpp)
 target_link_libraries(odt-run PUBLIC radlib::radProps sootlib::sootModel)
-target_link_libraries(odt-run PUBLIC sundials_cvodes sundials_sunlinsollapackband sundials_sunlinsollapackdense lapack blas)
 target_link_libraries(odt-run PUBLIC cantera-ext -lyaml-cpp)
 
 ############# INSTALLATION ################

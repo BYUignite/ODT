@@ -21,7 +21,6 @@ set(CMAKE_CXX_EXTENSIONS NO)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)          # tells find_package() where to look for Find[pkg].cmake files
 set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}")                   # installation location base directory
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/run")     # runtime output location
 
 # ---- build options ----
 option(ODT_BUILD_TESTS      "Build ODT tests"       OFF)
@@ -31,12 +30,6 @@ option(ODT_BUILD_DOCS       "Build ODT docs"        OFF)
 set(ODT_CHEMISTRY   "SIMPLEDLR"     CACHE STRING    "User chemical mechanism")
 set(ODT_PARALLEL    "OFF"           CACHE STRING    "Build with MPI")
 set(ODT_SILENT      "OFF"           CACHE STRING    "Suppresses some runtime output")
-
-# ---- set RPATH (runtime library locations) ----
-file(RELATIVE_PATH reldir
-        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}
-        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
-set(CMAKE_INSTALL_RPATH $ORIGIN $ORIGIN/${reldir})
 
 ################### DEPENDENCIES #########################
 
