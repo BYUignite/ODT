@@ -60,16 +60,30 @@ ODT users typically interact with the code and its data output via a Bash-style 
 <!--------------------------------------------------------------------------> 
 @section dependencies Dependencies
 
-ODT is an object-oriented C++ code built via CMake. In order to build it, you will need C++11 or newer, appropriate C and CXX compilers, CMake 3.14+, and the [C++ Boost libraries](https://www.boost.org/). You will also need the following software packages:
+ODT is an object-oriented C++ code built via CMake. At minimum, you will need the following packages to build it:
+* C++11 and the appropriate C and CXX compilers
+* Boost 1.8+
+* CMake 3.14+
+* SCons 3.3.0+
+* Git 2.0+
 
-@subsection deps_yaml YAML
-ODT requires yaml-cpp 0.6.3+. If it is not installed system-wide or CMake cannot find it, CMake will fetch and build [yaml-cpp 0.6.3](https://github.com/jbeder/yaml-cpp) from its GitHub repository automatically, provided Git is installed. When installed by CMake via ODT, yaml-cpp files are located in the `build/_deps` directory.
+@subsection deps_optional Optional Dependencies
 
-@subsection deps_sundials Sundials
-ODT requires [Sundials](https://computing.llnl.gov/projects/sundials), a suite of nonlinear, differential, and algebraic equation solvers, for solutions to its governing equations. The minimum requirement is Sundials 3.0.0+, but we recommend Sundials 5.8.0. When building and installing Sundials, you must specify `-DCMAKE_C_FLAGS="-fPIC"` and `-DENABLE_LAPACK="ON"` at the CMake configure step. For more information on the Sundials installation procedure, refer to Appendix A of any of the Sundials package guides, which can be found on the [Sundials softare releases page](https://computing.llnl.gov/projects/sundials/sundials-software).
+* Doxygen 1.8+ (to build documentation)
+    * Requires [graphviz](https://graphviz.org/) to generate graphs and figures
+* yaml-cpp 0.6.3+ (input file parsing)
+    * If yaml-cpp is not installed system-wide or CMake cannot find it, CMake will fetch and build [yaml-cpp 0.6.3](https://github.com/jbeder/yaml-cpp) from its repository automatically.
 
-@subsection deps_cantera Cantera
-[Cantera](https://cantera.org/) is a set of open-source tools used to solve chemical kinetics, thermodynamics, and transport problems. ODT requires Cantera 2.4+, but we recommend Cantera 2.5.1+. For installation instructions, refer to Cantera's [installation page](https://cantera.org/install/). For best results, we recommend [compiling Cantera from source](https://cantera.org/install/compiling-install.html). Cantera also requires Sundials, but will obtain and compile against its own subset of Sundials tools if it cannot find a system-wide installation. When configuring the ODT code, CMake will search for Cantera's header and library files in the default installation locations provided when installing Cantera. Note that you do not need to install Cantera's Python modules for use with ODT.
+@subsection deps_internal Internal Dependencies
+
+* [Cantera 2.5.1](https://cantera.org/) (chemical kinetics, thermodynamics, and transport)
+    * Cantera compilation, setup, and installation is handled by CMake and SCons using optimal configuration options for ODT. ODT can use an existing Cantera installation by toggling CMake's `ODT_SYSTEM_CANTERA` option, but this is not recommended due to the complexity of Cantera's own dependency relationships.
+    * Cantera requires additional dependencies such as Sundials, Eigen, and fmt. If Cantera does not detect system-wide installations, it will automatically download and install the required package components. Automatically downloaded and compiled package files remain local to the ODT/Cantera installations; internal dependencies are isolated and not installed system-wide.
+* [Sundials 5.3.0](https://computing.llnl.gov/projects/sundials) (nonlinear, differential, and algebraic equation solvers)
+    * ODT requires the same set of Sundials modules as Cantera; to speed up configuration and compilation, avoid duplicating packages, and simplify dependency management, ODT links against the Sundials libraries compiled and installed by Cantera rather than rebuilding them independently.
+    * Using an existing Sundials installation is possible, but not recommended. To do so, toggle CMake's `ODT_SYSTEM_SUNDIALS` option and make sure that the system Sundials package was installed with `CMAKE_C_FLAGS="-fPIC"` and `LAPACK_ENABLE=ON`. ODT requires the CVodes, NVector, and SunLinSol modules.
+* [RadLib 1.2](https://github.com/BYUignite/radlib) (radiation property library)
+* [SootLib 1.0](https://github.com/BYUignite/sootlib) (soot modeling library)
 
 @subsection deps_post Post-processing Tools
 If you plan to use ODT's included data post-processing tools, you will also need Python 3.x. Depending on the case and tools used, you will need some subset of the following Python packages:
@@ -80,9 +94,6 @@ If you plan to use ODT's included data post-processing tools, you will also need
 - yaml
 - glob
 - matplotlib
-
-@subsection deps_doxygen Doxygen
-ODT's documentation is generated with [Doxygen](https://www.doxygen.nl/index.html). It is not required in order to build or run ODT. If you do want to generate your own documentation for ODT, you will need the latest version of [Doxygen](https://www.doxygen.nl/download.html) and the [graphviz](https://graphviz.org/) package, which Doxygen uses to generate graphs and figures.
 
 <hr />
 
@@ -96,18 +107,28 @@ The ODT code is publicly available on [Github](https://github.com/BYUIgnite/ODT)
 <!--------------------------------------------------------------------------> 
 @section build Building ODT
 
-Prior to building the ODT code, ensure that you have the required [dependencies](@ref dependencies) installed on your machine.
+Prior to building the ODT code, ensure that you have the required [dependencies](@ref dependencies) installed on your machine. These instructions assume that you are building ODT from a Linux-like command line.
 
-1. Navigate into the `ODT` directory.
-2. Navigate to the `build` directory.
-3. Using your favorite text editor, open the `user_config.in` file and modify the [preprocessor flags](@ref preprocessor_flags) appropriately for your case.
-3. Configure CMake and generate Makefiles by running the following: 
-    
-    `cmake -C user_config.in ..`
+1. Create and navigate into a `build` directory.
+2. Configure CMake:
 
-5. Compile the ODT code:
+    `cmake ..`
+
+    CMake options can be specified in the `CMakeCache.txt` file or on the command line as follows:
+
+    `cmake .. -D[ODT_OPTION]=ON/OFF`
+
+3. Build and install Cantera:
+
+    `make cantera`
+
+4. Build the ODT code:
 
     `make`
+
+5. Install ODT:
+
+    `make install`
 
 @subsection build_notes Notes
 - There is no associated `install` step following the compilation. The executable is called `odt.x`
