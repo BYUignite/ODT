@@ -9,8 +9,8 @@ echo "the start time is"
 date
 ###############################################################################
 
-inputDir="../input/channelFlow"
-caseName="channel"
+inputDir="../input/jetFlame/sooting_jet"
+caseName="test_rad_soot"
 
 ###############################################################################
 
@@ -28,7 +28,7 @@ runCase () {
 
     echo "*** RUNNING ***"
     echo "Output is being written to ../$caseName/runtime/runtime_* and ../$caseName/data"
-    ./odt.x $caseName 0          # 0 is the shift (realization # here)
+    ../bin/odt-run $caseName 0          # 0 is the shift (realization # here)
 
 }
 
@@ -59,4 +59,3 @@ date
 ###############################################################################
 
 exit 0
-

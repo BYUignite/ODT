@@ -34,7 +34,7 @@ while [ $it -lt $nRlz ] ; do
     echo ""
     echo "-------------------- REALIZATION  $it -----------------------"
     echo ""
-    ./odt.x $caseName $it
+    ../bin/odt-run $caseName $it
     it=$(($it + 1))
 done
 
@@ -45,4 +45,3 @@ date
 ###############################################################################
 
 exit 0
-

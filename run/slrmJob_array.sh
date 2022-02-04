@@ -47,7 +47,7 @@ runCase () {
     echo "*** RUNNING ***"
     echo "Output is being written to ../$caseName/runtime/runtime_* and ../$caseName/data"
 
-    ./odt.x $caseName $SLURM_ARRAY_TASK_ID
+    ../bin/odt-run $caseName $SLURM_ARRAY_TASK_ID
 
     nshift=0
     it=1
@@ -77,4 +77,3 @@ mkdir -p "../data/$caseName/slurm"
 mv *$SLURM_JOB_ID* ../data/$caseName/slurm
 
 exit 0
-

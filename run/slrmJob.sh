@@ -53,7 +53,7 @@ runCase () {
     while [ $it -lt $nSetsToRun ] ; do
         nshift=$(($nshift + $SLURM_NTASKS))
         it=$(($it + 1))
-        mpiexec -np $SLURM_NTASKS ./odt.x $caseName $nshift
+        mpiexec -np $SLURM_NTASKS ../bin/odt-run $caseName $nshift
     done
 
     mkdir -p "../data/$caseName/slurm"
@@ -77,4 +77,3 @@ mkdir -p "../data/$caseName/slurm"
 mv *$SLURM_JOB_ID* ../data/$caseName/slurm
 
 exit 0
-
