@@ -137,7 +137,7 @@ Prior to building the ODT code, ensure that you have the required [dependencies]
 
 @subsection preprocessor_flags Preprocessor Flags
 The following preprocessor flags are specified by the user in the `user_config.in` file. Bold text indicates the default values.
-- `CHEMISTRY` = **`CANTERARR`** or `CH4RED` or `C2H4RED` or `SIMPLEDLR`
+- `ODT_CHEMISTRY` = **`CANTERARR`** or `CH4RED` or `C2H4RED` or `SIMPLEDLR`
     - This flag specifies the code to be used to calculate chemical reaction rates. Chemical
       reaction rates can be computed using one of two methods: 
         1. Cantera's built-in reaction rate calculations based on data provided in the
@@ -146,15 +146,13 @@ The following preprocessor flags are specified by the user in the `user_config.i
         2. User-defined reaction mechanisms (common for reduced chemical mechanisms); flag
         values for such mechanisms are defined in the Makefile and include values such as 
         `CH4RED`, `C2H4RED`, and `SIMPLEDLR`.
-- `PARALLEL` = `YES` or **`NO`**
+- `ODT_PARALLEL` = `ON` or **`OFF`**
     - Turns on embarrassingly parallel simulations using MPI.
-- `SILENT` = **`YES`** or `NO`
-    - Controls the amount of CMake console output.
-- `BUILD_EXAMPLES` = `ON` or **`OFF`**
-    - Builds ODT examples, located in the `examples` folder
-- `BUILD_TESTS` = `ON` or **`OFF`**
+- `ODT_VERBOSE` = `ON` or **`OFF`**
+    - Controls the amount of ODT runtime output.
+- `ODT_BUILD_TESTS` = `ON` or **`OFF`**
     - Builds ODT tests, located in the `tests` folder
-- `BUILD_DOCS` = `ON` or **`OFF`**
+- `ODT_BUILD_DOCS` = `ON` or **`OFF`**
     - Builds ODT documentation, located in the `docs` folder
 
 <! - `CANTERA_INCLUDE_DIR` = `path_to_cantera_installation\cantera-version\include`

@@ -27,9 +27,9 @@ option(ODT_BUILD_TESTS      "Build ODT tests"       OFF)
 option(ODT_BUILD_DOCS       "Build ODT docs"        OFF)
 
 # ---- user options ----
-set(ODT_CHEMISTRY   "SIMPLEDLR"     CACHE STRING    "User chemical mechanism")
-set(ODT_PARALLEL    "OFF"           CACHE STRING    "Build with MPI")
-set(ODT_SILENT      "OFF"           CACHE STRING    "Suppresses some runtime output")
+set(ODT_CHEMISTRY       "SIMPLEDLR"     CACHE STRING    "User chemical mechanism")
+option(ODT_PARALLEL     "Build with MPI support"                OFF)
+option(ODT_VERBOSE      "Displays additional runtime output"    OFF)
 
 ################### DEPENDENCIES #########################
 
@@ -54,22 +54,3 @@ endif()
 if (ODT_BUILD_DOCS)
     add_subdirectory(docs)
 endif()
-
-#################### PREPROCESSOR DIRECTIVES ####################
-
-if(ODT_PARALLEL STREQUAL "yes")
-    message("MPI is on")
-    add_definitions(-DDOMPI)
-endif()
-
-if(NOT ODT_CHEMISTRY STREQUAL "CANTERARR" )
-    add_definitions(-DPROBLEMSPECIFICRR)
-endif()
-
-if(ODT_SILENT STREQUAL "yes" )
-    message("ODT will suppress some runtime output")
-    add_definitions(-DSILENT)
-endif()
-
-add_definitions(-D_USESTDVECTOR_)
-add_definitions(-DDOCANTERA)

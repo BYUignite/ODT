@@ -381,7 +381,7 @@ void micromixer::updateGrid() {
 bool micromixer::adaptGridIfNeeded() {
 
     if (domn->pram->Lspatial && *min_element(dx.begin(), dx.end()) < 0.9*domn->pram->dxmin) {
-#ifndef SILENT
+#ifdef VERBOSE
         *domn->io->ostrm << endl << "#------- ADAPTING DURING DIFFUSION" << " " << domn->ngrd;
 #endif
         domn->mesher->adaptGrid(0, domn->ngrd-1);
@@ -474,4 +474,3 @@ void micromixer::check_balance(int io) {
     cout << setprecision(13);
     cout << endl << "check: " << io << " " << mom;
 }
-

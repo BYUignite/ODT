@@ -6,6 +6,25 @@ add_executable(odt-run)
 # -------- target properties --------
 target_compile_features(odt-run PUBLIC cxx_std_11)
 
+# -------- preprocessor directives --------
+
+if(ODT_PARALLEL)
+    message(STATUS "MPI support is on")
+    add_compile_definitions(DOMPI)
+endif()
+
+if(NOT ODT_CHEMISTRY STREQUAL "CANTERARR")
+    add_compile_definitions(PROBLEMSPECIFICRR)
+endif()
+
+if(ODT_VERBOSE)
+#    message(STATUS "ODT will suppress some runtime output")
+    add_compile_definitions(VERBOSE)
+endif()
+
+add_compile_definitions(_USESTDVECTOR_)
+add_compile_definitions(DOCANTERA)
+
 # -------- src files --------
 target_include_directories(odt-run PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_sources(odt-run PRIVATE main.cc

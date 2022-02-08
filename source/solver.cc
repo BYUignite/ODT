@@ -97,6 +97,10 @@ void solver::calculateSolution() {
 
     while(time <= domn->pram->tEnd) {
 
+#ifdef VERBOSE
+        cout << "time = " << time << endl;      // vbsdB
+#endif
+
         diffusionCatchUpIfNeeded();
 
         domn->mesher->adaptAfterSufficientDiffTime(time, tLastDA, cLastDA, dtCUmax);
@@ -219,7 +223,7 @@ void solver::diffusionCatchUpIfNeeded(bool Ldoit) {
     if(!Ldoit && time-t0 < dtCUmax)
         return;
 
-#ifndef SILENT
+#ifdef VERBOSE
     *domn->io->ostrm << endl << "# Catching up diffusion to eddies: time = " << time;
 #endif
 
