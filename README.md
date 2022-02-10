@@ -8,6 +8,9 @@ Detailed documentation is available [here](https://ignite.byu.edu/ODT_documentat
 More information on the theory and application of ODT is available
 [here](https://ignite.byu.edu/ODT_documentation/odt_theory.html).
 
+A publication detailing this code is provided in the following reference:
+> V.B. Stephens, D.O. Lignell, “One-dimensional turbulence (ODT): computationally efficient modeling and simulation of turbulent flows,” SoftwareX, [13:100641 (2020)](https://www.sciencedirect.com/science/article/pii/S235271102030354X).
+
 A short video overview summarizing downloading, building, running, and processing the code is shown [here](https://youtu.be/unsMJiDpSVY).
 
 <!--
