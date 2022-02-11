@@ -13,6 +13,8 @@ A publication detailing this code is provided in the following reference:
 
 A short video overview summarizing downloading, building, running, and processing the code is shown [here](https://youtu.be/unsMJiDpSVY).
 
+A [Code Ocean module](https://codeocean.com/capsule/4006133) that provides a runable version of the installed code is also available.
+
 <!--
 The following two papers discussing theory and application of the code are available. Additional papers are available [here](http://ignite.byu.edu/publications.html).
    * [D. Lignell et al., One-dimensioanl turbulence modeling for cylindrical and spherical flows: model formulation and application, Theoretical and Computational Fluid Dynamics, 32:495-520](https://ignite.byu.edu/public/Lignell_2018.pdf)
