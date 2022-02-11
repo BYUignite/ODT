@@ -54,7 +54,6 @@ void cvodeDriver::init(domain *p_domn, bool p_LincludeRhsMix) {
 
     int flag;
 
-//    cvode_mem = CVodeCreate(CV_BDF, CV_NEWTON);
     cvode_mem = CVodeCreate(CV_BDF);
 
     if(!cvode_mem) {
@@ -69,18 +68,13 @@ void cvodeDriver::init(domain *p_domn, bool p_LincludeRhsMix) {
         testCVflag(flag, "CVodeSStolerances");
 
     SUNMatrix A = SUNDenseMatrix(neq, neq);
-    SUNLinearSolver LS = SUNDenseLinearSolver(var, A);
+    SUNLinearSolver LS = SUNLinSol_Dense(var, A);
 
-    flag = CVDlsSetLinearSolver(cvode_mem, LS, A);
+    flag = CVodeSetLinearSolver(cvode_mem, LS, A);
         testCVflag(flag, "CVodeSetLinearSolver");
 
-//    flag = CVodeMalloc(cvode_mem, RHSF, 0.0, var, CV_SS, rtol, &atol);
-//            testCVflag(flag, "CVodeMalloc");
-//    flag = CVDense(cvode_mem, neq);
-//            testCVflag(flag, "CVDense");
-//
-//    flag = CVodeSetFdata(cvode_mem, this);
-//            testCVflag(flag, "CVodeSetFdata");
+    flag = CVodeSetUserData(cvode_mem, this);
+        testCVflag(flag, "CVodeSetUserData");
 
     flag = CVodeSetMaxNumSteps(cvode_mem, 2000);
         testCVflag(flag, "CVodeSetMaxNumSteps");
@@ -114,14 +108,14 @@ void cvodeDriver::integrateCell(int p_iC, double tres) {
 
     flag = CVodeReInit(cvode_mem, 0.0, var);
         testCVflag(flag, "CVodeReInit");
-//    int flag = CVodeReInit(cvode_mem, RHSF, 0.0, var, CV_SS, rtol, &atol);
-//               testCVflag(flag, "CVodeReInit");
 
     //---------- Integrate the solution
 
     double t;
-    flag = CVodeSetStopTime(cvode_mem, tres);           testCVflag(flag, "CVodeSetStopTime");
-    flag = CVode(cvode_mem, tres, var, &t, CV_NORMAL);  testCVflag(flag, "CVode");
+    flag = CVodeSetStopTime(cvode_mem, tres);
+        testCVflag(flag, "CVodeSetStopTime");
+    flag = CVode(cvode_mem, tres, var, &t, CV_NORMAL);
+        testCVflag(flag, "CVode");
 
     //----------- Recover the solution
 
