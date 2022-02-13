@@ -77,15 +77,14 @@ void rad_fvdom::getRadHeatSource(const vector<vector<double> > &xMoleSp,
 
     for(int i=0; i<domn->ngrd; i++) {
 
+        double fvsoot = 0;
+        if (domn->pram->Lsoot)
+            fvsoot = domn->svar[1]->d[i] / domn->pram->Cmin;        // fvsoot = M1/rhoSoot = rhoGas*Ys/rhoSoot
+
         double xCH4 = xMoleSp.at(i).at(iRadIndx[0]);
         double xCO2 = xMoleSp.at(i).at(iRadIndx[1]);
         double xH2O = xMoleSp.at(i).at(iRadIndx[2]);
         double xCO  = xMoleSp.at(i).at(iRadIndx[4]);
-
-        // todo soot implementation
-        double fvsoot = 0;
-//            if (domn->pram->Lsoot)
-//                fvsoot = 0;
 
         vector<double> K;       // temp storage for k values
         vector<double> A;       // temp storage for wts values

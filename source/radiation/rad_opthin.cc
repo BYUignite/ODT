@@ -35,12 +35,11 @@ void rad_opthin::getRadHeatSource(const vector<vector<double> > &xMoleSp,
 
     vector<double> Kabs(domn->ngrd);
 
-    // todo soot implementation
-    double fvsoot = 0;
-//    if (domn->pram->Lsoot)
-//        fvsoot = 0;
-
     for(int i=0; i<domn->ngrd; i++) {
+
+        double fvsoot = 0;
+        if (domn->pram->Lsoot)
+            fvsoot = domn->svar[1]->d[i] / domn->pram->Cmin;        // fvsoot = M1/rhoSoot = rhoGas*Ys/rhoSoot
 
         double xCH4 = xMoleSp.at(i).at(iRadIndx[0]);
         double xCO2 = xMoleSp.at(i).at(iRadIndx[1]);
