@@ -1,9 +1,11 @@
 ################### DEPENDENCIES #########################
 
-# ---- Dependency options ----
-option(ODT_SYSTEM_YAML      "Use system-wide yaml installation"         OFF)
-option(ODT_SYSTEM_SUNDIALS  "Use system-wide Sundials installation"     OFF)
-option(ODT_SYSTEM_CANTERA   "Use system-wide Cantera installation"      OFF)
+# ---- ODT dependency options ----
+option(ODT_SYSTEM_YAML          "Use system-wide yaml installation"         OFF)
+option(ODT_SYSTEM_SUNDIALS      "Use system-wide Sundials installation"     OFF)
+option(ODT_SYSTEM_CANTERA       "Use system-wide Cantera installation"      OFF)
+option(YAML_CPP_BUILD_TESTS     "Build yaml-cpp tests"                      OFF)
+option(YAML_CPP_BUILD_CONTRIB   "Build yaml-cpp contrib stuff"              OFF)
 
 # ---- FetchContent declarations ----
 FetchContent_Declare(yaml-cpp
