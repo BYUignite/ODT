@@ -16,10 +16,10 @@ FetchContent_Declare(sundials
         GIT_TAG 887af4374af2271db9310d31eaa9b5aeff49e829)           # Sundials-5.3.0
 FetchContent_Declare(radlib
         GIT_REPOSITORY https://github.com/BYUignite/radlib.git
-        GIT_TAG da2420bc46a94e0c96f487735fda949bca96d07c)           # radlib-2.0.0
+        GIT_TAG bff973e22befdc1db16d55a2f04e675e35c4aea3)           # radlib-2.0.0
 FetchContent_Declare(sootlib
         GIT_REPOSITORY https://github.com/BYUignite/sootlib.git
-        GIT_TAG 5f5eeb6fdb1ef66e7d82fd136026bb20f06208e5)           # sootlib-0.1.0
+        GIT_TAG a9a96b68e676c65f0d05a17ee0f0f6c5dbb2a207)           # sootlib-0.1.0
 FetchContent_Declare(cantera
         GIT_REPOSITORY https://github.com/Cantera/cantera
         GIT_TAG b0bace78223959cd3e5a15317734cacff7b0b0a2)           # cantera-2.5.1
