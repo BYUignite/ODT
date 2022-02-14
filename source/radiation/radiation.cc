@@ -13,7 +13,7 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////
-/** Contructor for radiation class object
+/** Constructor for radiation class object
  *
  *  @author Victoria B. Stephens 
  *

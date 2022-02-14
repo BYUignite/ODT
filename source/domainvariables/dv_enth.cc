@@ -44,7 +44,7 @@ dv_enth::dv_enth(domain    *line,
         else if (domn->pram->radSolveType == "FVDOM")
             rad = new rad_fvdom(domn);
         else {
-            *domn->io->ostrm << endl << "ERROR: radSolveType not recognized or not consitent with cCoord" << endl;
+            *domn->io->ostrm << endl << "ERROR: radSolveType not recognized or not consistent with cCoord" << endl;
             exit(0);
         }
     }
