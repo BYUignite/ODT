@@ -16,10 +16,10 @@ FetchContent_Declare(sundials
         GIT_TAG 887af4374af2271db9310d31eaa9b5aeff49e829)           # Sundials-5.3.0
 FetchContent_Declare(radlib
         GIT_REPOSITORY https://github.com/BYUignite/radlib.git
-        GIT_TAG bff973e22befdc1db16d55a2f04e675e35c4aea3)           # radlib-2.0.0
+        GIT_TAG bff973e22befdc1db16d55a2f04e675e35c4aea3)           # radlib-2.0.0      # TODO update tag
 FetchContent_Declare(sootlib
         GIT_REPOSITORY https://github.com/BYUignite/sootlib.git
-        GIT_TAG a9a96b68e676c65f0d05a17ee0f0f6c5dbb2a207)           # sootlib-0.1.0
+        GIT_TAG a9a96b68e676c65f0d05a17ee0f0f6c5dbb2a207)           # sootlib-0.1.0     # TODO update tag
 FetchContent_Declare(cantera
         GIT_REPOSITORY https://github.com/Cantera/cantera
         GIT_TAG b0bace78223959cd3e5a15317734cacff7b0b0a2)           # cantera-2.5.1
@@ -71,19 +71,19 @@ if (NOT ODT_SYSTEM_CANTERA OR NOT cantera_FOUND)
         SOURCE_DIR  ${cantera_SOURCE_DIR}
         BINARY_DIR  ${cantera_SOURCE_DIR}
         CONFIGURE_COMMAND ""
-        BUILD_COMMAND scons build python_package=n matlab_toolbox=n f90_interface=n googletest=none prefix=${FETCHCONTENT_BASE_DIR}/cantera-install system_sundials=n
+        BUILD_COMMAND scons build python_package=n matlab_toolbox=n f90_interface=n googletest=none prefix=${CMAKE_SOURCE_DIR} system_sundials=n
         INSTALL_COMMAND scons install
     )
     message(STATUS "Using Cantera fetched from repository")
 endif()
 
-file(MAKE_DIRECTORY ${FETCHCONTENT_BASE_DIR}/cantera-install/include)
+file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/include)
 
 add_library(cantera-ext SHARED IMPORTED GLOBAL)
 set_target_properties(cantera-ext PROPERTIES
-        IMPORTED_LOCATION ${FETCHCONTENT_BASE_DIR}/cantera-install/lib/libcantera.a
-        IMPORTED_IMPLIB ${FETCHCONTENT_BASE_DIR}/cantera-install/lib/libcantera.a
-        INTERFACE_INCLUDE_DIRECTORIES ${FETCHCONTENT_BASE_DIR}/cantera-install/include
+        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/lib/libcantera.a
+        IMPORTED_IMPLIB ${CMAKE_SOURCE_DIR}/lib/libcantera.a
+        INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_SOURCE_DIR}/include
 )
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)

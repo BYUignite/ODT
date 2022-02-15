@@ -49,7 +49,7 @@ add_subdirectory(user_chemical_mechanisms)
 
 # -------- dependencies --------
 get_target_property(cantera_INCLUDE_DIR cantera-ext INTERFACE_INCLUDE_DIRECTORIES)  # tell CMake where to find cantera headers
-list(APPEND sundials_INCLUDE_DIR ${FETCHCONTENT_BASE_DIR}/cantera-install/include/cantera/ext)
+list(APPEND sundials_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include/cantera/ext)
 
 target_include_directories(odt-run PRIVATE ${Boost_INCLUDE_DIR} ${yaml-cpp_INCLUDE_DIR} ${sundials_INCLUDE_DIR} ${cantera_INCLUDE_DIR})
 
@@ -70,7 +70,6 @@ target_include_directories(odt-run
         )
 
 install(TARGETS odt-run
-        EXPORT  odt
         RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR}
         LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
