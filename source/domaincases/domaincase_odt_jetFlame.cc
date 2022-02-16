@@ -64,10 +64,8 @@ void domaincase_odt_jetFlame::init(domain *p_domn) {
         domn->v.push_back(new dv_ygas(domn, "y_"+domn->gas->thermo()->speciesName(k), true, true ));
     domn->v.push_back(new dv_enth(  domn, "enth",    true,  true ));  // enth AFTER ygas for enth flux (see dv_enth)
     if (domn->pram->Lsoot) {
-        stringstream ss;
         for(int k=0; k<domn->pram->nsvar; k++) {
-            ss.str(""); ss.clear(); ss << k;
-            domn->v.push_back(new dv_soot(domn, "M"+ss.str(), true, true ));
+            domn->v.push_back(new dv_soot(domn, "M"+to_string(k), true, true ));
         }
     }
 
