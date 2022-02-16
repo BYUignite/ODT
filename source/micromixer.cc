@@ -38,7 +38,7 @@ void micromixer::init(domain *p_domn) {
 /** Advance ODT solution: diffusion and reaction
   */
 
-void micromixer::advanceOdt(const double p_tstart, const double p_tend, const int iLevel) { 
+void micromixer::advanceOdt(const double p_tstart, const double p_tend, const int iLevel) {
 
     tstart = p_tstart;
     tend   = p_tend;
@@ -145,6 +145,7 @@ void micromixer::advanceOdtSingleStep_Explicit(){
     set_oldrho_or_rhov();
     if(domn->pram->Lspatial) transform(oldrho_or_rhov.begin(), oldrho_or_rhov.end(), domn->uvel->d.begin(), oldrho_or_rhov.begin(), multiplies<double>());
 
+    domn->v[0]->resetSourceFlags();             // sets L_source_done = false for all transported vars
     for(int k=0; k<domn->v.size(); k++)
         if(domn->v.at(k)->L_transported) {
             domn->v.at(k)->getRhsMix(gf, dxc);
