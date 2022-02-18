@@ -42,6 +42,7 @@ add_subdirectory(ext)
 ################### MAIN PROJECT TARGETS #####################
 
 add_subdirectory(source)
+add_subdirectory(run)
 
 ################### OPTIONAL PROJECT TARGETS #####################
 
