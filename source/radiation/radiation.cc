@@ -73,7 +73,8 @@ radiation::radiation(domain *p_domn) {
     }
     else if (domn->pram->radCoefType == "RCSLW") {
 //        init_RCSLW_coefs();
-        radProps = new rad_rcslw(4);
+//        radProps = new rad_rcslw(4, TbTref, P, fvsoot, xH2O, xCO2, xCO);
+        radProps = new rad_rcslw(4, 1800, 101325, 0.0, 0.189416, 0.0941293, 0.000859649);       // init w/ stoich methane/air at 1800K
     }
     else {
         *domn->io->ostrm << endl << "ERROR: radCoefType not recognized" << endl;

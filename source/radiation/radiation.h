@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 //#include "radiationProperties.h"
-#include "rad.h"
+#include "radPropModel.h"
 #include "rad_planck_mean.h"
 #include "rad_rcslw.h"
 #include "rad_wsgg.h"
@@ -48,7 +48,7 @@ class radiation {
 
         domain                      *domn;          ///< pointer to domain
 //        radiationProperties         *radProps;      ///< tools for getting k's and a's, etc. // defines radProps
-        rad                         *radProps;      ///< tools for getting k's and a's, etc. // defines radProps // radlib
+        radPropModel                *radProps;      ///< tools for getting k's and a's, etc. // defines radProps // radlib
 
         double                      sigmaSB;        ///< Stefan Boltzman const
 
