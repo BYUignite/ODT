@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 
     string caseName = args[0];
     string inputDir = args[1];
-    int    nRlz     = args[2];
+    int    nRlz     = stoi(args[2]);
 
     cout << "*** PREPARING ***" << endl;
     cout << "Case name: " << caseName << endl;
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 
     for (int i=0; i<nRlz; i++) {
         cout << "-------------------- REALIZATION " << i << " -----------------------" << endl;
-        system(string("../bin/odt-run " + caseName + " " + i + " 2>&1").c_str());
+        system(string("../bin/odt-run " + caseName + " " + to_string(i) + " 2>&1").c_str());
     }
 
     auto end = chrono::system_clock::now();
