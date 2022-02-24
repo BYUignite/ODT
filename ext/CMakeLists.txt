@@ -16,7 +16,7 @@ FetchContent_Declare(sundials
         GIT_TAG 887af4374af2271db9310d31eaa9b5aeff49e829)           # Sundials-5.3.0
 FetchContent_Declare(radlib
         GIT_REPOSITORY https://github.com/BYUignite/radlib.git
-        GIT_TAG bff973e22befdc1db16d55a2f04e675e35c4aea3)           # radlib-2.0.0      # TODO update tag
+        GIT_TAG 1de7d096ff3187224fb80851f10dad5b59905a48)           # radlib-2.0.0
 FetchContent_Declare(sootlib
         GIT_REPOSITORY https://github.com/BYUignite/sootlib.git
         GIT_TAG a9a96b68e676c65f0d05a17ee0f0f6c5dbb2a207)           # sootlib-0.1.0     # TODO update tag
