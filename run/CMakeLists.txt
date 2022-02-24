@@ -11,6 +11,9 @@ target_compile_features(odt-runManyRlz PUBLIC cxx_std_11)
 add_dependencies(odt-runOneRlz odt-run)
 add_dependencies(odt-runManyRlz odt-run)
 
+target_include_directories(odt-runOneRlz PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(odt-runManyRlz PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
 ############# INSTALLATION ################
 
 include(GNUInstallDirs)
