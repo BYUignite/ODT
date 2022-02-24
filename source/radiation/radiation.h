@@ -7,7 +7,6 @@
 
 #include <vector>
 #include <string>
-//#include "radiationProperties.h"
 #include "radPropModel.h"
 #include "rad_planck_mean.h"
 #include "rad_rcslw.h"
@@ -19,9 +18,8 @@ using namespace std;
 
 // TODO:
 // add pressure to the getRadHeatSource call in enthalpy variable
-// need a radiative property class object
-// use constructor instead of init function here.
 // verify destructor for child classes for radProps
+// check for missing species according to chosen radProps model
 
 ///////////////////////////////////////////////////////////////////////////////
 /** Class implementing radiation models
@@ -35,9 +33,6 @@ using namespace std;
  *      rad_fvdom.h     FVDOM: finite volume discrete ordinates method
  *      rad_raytrace.h  RAYTRACE: ray tracing solution
  *
- *  @author Victoria B. Stephens 
- *  @author David O. Lignell
- *
  */
 
 class radiation {
@@ -46,15 +41,14 @@ class radiation {
 
     public:
 
-        domain                      *domn;          ///< pointer to domain
-//        radiationProperties         *radProps;      ///< tools for getting k's and a's, etc. // defines radProps
-        radPropModel                *radProps;      ///< tools for getting k's and a's, etc. // defines radProps // radlib
+        domain          *domn;                  ///< pointer to domain
+        radPropModel    *radProps;              ///< tools for getting k's and a's, etc. // defines radProps // radlib
 
-        double                      sigmaSB;        ///< Stefan Boltzman const
+        double          sigmaSB = 5.670E-8;     ///< Stefan Boltzman const (W/m2*K4)
 
-        int                              nRadSp;     ///< number of radiating species
-        vector<int>                      iRadIndx;   ///< index of radiating species
-        int                              nGG;        ///< number of grey gases for WSGG approaches
+        int             nRadSp;                 ///< number of radiating species
+        vector<int>     iRadIndx;               ///< index of radiating species
+        int             nGG;                    ///< number of grey gases for WSGG approaches
 
     ////////////////////// MEMBER FUNCTIONS /////////////////////
 

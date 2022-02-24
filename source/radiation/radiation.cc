@@ -6,7 +6,6 @@
 #include "radiation.h"
 #include "domain.h"
 #include <cstdlib>
-#include <cmath>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Static members
@@ -14,8 +13,6 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 /** Constructor for radiation class object
- *
- *  @author Victoria B. Stephens 
  *
  *  @param p_domn \input pointer to domain object
  *
@@ -63,27 +60,17 @@ radiation::radiation(domain *p_domn) {
     // --------------- create radProps object
 
     if (domn->pram->radCoefType == "PLANCKMEAN") {
-//        init_planck_mean_coefs();
         radProps = new rad_planck_mean();
     }
     else if (domn->pram->radCoefType == "WSGG") {
-//        init_WSGG_coefs();
-//        nGG = 5;                        // 1 clear gas and 4 gray gases
         radProps = new rad_wsgg();
     }
     else if (domn->pram->radCoefType == "RCSLW") {
-//        init_RCSLW_coefs();
-//        radProps = new rad_rcslw(4, TbTref, P, fvsoot, xH2O, xCO2, xCO);
         radProps = new rad_rcslw(4, 1800, 101325, 0.0, 0.189416, 0.0941293, 0.000859649);       // init w/ stoich methane/air at 1800K
     }
     else {
         *domn->io->ostrm << endl << "ERROR: radCoefType not recognized" << endl;
         exit(0);
     }
-
-//    radProps = new radiationProperties();
-//    radProps->init(domn);
-
-    sigmaSB = 5.670E-8;                     // W/m2*K4
 
 }
