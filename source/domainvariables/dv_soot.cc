@@ -181,6 +181,7 @@ void dv_soot::getRhsMix(const vector<double> &gf,
     rhsMix.resize(domn->ngrd, 0.0);
 
     setFlux(gf, dxc);
+
     //------------------ Compute the mixing term
 
     for(int i=0,ip=1; i<domn->ngrd; i++, ip++)
@@ -302,21 +303,21 @@ void dv_soot::getRhsSrc(const int ipt) {
 
         for(int i=iS; i<=iE; i++) {                    // loop over grid points
 
-            yGas[0] = domn->ysp[i_h     ]->    d[i];     // gas species mass fractions [H, H2, O, O2, OH, H2O, CO, C2H2]
-            yGas[1] = domn->ysp[i_h2    ]->   d[i];
-            yGas[2] = domn->ysp[i_o     ]->    d[i];
-            yGas[3] = domn->ysp[i_o2    ]->   d[i];
-            yGas[4] = domn->ysp[i_oh    ]->   d[i];
-            yGas[5] = domn->ysp[i_h2o   ]->  d[i];
-            yGas[6] = domn->ysp[i_co    ]->   d[i];
-            yGas[7] = domn->ysp[i_c2h2  ]-> d[i];
+            yGas[0] = (i_h < 0)    ? 0 : domn->ysp[i_h]->d[i];          // gas species mass fractions [H, H2, O, O2, OH, H2O, CO, C2H2]
+            yGas[1] = (i_h2 < 0)   ? 0 : domn->ysp[i_h2]->d[i];
+            yGas[2] = (i_o < 0)    ? 0 : domn->ysp[i_o]->d[i];
+            yGas[3] = (i_o2 < 0)   ? 0 : domn->ysp[i_o2]->d[i];
+            yGas[4] = (i_oh < 0)   ? 0 : domn->ysp[i_oh]->d[i];
+            yGas[5] = (i_h2o < 0)  ? 0 : domn->ysp[i_h2o]->d[i];
+            yGas[6] = (i_co < 0)   ? 0 : domn->ysp[i_co]->d[i];
+            yGas[7] = (i_c2h2 < 0) ? 0 : domn->ysp[i_c2h2]->d[i];
 
-            yPAH[0] = domn->ysp[i_c10h8]->  d[i];   // PAH species mass fractions [C10H8, C12H8, C12H10, C14H10, C16H10, C18H10]
-            yPAH[1] = domn->ysp[i_c12h8]->  d[i];
-            yPAH[2] = domn->ysp[i_c12h10]-> d[i];
-            yPAH[3] = domn->ysp[i_c14h10]-> d[i];
-            yPAH[4] = domn->ysp[i_c16h10]-> d[i];
-            yPAH[5] = domn->ysp[i_c18h10]-> d[i];
+            yPAH[0] = (i_c10h8 < 0)  ? 0 : domn->ysp[i_c10h8]->d[i];    // PAH species mass fractions [C10H8, C12H8, C12H10, C14H10, C16H10, C18H10]
+            yPAH[1] = (i_c12h8 < 0)  ? 0 : domn->ysp[i_c12h8]->d[i];
+            yPAH[2] = (i_c12h10 < 0) ? 0 : domn->ysp[i_c12h10]->d[i];
+            yPAH[3] = (i_c14h10 < 0) ? 0 : domn->ysp[i_c14h10]->d[i];
+            yPAH[4] = (i_c16h10 < 0) ? 0 : domn->ysp[i_c16h10]->d[i];
+            yPAH[5] = (i_c18h10 < 0) ? 0 : domn->ysp[i_c18h10]->d[i];
 
             for(int k=0; k<ySootVar.size(); k++)
                 ySootVar[k] = domn->svar[k]->d[i];  // soot moment values [M0, M1, M2, M3]
@@ -334,14 +335,14 @@ void dv_soot::getRhsSrc(const int ipt) {
             }
 
             // retrieve gas source term values
-            gasSootSources[i_h   ][i] = SM->sourceTerms->gasSourceTerms.at(gasSp::H);
-            gasSootSources[i_h2  ][i] = SM->sourceTerms->gasSourceTerms.at(gasSp::H2);
-            gasSootSources[i_o   ][i] = SM->sourceTerms->gasSourceTerms.at(gasSp::O);
-            gasSootSources[i_o2  ][i] = SM->sourceTerms->gasSourceTerms.at(gasSp::O2);
-            gasSootSources[i_oh  ][i] = SM->sourceTerms->gasSourceTerms.at(gasSp::OH);
-            gasSootSources[i_h2o ][i] = SM->sourceTerms->gasSourceTerms.at(gasSp::H2O);
-            gasSootSources[i_co  ][i] = SM->sourceTerms->gasSourceTerms.at(gasSp::CO);
-            gasSootSources[i_c2h2][i] = SM->sourceTerms->gasSourceTerms.at(gasSp::C2H2);
+            if (i_h > 0)    gasSootSources[i_h][i]    = SM->sourceTerms->gasSourceTerms.at(gasSp::H);
+            if (i_h2 > 0)   gasSootSources[i_h2][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::H2);
+            if (i_o > 0)    gasSootSources[i_o][i]    = SM->sourceTerms->gasSourceTerms.at(gasSp::O);
+            if (i_o2 > 0)   gasSootSources[i_o2][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::O2);
+            if (i_oh > 0)   gasSootSources[i_oh][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::OH);
+            if (i_h2o > 0)  gasSootSources[i_h2o][i]  = SM->sourceTerms->gasSourceTerms.at(gasSp::H2O);
+            if (i_co > 0)   gasSootSources[i_co][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::CO);
+            if (i_c2h2 > 0) gasSootSources[i_c2h2][i] = SM->sourceTerms->gasSourceTerms.at(gasSp::C2H2);
         }
     }
 

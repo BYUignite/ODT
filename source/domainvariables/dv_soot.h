@@ -9,7 +9,6 @@
 #include <string>
 #include <vector>
 
-//#include "constants.h"
 #include "sootModel.h"
 #include "state.h"
 
@@ -92,6 +91,7 @@ private:
 
 public:
 
+    dv_soot(){}
     dv_soot(domain      *line,
             const string s,
             const bool   Lt,
