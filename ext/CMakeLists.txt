@@ -16,10 +16,10 @@ FetchContent_Declare(sundials
         GIT_TAG 887af4374af2271db9310d31eaa9b5aeff49e829)           # Sundials-5.3.0
 FetchContent_Declare(radlib
         GIT_REPOSITORY https://github.com/BYUignite/radlib.git
-        GIT_TAG 1de7d096ff3187224fb80851f10dad5b59905a48)           # radlib-2.0.0
+        GIT_TAG d4d5cc1e1e916b86e17fa818f0beb1edc832b7bd)           # radlib-2.0.0
 FetchContent_Declare(sootlib
         GIT_REPOSITORY https://github.com/BYUignite/sootlib.git
-        GIT_TAG a9a96b68e676c65f0d05a17ee0f0f6c5dbb2a207)           # sootlib-0.1.0     # TODO update tag
+        GIT_TAG a9a96b68e676c65f0d05a17ee0f0f6c5dbb2a207)           # sootlib-0.1.0
 FetchContent_Declare(cantera
         GIT_REPOSITORY https://github.com/Cantera/cantera
         GIT_TAG b0bace78223959cd3e5a15317734cacff7b0b0a2)           # cantera-2.5.1
@@ -55,12 +55,12 @@ list(POP_BACK CMAKE_MESSAGE_INDENT)
 message(STATUS "Looking for Cantera")
 list(APPEND CMAKE_MESSAGE_INDENT "    ")
 
-if (ODT_SYSTEM_CANTERA)
-    find_package(cantera REQUIRED)      # throws an error if required package not found
-    if (cantera_FOUND)
-        message(STATUS "Using system installation of Cantera")
-    endif ()
-endif ()
+#if (ODT_SYSTEM_CANTERA)
+#    find_package(cantera REQUIRED)      # throws an error if required package not found
+#    if (cantera_FOUND)
+#        message(STATUS "Using system installation of Cantera")
+#    endif ()
+#endif ()
 
 if (NOT ODT_SYSTEM_CANTERA OR NOT cantera_FOUND)
     FetchContent_GetProperties(cantera)
