@@ -15,7 +15,7 @@
 
 
 ###############################################################################
-echo "the start time is"
+echo "Start simulation time "
 date
 ###############################################################################
 
@@ -44,9 +44,9 @@ runCase () {
     #--------------------------------------------------------------------------
 
     echo "*** RUNNING ***"
-    echo "Output is being written to ../$caseName/runtime/runtime_* and ../$caseName/data"
+    echo "Output will be written to ../$caseName/runtime/ and ../$caseName/data"
 
-    mpiexec -np $SLURM_NTASKS ./odt.x $caseName 0       # 0 is the realization shift
+    mpiexec -np $SLURM_NTASKS ../bin/odt-run $caseName 0       # 0 is the realization shift
 
     nshift=0
     it=1
@@ -67,7 +67,7 @@ runCase $caseName
 #runCase "test_a" "C_param" "10"
 
 ###############################################################################
-echo "the end simulation time is"
+echo "End simulation time "
 date
 ###############################################################################
 

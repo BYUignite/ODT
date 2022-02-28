@@ -45,7 +45,7 @@ runCase () {
     #--------------------------------------------------------------------------
 
     echo "*** RUNNING ***"
-    echo "Output is being written to ../$caseName/runtime/runtime_* and ../$caseName/data"
+    echo "Output will be written to ../$caseName/runtime/ and ../$caseName/data"
 
     ../bin/odt-run $caseName $SLURM_ARRAY_TASK_ID
 
@@ -54,7 +54,7 @@ runCase () {
     while [ $it -lt $nSetsToRun ] ; do
         nshift=$(($nshift + $SLURM_ARRAY_TASK_COUNT))
         it=$(($it + 1))
-        ./odt.x $caseName $(($SLURM_ARRAY_TASK_ID + $nshift))
+        ../bin/odt-run $caseName $(($SLURM_ARRAY_TASK_ID + $nshift))
     done
 
 }
