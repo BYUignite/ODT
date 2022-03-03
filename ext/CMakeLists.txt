@@ -71,7 +71,7 @@ if (NOT ODT_SYSTEM_CANTERA OR NOT cantera_FOUND)
         SOURCE_DIR  ${cantera_SOURCE_DIR}
         BINARY_DIR  ${cantera_SOURCE_DIR}
         CONFIGURE_COMMAND ""
-        BUILD_COMMAND scons build python_package=n matlab_toolbox=n f90_interface=n googletest=none prefix=${CMAKE_SOURCE_DIR} system_sundials=n
+        BUILD_COMMAND scons build python_package=n matlab_toolbox=n f90_interface=n googletest=none prefix=${CMAKE_SOURCE_DIR} system_sundials=n boost_inc_dir=${Boost_INCLUDE_DIR}
         INSTALL_COMMAND scons install
     )
     message(STATUS "Using Cantera fetched from repository")
