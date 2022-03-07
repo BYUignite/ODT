@@ -15,16 +15,22 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)       # default to Release build
 endif()
 
-set(CMAKE_CXX_STANDARD 11)              # set C++ language standard
+# ---- C++ language standard ----
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
 
+# ---- module path ----
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)          # tells find_package() where to look for Find[pkg].cmake files
-set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}")                   # installation location base directory
 
 # ---- build options ----
 option(ODT_BUILD_TESTS      "Build ODT tests"       OFF)
 option(ODT_BUILD_DOCS       "Build ODT docs"        OFF)
+
+# ---- install options ----
+set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}")                   # installation location base directory
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib" $ENV{LD_RUN_PATH})
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # ---- user options ----
 set(ODT_CHEMISTRY       "SIMPLEDLR"     CACHE STRING    "User chemical mechanism")

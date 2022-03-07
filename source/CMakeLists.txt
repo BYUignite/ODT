@@ -56,11 +56,13 @@ target_include_directories(odt-run PRIVATE ${Boost_INCLUDE_DIR} ${yaml-cpp_INCLU
 target_link_libraries(odt-run PUBLIC Threads::Threads -pthread)
 target_link_libraries(odt-run PUBLIC yaml-cpp)
 target_link_libraries(odt-run PUBLIC radlib::radProps sootlib::sootModel)
-target_link_libraries(odt-run PUBLIC cantera-ext -lyaml-cpp)
+target_link_libraries(odt-run PUBLIC cantera-ext)
 
 ############# INSTALLATION ################
 
 include(GNUInstallDirs)
+
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #---- allow odt to be used in other targets ----
 target_include_directories(odt-run
