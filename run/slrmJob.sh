@@ -6,13 +6,7 @@
 #SBATCH --time=02:00:00                    # walltime
 #SBATCH --ntasks=256                       # number of processor cores (i.e. tasks) 288
 #SBATCH -J "coldJet"                       # slurm job name
-#SBATCH --gid=fslg_crfrg
 #SBATCH --mem-per-cpu=500M                 # memory per CPU core
-##SBATCH --mail-user=you@univ.edu  # email address
-##SBATCH --mail-type=BEGIN
-##SBATCH --mail-type=END
-##SBATCH --mail-type=FAIL
-
 
 ###############################################################################
 echo "Start simulation time "

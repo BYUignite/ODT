@@ -7,12 +7,7 @@
 #SBATCH --ntasks=1                       # number of processor cores (i.e. tasks) 288
 #SBATCH --array=0-7  
 #SBATCH -J "test"                       # slurm job name
-#SBATCH --gid=fslg_crfrg
 #SBATCH --mem-per-cpu=250M                 # memory per CPU core
-##SBATCH --mail-user=                     # email address
-##SBATCH --mail-type=BEGIN
-##SBATCH --mail-type=END
-##SBATCH --mail-type=FAIL
 
 ###############################################################################
 echo "the start time is"
