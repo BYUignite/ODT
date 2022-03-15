@@ -23,7 +23,7 @@ void solver::init(domain *p_domn) {
     if(domn->pram->LES_type=="THIRDS"){
         ed3   = new eddy;
         eddl3 = new domain(domn, domn->pram);
-        eddl3->init(NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true);
+        eddl3->init(NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true);
         ed3->init(domn, eddl3);
     }
 

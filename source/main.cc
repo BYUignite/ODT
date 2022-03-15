@@ -12,6 +12,7 @@
 #include "eddy.h"
 #include "solver.h"
 #include "randomGenerator.h"
+#include "chemMech.h"
 #include "cantera/base/Solution.h"
 #include "cantera/thermo.h"
 #include "cantera/transport.h"
@@ -49,13 +50,14 @@ int main(int argc, char*argv[]) {
     inputoutput io(caseName, nShiftFileNumbers);
     param       pram(&io);
     streams     strm;
-//    IdealGasMix   gas("../input/gas_mechanisms/"+pram.chemMechFile);
+//    IdealGasMix   gas("../input/gas_mechanisms/"+pram.chemMech);
 //    Transport     *tran = newTransportMgr("Mix", &gas);
-    shared_ptr<Solution> gas(newSolution("../input/gas_mechanisms/"+pram.chemMechFile,"","Mix"));
+    shared_ptr<Solution> gas(newSolution("../input/gas_mechanisms/"+pram.chemMech+".yaml","","Mix"));
     eddy        ed;
     meshManager mesher;
     solver      *solv;
     micromixer  *mimx;
+    chemMech    *chem;
     solv = new solver();
     mimx = new micromixer();
 
@@ -68,8 +70,8 @@ int main(int argc, char*argv[]) {
 
 //    domn.init(&io,  &mesher, &strm, &gas, tran, mimx, &ed, &eddl, solv, &rand);
 //    eddl.init(NULL, NULL,    NULL,  NULL, NULL, NULL, NULL,NULL,  NULL, NULL,  NULL, true);
-    domn.init(&io, &mesher, &strm, gas, mimx, &ed, &eddl, solv, &rand);
-    eddl.init(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true);
+    domn.init(&io, &mesher, &strm, gas, mimx, &ed, &eddl, solv, &rand, chem);
+    eddl.init(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true);
 
     //-------------------
 

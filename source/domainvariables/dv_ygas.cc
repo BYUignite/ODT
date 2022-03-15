@@ -95,7 +95,7 @@ void dv_ygas::getRhsSrc(const int ipt) {
             // make sure rho and T are set first (though it should be for the diffuser at least).
             for(int k=0; k<nspc; k++)
                 yi.at(k) = domn->ysp[k]->d.at(i);
-            getProblemSpecificRR(domn->rho->d.at(i), domn->temp->d.at(i), domn->pram->pres, &yi.at(0), &rr.at(0));
+            domn->chem->getProblemSpecificRR(domn->rho->d.at(i), domn->temp->d.at(i), domn->pram->pres, &yi.at(0), &rr.at(0));
 #else
             domn->domc->setGasStateAtPt(i);
             domn->gas->kinetics()->getNetProductionRates(&rr.at(0));

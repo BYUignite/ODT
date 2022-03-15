@@ -15,6 +15,7 @@
 #include "meshManager.h"
 #include "solver.h"
 #include "randomGenerator.h"
+#include "chemical_mechanisms/chemMech.h"
 //#include "cantera/thermo/IdealGasPhase.h"
 //#include "cantera/transport.h"
 #include "cantera/base/Solution.h"
@@ -82,6 +83,7 @@ class domain {
         domain                  *eddl;       ///< pointer to eddyline object
         solver                  *solv;       ///< pointer to solver object
         meshManager             *mesher;     ///< pointer to mesh manager object
+        chemMech                *chem;       ///< pointer to chemical mechanism object
 
         randomGenerator         *rand;
 
@@ -118,6 +120,7 @@ class domain {
                   domain          *p_eddl,
                   solver          *p_solv,
                   randomGenerator *p_rand,
+                  chemMech        *p_chem,
                   bool             LisEddyDomain=false);
         domain(domain *p_domn, param *p_pram);
         virtual ~domain() {

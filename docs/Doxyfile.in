@@ -578,7 +578,7 @@ WARN_LOGFILE           =
 INPUT                  = @PROJECT_SOURCE_DIR@/source \
                          @PROJECT_SOURCE_DIR@/source/domaincases \
                          @PROJECT_SOURCE_DIR@/source/domainvariables \
-                         @PROJECT_SOURCE_DIR@/source/user_chemical_mechanisms \
+                         @PROJECT_SOURCE_DIR@/source/chemical_mechanisms \
                          @PROJECT_SOURCE_DIR@/source/radiation \
                          @PROJECT_SOURCE_DIR@/docs
 

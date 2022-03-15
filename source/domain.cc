@@ -22,6 +22,7 @@
 #include "domaincase_odt_coldPropaneJet.h"
 #include "domaincase_odt_coldJet.h"
 #include "domaincase_odt_RT.h"
+#include "chemical_mechanisms/onestep_ch4.h"
 #include <cmath>
 #include <iomanip>
 
@@ -54,6 +55,7 @@ void domain::init(inputoutput     *p_io,
                   domain          *p_eddl,
                   solver          *p_solv,
                   randomGenerator *p_rand,
+                  chemMech        *p_chem,
                   bool             LisEddyDomain) {
 
     //----------------------
@@ -68,6 +70,7 @@ void domain::init(inputoutput     *p_io,
     eddl   = p_eddl;
     solv   = p_solv;
     rand   = p_rand;
+    chem   = p_chem;
 
     //----------------------
 
@@ -95,31 +98,22 @@ void domain::init(inputoutput     *p_io,
 
      if(pram->probType == "CHANNEL")
          domc = new domaincase_odt_channel();    // cold channel flow
-
      else if(pram->probType == "CHANNEL_SCALAR")
          domc = new domaincase_odt_channelScalar();  // cold channel flow with passive scalar
-
      else if(pram->probType == "JETMIXL_RXN")
          domc = new domaincase_odt_jetMixlRxn(); // jet, wake, mixing layer with gaseous reaction
-
      else if(pram->probType == "COLDPROPANEJET")
          domc = new domaincase_odt_coldPropaneJet(); // TNF jet
-
      else if(pram->probType == "COLDJET")
          domc = new domaincase_odt_coldJet(); // Hussein 1994
-
      else if(pram->probType == "JETFLAME")
          domc = new domaincase_odt_jetFlame(); // Shaddix jet
-
      else if(pram->probType == "MF_JETFLAME")
          domc = new domaincase_odt_MFjetFlame(); // jet flame w/ mixt frac density profile
-
      else if(pram->probType == "ISOTHERMAL_WALL")
          domc = new domaincase_odt_isothermalWall(); // isothermal wall
-
      else if(pram->probType == "RT")
          domc = new domaincase_odt_RT();      // simple Rayleigh Taylor flow
-
      else {
          cout << endl << "ERROR, probType UNKNOWN" << endl;
          exit(0);

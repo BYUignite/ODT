@@ -45,7 +45,7 @@ target_sources(odt-run PRIVATE main.cc
 add_subdirectory(domainvariables)
 add_subdirectory(radiation)
 add_subdirectory(domaincases)
-add_subdirectory(user_chemical_mechanisms)
+add_subdirectory(chemical_mechanisms)
 
 # -------- dependencies --------
 get_target_property(cantera_INCLUDE_DIR cantera-ext INTERFACE_INCLUDE_DIRECTORIES)  # tell CMake where to find cantera headers

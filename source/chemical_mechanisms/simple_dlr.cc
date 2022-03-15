@@ -3,24 +3,15 @@
  * @brief Source file for two-step methane/hydrogen/air chemical mechanism
  */
 
-#include <vector>
-#include <cmath>
-#include <iostream>
-#include<stdlib.h>
+#include "simple_dlr.h"
 
 using namespace std;
 
-void getProblemSpecificRR(double rho, double temp, double pres, double *yi, double *rrsp) {
-/** inputs:
- * rho [=] kg/m3
- * temp [=] K
- * yi are species mass fractions
- * outputs:
- * rrsp [=] kmol/m3*s
+////////////////////////////////////////////////////////////////////////////////
+/*! getProblemSpecificRR function
+ *
  */
-
-//    CH4 +   2 O2 => CO2 + 2 H2O
-//    H2  + 1/2 O2 => H2O
+void simple_dlr::getProblemSpecificRR(double rho, double temp, double pres, double *yi, double *rrsp) const {
 
     int iH2   = 0;
     int iO2   = 1;
@@ -48,4 +39,3 @@ void getProblemSpecificRR(double rho, double temp, double pres, double *yi, doub
     rrsp[iN2]   =  0.0;
 
 }
-

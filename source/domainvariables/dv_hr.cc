@@ -60,7 +60,7 @@ void dv_hr::setVar(const int ipt){
 #ifdef PROBLEMSPECIFICRR
         domn->gas->thermo()->getMassFractions( &yi[0] );
         //        getProblemSpecificRR(domn->gas->density(), domn->gas->temperature(), domn->pram->pres, &yi.at(0), &rr.at(0));
-        getProblemSpecificRR(domn->gas->thermo()->density(), temperatureHere, domn->pram->pres, &yi.at(0), &rr.at(0));
+        domn->chem->getProblemSpecificRR(domn->gas->thermo()->density(), temperatureHere, domn->pram->pres, &yi.at(0), &rr.at(0));
 #else
         domn->gas->kinetics()->getNetProductionRates(&rr.at(0));
 #endif
