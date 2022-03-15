@@ -185,7 +185,7 @@ All input files are located in the `input` directory. Specific case types have i
 Some general notes on input files:
 - Input files are formatted as [standard YAML files](https://en.wikipedia.org/wiki/YAML) organized into subsections that correspond to various variable types and subprocesses.
 - The input case subdirectory may also contain a `restart.dat` file. If `Lrestart = TRUE` is set in `input.yaml`, the case will start at the state specified by `restart.dat`. This can be useful for running partial realizations or completing realizations that failed due to some runtime errors.
-- All cases require a Cantera mechanism file regardless of whether the case involves any chemistry. The name of the mechanism file corresponds to the `chemMechFile` parameter specified in the input.yaml file. For cases that do not need chemistry, the file `not_used.xml` can be specified.
+- All cases require a Cantera mechanism file regardless of whether the case involves any chemistry. The name of the mechanism file corresponds to the `chemMech` parameter specified in the input.yaml file. For cases that do not need chemistry, the file `not_used.xml` can be specified.
 
 <!--------------------------------------------------------------------------> 
 @section running Running ODT
@@ -373,7 +373,7 @@ Contains general ODT parameters common to all case types. No case-specific param
 - `rho0` and `kvisc0`: average fluid density and kinematic viscosity. 
     - Used in flows without variable transport properties (i.e. channel flow) and in some initial eddy sampling variables (see [`solver.cc`](@ref doxygen/html/solver_8cc_source.html)).
     - For variable property flows, set to a reasonable expected average. 
-- `chemMechFile`: name of the chemical mechanism file to be used 
+- `chemMech`: name of the chemical mechanism file to be used
     - All cases require a chemical mechanism files, regardless of whether the case includes changing chemistry. In cases where no chemistry is required, the dummy file `not_used.xml` is specified here.
     - For a full list of chemical mechanism files that can be used, refer to the `gas_mechanisms` folder within the base `input` directory.
 - `probType`: specifies the [case type](@ref case_files) 

@@ -34,7 +34,7 @@ param::param(inputoutput *p_io) {
     sdiff0         = io->params["sdiff0"]         ? io->params["sdiff0"].as<double>()        : 0.001694; //errMsg<double>("sdiff0");
     dPdx           = io->params["dPdx"]           ? io->params["dPdx"].as<double>()          : 0.0;
     pres           = io->params["pres"]           ? io->params["pres"].as<double>()          : 101325.0;
-    chemMechFile   = io->params["chemMechFile"]   ? io->params["chemMechFile"].as<string>()  : errMsg<string>("chemMechFile");
+    chemMech   = io->params["chemMech"]   ? io->params["chemMech"].as<string>()  : errMsg<string>("chemMech");
     probType       = io->params["probType"]       ? io->params["probType"].as<string>()      : errMsg<string>("probType");
 
     Z_param        = io->params["Z_param"]        ? io->params["Z_param"].as<double>()       : 400.0;    //errMsg<double>("Z_param");

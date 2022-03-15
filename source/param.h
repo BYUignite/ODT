@@ -40,7 +40,7 @@ class param {
         double  sdiff0;          ///<  initial uniform scalar diffusivity (m^2/s)
         double  dPdx;            ///<  initial pressure gradient (Pa/m)
         double  pres;            ///<  initial pressure (Pa)
-        string  chemMechFile;    ///<  name of chemical mechanism file
+        string  chemMech;    ///<  name of chemical mechanism file
         string  probType;        ///<  problem type: CHANNEL, CHANNEL_SCALAR, JETMIXL_RXN, COUETTE
 
         double  Z_param;         ///<  Viscous penalty parameter
