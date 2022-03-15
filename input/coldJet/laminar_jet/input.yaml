@@ -10,7 +10,7 @@ params:
     kvisc0:        1.0            #  initial uniform kinematic viscosity (m2*s)
     dPdx:          0.0            #  initial pressure gradient (Pa/m) -9.0
     pres:          100000.0       #  pressure (Pa)
-    chemMechFile:  air.xml        #  name of chemical mechanism file
+    chemMech:  air.xml        #  name of chemical mechanism file
     probType:      COLDJET        #  CHANNEL, JETMIXL_RXN, COLDPROPANEJET, COLDJET
     #----------------------------------------------------------------------------------
     Z_param:       400.          #  Viscous penalty parameter  100

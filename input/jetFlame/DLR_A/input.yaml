@@ -10,7 +10,7 @@ params:
     kvisc0:        6.12E-5        #  initial uniform kinematic viscosity (m2*s) (avg of air and adiabatic c2h4-air equilib flame)
     dPdx:          0.0            #  initial pressure gradient (Pa/m) -9.0
     pres:          95300          #  pressure (Pa)
-    chemMechFile:  simple_dlr.xml #  name of chemical mechanism file
+    chemMech:  simple_dlr.xml #  name of chemical mechanism file
     probType:      JETFLAME       #  CHANNEL, JETMIXL_RXN, etc.
     #----------------------------------------------------------------------------------
     Z_param:       400.           #  Viscous penalty parameter  100

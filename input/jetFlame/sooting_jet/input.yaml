@@ -10,7 +10,7 @@ params:
     kvisc0:        6.12E-5        #  initial uniform kinematic viscosity (m2*s) (avg of air and adiabatic c2h4-air equilib flame)
     dPdx:          0.0            #  initial pressure gradient (Pa/m) -9.0
     pres:          95300          #  pressure (Pa)
-    chemMechFile:  simple_dlr.xml #  name of chemical mechanism file
+    chemMech:      simple_dlr     #  name of chemical mechanism
     probType:      JETFLAME       #  CHANNEL, JETMIXL_RXN, etc.
     #----------------------------------------------------------------------------------
     Z_param:       400.           #  Viscous penalty parameter  100
@@ -25,8 +25,8 @@ params:
     LTMA:          false          #
     LplanarTau:    false          #
     #----------------------------------------------------------------------------------
-    Lrad:          false          #  true or false to do radiation, need a radParams section below
-    Lsoot:         false          #  true or false to do soot, need a sootParams section below
+    Lrad:          true           #  true or false to do radiation, need a radParams section below
+    Lsoot:         true           #  true or false to do soot, need a sootParams section below
     Lbuoyant:      true           #  flag to turn on buoyancy
     g:             -9.81          #  gravity
     LdoDL:         false          #  flag to turn on DL instability
@@ -70,12 +70,12 @@ radParams:
 ################### Soot parameters
 
 sootParams:
-    PSD_method:         MONO        # MONO or LOGN or QMOM or MOMIC
-    nucleation_mech:    NONE        # NONE or LL or LIN
-    growth_mech:        NONE        # NONE or LL or LIN or HACA
-    oxidation_mech:     NONE        # NONE or LL or HACA or LEE_NEOH or NSC_NEOH
-    coagulation_mech:   NONE        # NONE or LL or FRENK or FUCHS
-    nsvar:              2           # number of soot variables (for QMOM/MOMIC)
+    PSD_method:         LOGN        # MONO or LOGN or QMOM or MOMIC
+    nucleation_mech:    LL          # NONE or LL or LIN
+    growth_mech:        LL          # NONE or LL or LIN or HACA
+    oxidation_mech:     LL          # NONE or LL or HACA or LEE_NEOH or NSC_NEOH
+    coagulation_mech:   LL          # NONE or LL or FRENK or FUCHS
+    nsvar:              3           # number of soot variables (for QMOM/MOMIC)
     rhoSoot:            1850        # solid soot particle density (kg/m3)
     Cmin:               100         # min number of C atoms to define a soot particle
     b_coag:             0.8536      # coagulation constant
