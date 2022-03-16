@@ -91,15 +91,12 @@ void dv_ygas::getRhsSrc(const int ipt) {
             rrSpc.at(k).resize(domn->ngrd);
 
         for(int i=iS; i<=iE; i++) {
-#ifdef PROBLEMSPECIFICRR
+
             // make sure rho and T are set first (though it should be for the diffuser at least).
             for(int k=0; k<nspc; k++)
                 yi.at(k) = domn->ysp[k]->d.at(i);
             domn->chem->getProblemSpecificRR(domn->rho->d.at(i), domn->temp->d.at(i), domn->pram->pres, &yi.at(0), &rr.at(0));
-#else
-            domn->domc->setGasStateAtPt(i);
-            domn->gas->kinetics()->getNetProductionRates(&rr.at(0));
-#endif
+
             for(int k=0; k<nspc; k++)
                 rrSpc.at(k).at(i) = rr.at(k) * domn->gas->thermo()->molecularWeight(k) / domn->rho->d.at(i);   // kmol/(m³ s)*(kg/kmol)*(kg/m3) = 1/s
         }

@@ -55,12 +55,12 @@ list(POP_BACK CMAKE_MESSAGE_INDENT)
 message(STATUS "Looking for Cantera")
 list(APPEND CMAKE_MESSAGE_INDENT "    ")
 
-#if (ODT_SYSTEM_CANTERA)
-#    find_package(cantera REQUIRED)      # throws an error if required package not found
-#    if (cantera_FOUND)
-#        message(STATUS "Using system installation of Cantera")
-#    endif ()
-#endif ()
+if (ODT_SYSTEM_CANTERA)
+    find_package(cantera REQUIRED)      # throws an error if required package not found
+    if (cantera_FOUND)
+        message(STATUS "Using system installation of Cantera")
+    endif ()
+endif ()
 
 if (NOT ODT_SYSTEM_CANTERA OR NOT cantera_FOUND)
     FetchContent_GetProperties(cantera)
@@ -71,7 +71,7 @@ if (NOT ODT_SYSTEM_CANTERA OR NOT cantera_FOUND)
         SOURCE_DIR  ${cantera_SOURCE_DIR}
         BINARY_DIR  ${cantera_SOURCE_DIR}
         CONFIGURE_COMMAND ""
-        BUILD_COMMAND scons build python_package=n matlab_toolbox=n f90_interface=n googletest=none prefix=${CMAKE_SOURCE_DIR} system_sundials=n boost_inc_dir=${Boost_INCLUDE_DIR}
+        BUILD_COMMAND scons build python_package=n matlab_toolbox=n f90_interface=n googletest=none prefix=${CMAKE_SOURCE_DIR} system_sundials=n boost_inc_dir=${Boost_INCLUDE_DIR} system_yamlcpp=n
         INSTALL_COMMAND scons install
     )
     message(STATUS "Using Cantera fetched from repository")

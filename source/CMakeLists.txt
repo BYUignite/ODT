@@ -13,17 +13,10 @@ if(ODT_PARALLEL)
     add_compile_definitions(DOMPI)
 endif()
 
-if(NOT ODT_CHEMISTRY STREQUAL "CANTERARR")
-    add_compile_definitions(PROBLEMSPECIFICRR)
-endif()
-
 if(ODT_VERBOSE)
 #    message(STATUS "ODT will suppress some runtime output")
     add_compile_definitions(VERBOSE)
 endif()
-
-add_compile_definitions(_USESTDVECTOR_)
-add_compile_definitions(DOCANTERA)
 
 # -------- src files --------
 target_include_directories(odt-run PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -61,8 +54,6 @@ target_link_libraries(odt-run PUBLIC cantera-ext)
 ############# INSTALLATION ################
 
 include(GNUInstallDirs)
-
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #---- allow odt to be used in other targets ----
 target_include_directories(odt-run

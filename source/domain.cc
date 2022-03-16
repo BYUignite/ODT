@@ -23,6 +23,13 @@
 #include "domaincase_odt_coldJet.h"
 #include "domaincase_odt_RT.h"
 #include "chemical_mechanisms/onestep_ch4.h"
+#include "chemical_mechanisms/fourstep_ch4.h"
+#include "chemical_mechanisms/onestep_c2h4.h"
+#include "chemical_mechanisms/simple_dlr.h"
+#include "chemical_mechanisms/ch4red.h"
+#include "chemical_mechanisms/c2h4red.h"
+#include "chemical_mechanisms/canteraRR.h"
+#include "chemical_mechanisms/chemNone.h"
 #include <cmath>
 #include <iomanip>
 
@@ -120,6 +127,27 @@ void domain::init(inputoutput     *p_io,
      }
 
     domc->init(this);
+
+    //----------------------
+
+    if (pram->chemMech == "simple_dlr")
+        chem = new simple_dlr(this);
+    else if (pram->chemMech == "onestep_ch4")
+        chem = new onestep_ch4(this);
+    else if (pram->chemMech == "onestep_c2h4")
+        chem = new onestep_c2h4(this);
+    else if (pram->chemMech == "fourstep_ch4")
+        chem = new fourstep_ch4(this);
+    else if (pram->chemMech == "c2h4red")
+        chem = new c2h4red(this);
+    else if (pram->chemMech == "ch4red")
+        chem = new ch4red(this);
+    else if (pram->chemMech == "gri30" || pram->chemMech == "gri30_highT" || pram->chemMech == "air")
+        chem = new canteraRR(this);
+    else if (pram->chemMech == "none")
+        chem = new chemNone(this);
+    else
+        throw domain_error("Unknown chemical mechanism requested");
 
     //----------------------
 
