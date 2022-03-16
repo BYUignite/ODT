@@ -2,23 +2,27 @@
 
 # -------- executable targets --------
 add_executable(odt-runOneRlz runOneRlz.cc)
+add_executable(odt-prepOneRlz prepOneRlz.cc)
 add_executable(odt-runManyRlz runManyRlz.cc)
 
 # -------- target properties --------
 target_compile_features(odt-runOneRlz PUBLIC cxx_std_11)
+target_compile_features(odt-prepOneRlz PUBLIC cxx_std_11)
 target_compile_features(odt-runManyRlz PUBLIC cxx_std_11)
 
+add_dependencies(odt-prepOneRlz odt-run)
 add_dependencies(odt-runOneRlz odt-run)
 add_dependencies(odt-runManyRlz odt-run)
 
 target_include_directories(odt-runOneRlz PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(odt-prepOneRlz PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(odt-runManyRlz PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 ############# INSTALLATION ################
 
 include(GNUInstallDirs)
 
-install(TARGETS odt-runOneRlz odt-runManyRlz
+install(TARGETS odt-runOneRlz odt-runManyRlz odt-prepOneRlz
         RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR}
         LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
