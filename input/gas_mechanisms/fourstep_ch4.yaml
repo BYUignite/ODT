@@ -1,14 +1,14 @@
 description: |-
-  One step methane reaction mechanism. 
+  Four step methane reaction mechanism.
 
 cantera-version: 2.5.0
 
 units: {length: cm, time: s, quantity: mol, activation-energy: cal/mol}
 
 phases:
-- name: onestep_ch4
+- name: fourstep_ch4
   elements: [ O, H, C, N ]
-  species: [ O2, H2O, CH4, CO2, N2 ]
+  species: [ O2, H2O, CH4, CO2, N2, H, CO, H2 ]
   thermo: ideal-gas
   transport: mixture-averaged
   state: { T: 300.0 K, P: 1.01325e+05 Pa }
@@ -107,3 +107,55 @@ species:
     dipole: 0.0
     polarizability: 2.65
     rotational-relaxation: 2.1
+- name: H
+  composition: { H: 1 }
+  thermo:
+    model: NASA7
+    temperature-ranges: [ 200.0, 1000.0, 3500.0 ]
+    data:
+      - [ 2.5, 7.05332819e-13, -1.99591964e-15, 2.30081632e-18, -9.27732332e-22,
+          2.54736599e+04, -0.446682853 ]
+      - [ 2.50000001, -2.30842973e-11, 1.61561948e-14, -4.73515235e-18, 4.98197357e-22,
+          2.54736599e+04, -0.446682914 ]
+    note: L7/88
+  transport:
+    model: gas
+    geometry: atom
+    well-depth: 145.0
+    diameter: 2.05
+- name: CO
+  composition: {C: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 3500.0]
+    data:
+      - [3.57953347, -6.1035368e-04, 1.01681433e-06, 9.07005884e-10, -9.04424499e-13,
+         -1.4344086e+04, 3.50840928]
+      - [2.71518561, 2.06252743e-03, -9.98825771e-07, 2.30053008e-10, -2.03647716e-14,
+         -1.41518724e+04, 7.81868772]
+    note: TPIS79
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 98.1
+    diameter: 3.65
+    polarizability: 1.95
+    rotational-relaxation: 1.8
+- name: H2
+  composition: { H: 2 }
+  thermo:
+    model: NASA7
+    temperature-ranges: [ 200.0, 1000.0, 3500.0 ]
+    data:
+      - [ 2.34433112, 7.98052075e-03, -1.9478151e-05, 2.01572094e-08, -7.37611761e-12,
+          -917.935173, 0.683010238 ]
+      - [ 3.3372792, -4.94024731e-05, 4.99456778e-07, -1.79566394e-10, 2.00255376e-14,
+          -950.158922, -3.20502331 ]
+    note: TPIS78
+  transport:
+    model: gas
+    geometry: linear
+    well-depth: 38.0
+    diameter: 2.92
+    polarizability: 0.79
+    rotational-relaxation: 280.0

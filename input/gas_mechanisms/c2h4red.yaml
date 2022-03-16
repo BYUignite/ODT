@@ -1,12 +1,12 @@
 description: |-
-  One step ethylene reaction mechanism. Liu, Jiwen; Tam, Chung_Jen; Lu, Tianfeng; Law, Chung. "Simulations of Cavity-stabilized Flames in Supersonic Flows Using Reduced Chemical Kinetic Mechanisms" 42nd AIAA/ASME/SAE/ASEE Joint Propulsion Conference 2006. 
+  15-step, 19-species reduced ethylene-air reaction mechanism. Liu, Jiwen; Tam, Chung_Jen; Lu, Tianfeng; Law, Chung. "Simulations of Cavity-stabilized Flames in Supersonic Flows Using Reduced Chemical Kinetic Mechanisms" 42nd AIAA/ASME/SAE/ASEE Joint Propulsion Conference 2006.
 
 cantera-version: 2.5.0
 
 units: {length: cm, time: s, quantity: mol, activation-energy: cal/mol}
 
 phases:
-- name: onestep_c2h4
+- name: c2h4red
   elements: [ O, H, C, N ]
   species: [ H2, H, O, O2, OH, H2O, H2O2, CH3, CH4, CO, CO2, CH2O, C2H2, C2H4, C2H6, CH2CO, C3H6, N2 ]
   thermo: ideal-gas
@@ -310,7 +310,7 @@ species:
     diameter: 3.621
     polarizability: 1.76
     rotational-relaxation: 4.0
-- name: C3H6,propylene
+- name: C3H6
   composition: {C: 3, H: 6}
   thermo:
     model: NASA7
@@ -320,13 +320,10 @@ species:
          753.838295, 7.53410995]
       - [6.03870499, 0.0162963895, -5.82130624e-06, 9.35936483e-10, -5.58602903e-14,
          -776.595092, -8.43824322]
-- name: C3H6,cyclo-
-  composition: {C: 3, H: 6}
-  thermo:
-    model: NASA7
-    temperature-ranges: [200.0, 1000.0, 6000.0]
-    data:
-      - [2.83278555, -5.21027462e-03, 9.29582837e-05, -1.22753146e-07, 4.99191154e-11,
-         5195.20057, 10.83067]
-      - [6.21663293, 0.0165393614, -5.90075961e-06, 9.48095473e-10, -5.65661737e-14,
-         2959.37555, -13.6040607]
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 266.800
+    diameter: 4.982
+    polarizability: 0.00
+    rotational-relaxation: 1.000
