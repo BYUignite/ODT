@@ -25,6 +25,12 @@ class chemMech {
 
     //////////////////// DATA MEMBERS //////////////////////
 
+public:
+
+    domain         *domn;          ///< pointer to domain object
+
+    bool canteraRR = true;
+
     //////////////////// MEMBER FUNCTIONS /////////////////
 
 public:
@@ -35,7 +41,7 @@ public:
 
 public:
 
-    chemMech(){};
+    chemMech(domain *p_domn){ domn = p_domn; }
     virtual ~chemMech() = default;
 };
 

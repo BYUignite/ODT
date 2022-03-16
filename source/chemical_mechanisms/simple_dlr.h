@@ -42,7 +42,7 @@ public:
 
 public:
 
-    simple_dlr() : chemMech() {}
+    simple_dlr(domain *p_domn) : chemMech(p_domn) { domn = p_domn; canteraRR = false; }
     ~simple_dlr() override = default;
 
 };

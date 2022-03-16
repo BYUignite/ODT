@@ -33,7 +33,7 @@ public:
 
 public:
 
-    c2h4red() : chemMech() {}
+    c2h4red(domain *p_domn) : chemMech(p_domn) { domn = p_domn; canteraRR = false; }
     ~c2h4red() override = default;
 
 };

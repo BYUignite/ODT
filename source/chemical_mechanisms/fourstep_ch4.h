@@ -33,7 +33,7 @@ public:
 
 public:
 
-    fourstep_ch4() : chemMech() {}
+    fourstep_ch4(domain *p_domn) : chemMech(p_domn) { domn = p_domn; canteraRR = false; }
     ~fourstep_ch4() override = default;
 
 };

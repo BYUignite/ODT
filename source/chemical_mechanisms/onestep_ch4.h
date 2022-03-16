@@ -42,7 +42,7 @@ public:
 
 public:
 
-    onestep_ch4() : chemMech() {}
+    onestep_ch4(domain *p_domn) : chemMech(p_domn) { domn = p_domn; canteraRR = false; }
     ~onestep_ch4() override = default;
 
 };
