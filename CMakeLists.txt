@@ -33,7 +33,6 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib" $ENV{LD_RUN_PATH})
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # ---- user options ----
-set(ODT_CHEMISTRY       "SIMPLEDLR"     CACHE STRING    "User chemical mechanism")
 option(ODT_PARALLEL     "Build with MPI support"                OFF)
 option(ODT_VERBOSE      "Displays additional runtime output"    OFF)
 
