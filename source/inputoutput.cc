@@ -37,11 +37,46 @@ void inputoutput::init(domain *p_domn) {
 inputoutput::inputoutput(const string p_caseName, const int p_nShift){
 
     caseName     = p_caseName;
+
+    //----------- set the data directory and runtime file
+
+    string fname;
+    stringstream ss1;
+    string       s1;
+
+    ss1.clear(); ss1 << setfill('0') << setw(5) << proc.myid + nShift;
+    s1 = ss1.str();
+    dataDir = "../data/"+caseName+"/data/data_" + s1 + "/";   // e.g., "../data_00001", etc.
+
+    int iflag = mkdir(dataDir.c_str(), 0755);
+    if(iflag != 0) {
+        cout << "\n********** Error, process " << proc.myid << "failed to create "
+            << dataDir << ", or it was already there" << endl;
+        exit(0);
+    }
+
+    fname = "../data/"+caseName+"/runtime/runtime_" + s1;
+    ostrm = new ofstream(fname.c_str());
+
+    //----------- set gnuplot file
+
+    fname = dataDir + "plot_odt.gnu";
+    gnufile.open(fname.c_str());
+    if(!gnufile) {
+        cout << endl << "ERROR OPENING FILE: " << dataDir+"plot_odt.gnu" << endl;
+        exit(0);
+    }
+
+    //----------- set the input file
+
     inputFileDir = "../data/"+caseName+"/input/";
+
+    system(string("cp " + inputFileDir + "/input.yaml " + dataDir + " > /dev/null 2>&1").c_str());               // create temp input file copy in data dir
 
     nShift = p_nShift;
 
-    inputFile   = YAML::LoadFile(inputFileDir+"input.yaml");     ///< use these "nodes" to access parameters as needed
+//    inputFile   = YAML::LoadFile(inputFileDir+"input.yaml");     ///< use these "nodes" to access parameters as needed
+    inputFile   = YAML::LoadFile(dataDir+"input.yaml");     ///< use these "nodes" to access parameters as needed
     params      = inputFile["params"];
     streamProps = inputFile["streamProps"];
     initParams  = inputFile["initParams"];
@@ -73,34 +108,7 @@ inputoutput::inputoutput(const string p_caseName, const int p_nShift){
     dumpTimes.push_back(1.0E200);                       ///< add an extra "infinity" for easy handling of the last time
     iNextDumpTime = 0;
 
-    //----------- set the data directory and runtime file
-
-    string fname;
-    stringstream ss1;
-    string       s1;
-
-    ss1.clear(); ss1 << setfill('0') << setw(5) << proc.myid + nShift;
-    s1 = ss1.str();
-    dataDir = "../data/"+caseName+"/data/data_" + s1 + "/";   // e.g., "../data_00001", etc.
-
-    int iflag = mkdir(dataDir.c_str(), 0755);
-    if(iflag != 0) {
-        cout << "\n********** Error, process " << proc.myid << "failed to create "
-            << dataDir << ", or it was already there" << endl;
-        exit(0);
-    }
-
-    fname = "../data/"+caseName+"/runtime/runtime_" + s1;
-    ostrm = new ofstream(fname.c_str());
-
-    //----------- set gnuplot file
-
-    fname = dataDir + "plot_odt.gnu";
-    gnufile.open(fname.c_str());
-    if(!gnufile) {
-        cout << endl << "ERROR OPENING FILE: " << dataDir+"plot_odt.gnu" << endl;
-        exit(0);
-    }
+    system(string("rm -f " + dataDir + "input.yaml " + " > /dev/null 2>&1").c_str());               // remove temp input file copy
 
 }
 
