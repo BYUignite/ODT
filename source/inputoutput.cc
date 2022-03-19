@@ -37,6 +37,7 @@ void inputoutput::init(domain *p_domn) {
 inputoutput::inputoutput(const string p_caseName, const int p_nShift){
 
     caseName     = p_caseName;
+    nShift = p_nShift;
 
     //----------- set the data directory and runtime file
 
@@ -71,9 +72,7 @@ inputoutput::inputoutput(const string p_caseName, const int p_nShift){
 
     inputFileDir = "../data/"+caseName+"/input/";
 
-    system(string("cp " + inputFileDir + "/input.yaml " + dataDir + " > /dev/null 2>&1").c_str());               // create temp input file copy in data dir
-
-    nShift = p_nShift;
+    system(string("cp " + inputFileDir + "input.yaml " + dataDir + " > /dev/null 2>&1").c_str());               // create temp input file copy in data dir
 
 //    inputFile   = YAML::LoadFile(inputFileDir+"input.yaml");     ///< use these "nodes" to access parameters as needed
     inputFile   = YAML::LoadFile(dataDir+"input.yaml");     ///< use these "nodes" to access parameters as needed
