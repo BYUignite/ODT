@@ -17,7 +17,7 @@ int dv_ygas::nspc;
 ///////////////////////////////////////////////////////////////////////////////
 // Declare the global function prototype so it can be used in this source file
 
-void getProblemSpecificRR(double rho, double temp, double pres, double *yi, double *rr);
+//void getProblemSpecificRR(double rho, double temp, double pres, double *yi, double *rr);
 
 ////////////////////////////////////////////////////////////////////////////////
 /*! dv_ygas  constructor function
