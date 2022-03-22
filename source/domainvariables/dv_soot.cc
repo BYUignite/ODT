@@ -323,6 +323,7 @@ void dv_soot::getRhsSrc(const int ipt) {
                 ySootVar[k] = domn->svar[k]->d[i];  // soot moment values [M0, M1, M2, M3]
 
             // set the thermodynamic state
+            domn->domc->enforceSootMom();
             S->setState(domn->temp->d[i], domn->pram->pres, domn->rho->d[i], domn->dvisc->d[i],
                        domn->gas->thermo()->meanMolecularWeight(), yGas, yPAH, ySootVar);
 
