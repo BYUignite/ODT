@@ -329,7 +329,7 @@ void inputoutput::loadVarsFromRestartFile() {
     ss1 >> s1 >> s1 >> s1 >> s1 >> domn->ngrd;
     domn->ngrdf = domn->ngrd+1;
 
-    getline(ifile, s1);                        // read line "# Domain Size = 2" (don't use)
+//    getline(ifile, s1);                        // read line "# Domain Size = 2" (don't use)
     getline(ifile, s1);                        // read line "# Pressure (Pa) = 101325
     getline(ifile, s1);                        // read line "# column headers
 
