@@ -325,7 +325,7 @@ void dv_soot::getRhsSrc(const int ipt) {
             // set the thermodynamic state
             domn->domc->enforceSootMom();
             S->setState(domn->temp->d[i], domn->pram->pres, domn->rho->d[i], domn->dvisc->d[i],
-                       domn->gas->thermo()->meanMolecularWeight(), yGas, yPAH, ySootVar);
+                       domn->gas->thermo()->meanMolecularWeight(), yGas, yPAH, ySootVar, ySootVar.size());
 
             // calculate source terms
             SM->calcSourceTerms(*S);
