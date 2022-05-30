@@ -2,15 +2,15 @@
 
 params:
 
-    seed:          -30            #  random number generator seed (negative to randomize it)
-    tEnd:          0.80           #  ending time of realization (=100 d )
+    seed:          -100            #  random number generator seed (negative to randomize it)
+    tEnd:          0.33           #  ending time of realization (=100 d )
     domainLength:  0.64           #  length of domain  (=150 d)
     ngrd0:         5333           #  initial grid points
     rho0:          0.66           #  initial uniform density  (avg of air and adiabatic c2h4-air equilib flame)
     kvisc0:        6.12E-5        #  initial uniform kinematic viscosity (m2*s) (avg of air and adiabatic c2h4-air equilib flame)
     dPdx:          0.0            #  initial pressure gradient (Pa/m) -9.0
-    pres:          95300          #  pressure (Pa)
-    chemMech:      simple_dlr     #  name of chemical mechanism
+    pres:          101325         #  pressure (Pa)
+    chemMech:      c2h4red        #  name of chemical mechanism
     probType:      JETFLAME       #  CHANNEL, JETMIXL_RXN, etc.
     #----------------------------------------------------------------------------------
     Z_param:       400.           #  Viscous penalty parameter  100
@@ -36,7 +36,7 @@ params:
     cCoord:        2              #  1 = planar, 2 = cylindrical, 3 = spherical
     Lspatial:      true           #  true = spatial, false = temporal
     umin_spatial:  0.5            #  min uvel for spatial flows; used when alpha pulls velocity
-    Lrestart:      false
+    Lrestart:      true
     #----------------------------------------------------------------------------------
     gDens:         30             #  grid density for mesher
     dxmin:         0.0001         #  min grid spacing: = dxmin / domain length
@@ -70,12 +70,12 @@ radParams:
 ################### Soot parameters
 
 sootParams:
-    PSD_method:         LOGN        # MONO or LOGN or QMOM or MOMIC
+    PSD_method:         MONO        # MONO or LOGN or QMOM or MOMIC
     nucleation_mech:    LL          # NONE or LL or LIN
     growth_mech:        LL          # NONE or LL or LIN or HACA
     oxidation_mech:     LL          # NONE or LL or HACA or LEE_NEOH or NSC_NEOH
     coagulation_mech:   LL          # NONE or LL or FRENK or FUCHS
-    nsvar:              3           # number of soot variables (for QMOM/MOMIC)
+    nsvar:              2           # number of soot variables (for QMOM/MOMIC)
     rhoSoot:            1850        # solid soot particle density (kg/m3)
     Cmin:               100         # min number of C atoms to define a soot particle
     b_coag:             0.8536      # coagulation constant
@@ -93,17 +93,15 @@ streamProps:
 
     moleOrMass: MOLE              # MOLE or MASS: corresponding compositions below
     #---------------------          (oxidizer stream f=0)
-    T0: 292.0                     # temperature (K)
+    T0: 294.0                     # temperature (K)
     comp0:                        # composition of stream 0
-        O2:  0.21
-        N2:  0.782
-        H2O: 0.008
+        O2:  0.206964
+        N2:  0.781016
+        H2O: 0.01202
     #---------------------          (fuel stream f=1)
-    T1: 292.0                     # temperature (K)
+    T1: 294.0                     # temperature (K)
     comp1:                        # composition of stream 1
-        CH4: 0.221
-        H2:  0.332
-        N2:  0.447
+        C2H4: 1.000
 
 ################### Boundary conditions
 
@@ -115,21 +113,21 @@ bcCond:
     vBChi: 0.0
     wBClo: 0.0
     wBChi: 0.0
-    TBClo: 292.0                 # needed for radiation; for opthin, needt TBClo == TBChi
-    TBChi: 292.0
+    TBClo: 295.0                 # needed for radiation; for opthin, needt TBClo == TBChi
+    TBChi: 295.0
 
 ################### initialization parameters
 
 initParams:                      # these or others are read in the odtcase_mycase class
 
     #----------------------------------------------------------------------------------------
-    d_f:            0.008         # fuel diameter (m)   (ID)
-    d_p:            0.008         # pilot diameter (m)  (ID)
-    Z_p:            0.0           # pilot mixture fraction (Phi = 0.9)
-    dTrans:         0.0016        # tanh transition width (m)
-    U_f:            -1            # m/s  54.7  (NEGATIVE VALUES --> INTERPOLATE FROM vprof BELOW)
-    U_p:            -1            # m/s
-    U_a:            -1            # m/s
+    d_f:            0.0032        # fuel diameter (m)   (ID)
+    d_p:            0.0152        # pilot diameter (m)  (ID)
+    Z_p:            0.0571845     # pilot mixture fraction (Phi = 0.9)
+    dTrans:         0.0002        # tanh transition width (m)
+    U_f:            54.7          # m/s  54.7  (NEGATIVE VALUES --> INTERPOLATE FROM vprof BELOW)
+    U_p:            6.98          # m/s
+    U_a:            0.635         # m/s
     #----------------------------------------------------------------------------------------
     vprof:                       # velocity profile in the coflow region [x,u] pairs
         - [-1.0000,    0.3000]
@@ -223,58 +221,3 @@ dumpTimes:
     - 0.3100
     - 0.3185
     - 0.3270
-    - 0.3355
-    - 0.3440
-    - 0.3525
-    - 0.3610
-    - 0.3695
-    - 0.3780
-    - 0.3865
-    - 0.3950
-    - 0.4035
-    - 0.4120
-    - 0.4205
-    - 0.4290
-    - 0.4375
-    - 0.4460
-    - 0.4545
-    - 0.4630
-    - 0.4715
-    - 0.4800
-    - 0.4885
-    - 0.4970
-    - 0.5055
-    - 0.5140
-    - 0.5225
-    - 0.5310
-    - 0.5395
-    - 0.5480
-    - 0.5565
-    - 0.5650
-    - 0.5735
-    - 0.5820
-    - 0.5905
-    - 0.5990
-    - 0.6075
-    - 0.6160
-    - 0.6245
-    - 0.6330
-    - 0.6415
-    - 0.6500
-    - 0.6585
-    - 0.6670
-    - 0.6755
-    - 0.6840
-    - 0.6925
-    - 0.7010
-    - 0.7095
-    - 0.7180
-    - 0.7265
-    - 0.7350
-    - 0.7435
-    - 0.7520
-    - 0.7605
-    - 0.7690
-    - 0.7775
-    - 0.7860
-    - 0.7945
