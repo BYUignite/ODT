@@ -19,7 +19,7 @@ FetchContent_Declare(radlib
         GIT_TAG 207811377b300568d5d1adfadce96e50a2c95bd3)           # radlib-2.0.0
 FetchContent_Declare(sootlib
         GIT_REPOSITORY https://github.com/BYUignite/sootlib.git
-        GIT_TAG 3db09bb489e37e0ce82ebaca7129f6ad0b8bee57)           # sootlib-0.1.0
+        GIT_TAG cc17bbd73154ded02a4cf2bdf39ecfe6f087ae8a)           # sootlib-0.1.0
 FetchContent_Declare(cantera
         GIT_REPOSITORY https://github.com/Cantera/cantera
         GIT_TAG b0bace78223959cd3e5a15317734cacff7b0b0a2)           # cantera-2.5.1
