@@ -36,7 +36,7 @@ params:
     cCoord:        2              #  1 = planar, 2 = cylindrical, 3 = spherical
     Lspatial:      true           #  true = spatial, false = temporal
     umin_spatial:  0.5            #  min uvel for spatial flows; used when alpha pulls velocity
-    Lrestart:      true
+    Lrestart:      false
     #----------------------------------------------------------------------------------
     gDens:         30             #  grid density for mesher
     dxmin:         0.0001         #  min grid spacing: = dxmin / domain length
