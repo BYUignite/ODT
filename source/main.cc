@@ -13,6 +13,7 @@
 #include "solver.h"
 #include "randomGenerator.h"
 #include "chemMech.h"
+#include "odtExceptions.h"
 #include "cantera/base/Solution.h"
 #include "cantera/thermo.h"
 #include "cantera/transport.h"
@@ -50,8 +51,6 @@ int main(int argc, char*argv[]) {
     inputoutput io(caseName, nShiftFileNumbers);
     param       pram(&io);
     streams     strm;
-//    IdealGasMix   gas("../input/gas_mechanisms/"+pram.chemMech);
-//    Transport     *tran = newTransportMgr("Mix", &gas);
     shared_ptr<Solution> gas(newSolution("../input/gas_mechanisms/"+pram.chemMech+".yaml","","Mix"));
     eddy        ed;
     meshManager mesher;

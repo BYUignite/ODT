@@ -21,6 +21,7 @@
 #include "dv_soot.h"
 
 #include "interp_linear.h"
+#include "odtExceptions.h"
 
 #include <cmath>
 #include <string>
@@ -188,8 +189,17 @@ void domaincase_odt_jetFlame::setGasStateAtPt(const int &ipt) {
         yi.at(k) = domn->ysp[k]->d.at(ipt);
     }
 
-    domn->gas->thermo()->setState_PY(domn->pram->pres, &yi.at(0));
-    domn->gas->thermo()->setState_HP(domn->enth->d.at(ipt), domn->pram->pres, 1.E-10);
+    try {
+        domn->gas->thermo()->setState_PY(domn->pram->pres, &yi.at(0));
+    } catch (const CanteraError& c) {
+        throw odtCanteraError(STR_TRACE, "setState_PY",c);
+    }
+
+    try {
+        domn->gas->thermo()->setState_HP(domn->enth->d.at(ipt), domn->pram->pres, 1.E-10);
+    } catch (const CanteraError& c) {
+        throw odtCanteraError(STR_TRACE, "setState_HP",c);
+    }
 
 }
 

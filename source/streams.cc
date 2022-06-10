@@ -6,6 +6,7 @@
 #include "streams.h"
 #include "domain.h"
 #include "yaml-cpp/yaml.h"
+#include "odtExceptions.h"
 #include <cassert>
 
 using namespace std;
@@ -72,7 +73,11 @@ void streams::init(domain *p_domn, const vector<double> &gammas) {
         domn->gas->thermo()->getMassFractions( &y1[0] );
     }
 
-    domn->gas->thermo()->setState_TPY( T0, domn->pram->pres, &y0[0] );
+    try {
+        domn->gas->thermo()->setState_TPY(T0, domn->pram->pres, &y0[0]);
+    } catch (const CanteraError& c) {
+        throw odtCanteraError(STR_TRACE,"setState_TPY", c);
+    }
     h0   = domn->gas->thermo()->enthalpy_mass();
     rho0 = domn->gas->thermo()->density();
     M0   = domn->gas->thermo()->meanMolecularWeight();
@@ -81,7 +86,11 @@ void streams::init(domain *p_domn, const vector<double> &gammas) {
     for (int k=0; k<nspc; k++)
         hsp0[k] = hsp0[k] * T0 * GasConstant / domn->gas->thermo()->molecularWeight(k);    // J/kg
 
-    domn->gas->thermo()->setState_TPY( T1, domn->pram->pres, &y1[0] );
+    try {
+        domn->gas->thermo()->setState_TPY(T0, domn->pram->pres, &y1[0]);
+    } catch (const CanteraError& c) {
+        throw odtCanteraError(STR_TRACE,"setState_TPY", c);
+    }
     h1   = domn->gas->thermo()->enthalpy_mass();
     rho1 = domn->gas->thermo()->density();
     M1   = domn->gas->thermo()->meanMolecularWeight();
@@ -112,8 +121,12 @@ void streams::getMixingState(const double mixf, vector<double> &ymix,
     for(int k=0; k<nspc; k++)
         ymix[k] = y1[k]*mixf + y0[k]*(1.0-mixf);
 
-    domn->gas->thermo()->setMassFractions( &ymix[0] );
-    domn->gas->thermo()->setState_HP(hmix, domn->pram->pres, 1.E-10);    // get temperature as Tadiabatic
+    try {
+        domn->gas->thermo()->setMassFractions( &ymix[0] );
+        domn->gas->thermo()->setState_HP(hmix, domn->pram->pres, 1.E-10);    // get temperature as Tadiabatic
+    } catch (const CanteraError& c) {
+        throw odtCanteraError(STR_TRACE,"setState_HP",c);
+    }
 
     Tmix = domn->gas->thermo()->temperature();
 }
@@ -219,8 +232,13 @@ void streams::getProdOfCompleteComb(const double mixf, vector<double> &ypcc,
 
     //--------------------------------------------------------------------------
 
-    domn->gas->thermo()->setState_HP(hpcc, domn->pram->pres, 1.E-10);    // get temperature as Tadiabatic
-    //domn->gas->setState_HP(hpcc, domn->pram->pres);    // get temperature as Tadiabatic
+    try {
+        domn->gas->thermo()->setState_HP(hpcc, domn->pram->pres, 1.E-10);    // get temperature as Tadiabatic
+        //domn->gas->setState_HP(hpcc, domn->pram->pres);    // get temperature as Tadiabatic
+    } catch (const CanteraError& c) {
+        throw odtCanteraError(STR_TRACE,"setState_HP",c);
+    }
+
     Tpcc = domn->gas->thermo()->temperature();
 
 }

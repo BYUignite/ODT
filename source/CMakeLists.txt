@@ -21,17 +21,18 @@ endif()
 # -------- src files --------
 target_include_directories(odt-run PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_sources(odt-run PRIVATE main.cc
-        inputoutput.cc  inputoutput.h
-        domain.cc       domain.h
-        processor.cc    processor.h
-        streams.cc      streams.h
-        meshManager.cc  meshManager.h
-        param.cc        param.h
-        micromixer.cc   micromixer.h
-        eddy.cc         eddy.h
-        solver.cc       solver.h
-        cvodeDriver.cc  cvodeDriver.h
-        interp_linear.h
+                               inputoutput.cc       inputoutput.h
+                               domain.cc            domain.h
+                               processor.cc         processor.h
+                               streams.cc           streams.h
+                               meshManager.cc       meshManager.h
+                               param.cc             param.h
+                               micromixer.cc        micromixer.h
+                               eddy.cc              eddy.h
+                               solver.cc            solver.h
+                               cvodeDriver.cc       cvodeDriver.h
+                               odtExceptions.cc     odtExceptions.h
+                                                    interp_linear.h
         )
 
 # -------- src subdirectories --------
