@@ -46,7 +46,11 @@ void dv_dvisc::setVar(const int ipt){
 
     d.resize(domn->ngrd, domn->pram->kvisc0 * domn->pram->rho0);
     for(int i=0; i<domn->ngrd; i++) {
-        domn->domc->setGasStateAtPt(i);
+        try {
+            domn->domc->setGasStateAtPt(i);
+        } catch (const odtCanteraError& e) {
+            throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
+        }
         d.at(i) = domn->gas->transport()->viscosity();
     }
 }

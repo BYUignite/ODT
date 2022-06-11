@@ -53,7 +53,11 @@ void dv_hr::setVar(const int ipt){
     vector<double> hsp(nsp);
 
     for(int i=0; i<domn->ngrd; i++){
-        domn->domc->setGasStateAtPt(i);
+        try {
+            domn->domc->setGasStateAtPt(i);
+        } catch (const odtCanteraError& e) {
+            throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
+        }
         // catch extremes of temperature due to diff-diff
         double temperatureHere = domn->gas->thermo()->temperature();
         temperatureHere = ( temperatureHere < 250.0 ) ? 250.0 : temperatureHere;

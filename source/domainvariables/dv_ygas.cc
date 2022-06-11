@@ -178,7 +178,11 @@ void dv_ygas::setFlux(const vector<double> &gf,
             domn->ysp[k]->flux.resize(domn->ngrdf);
         }
         for(int i=0; i<domn->ngrd; i++) {
-            domn->domc->setGasStateAtPt(i);
+            try {
+                domn->domc->setGasStateAtPt(i);
+            } catch (const odtCanteraError& e) {
+                throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
+            }
             MMw.at(i) = domn->gas->thermo()->meanMolecularWeight();
             domn->gas->transport()->getMixDiffCoeffs(&Di.at(0));
             for (int k=0; k<nspc; k++) {

@@ -59,7 +59,12 @@ void dv_chi::setVar(const int ipt){
     //-------------- Get thermal diffusivity
 
     for(int i=0; i<domn->ngrd; i++) {
-        domn->domc->setGasStateAtPt(i);
+        try {
+            domn->domc->setGasStateAtPt(i);
+        } catch (const odtCanteraError& e) {
+            throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
+        }
+
         double tcond = domn->gas->transport()->thermalConductivity();
         double cp    = domn->gas->thermo()->cp_mass();
         Dthm.at(i) = tcond/domn->rho->d.at(i)/cp;

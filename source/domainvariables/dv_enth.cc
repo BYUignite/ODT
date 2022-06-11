@@ -84,7 +84,11 @@ void dv_enth::getRhsSrc(const int ipt){
         vector<vector<double> > xMoleSp(domn->ngrd, vector<double>(nspc));
 
         for(int i=0; i<domn->ngrd; i++){
-            domn->domc->setGasStateAtPt(i);
+            try {
+                domn->domc->setGasStateAtPt(i);
+            } catch (const odtCanteraError& e) {
+                throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
+            }
             domn->gas->thermo()->getMoleFractions(&xMoleSp.at(i).at(0));
         }
 
@@ -148,7 +152,11 @@ void dv_enth::setFlux(const vector<double> &gf,
     vector<double>          hh(nspc);
 
     for(int i=0; i<domn->ngrd; i++) {
-        domn->domc->setGasStateAtPt(i);
+        try {
+            domn->domc->setGasStateAtPt(i);
+        } catch (const odtCanteraError& e) {
+            throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
+        }
         tcond.at(i) = domn->gas->transport()->thermalConductivity();    // W/m*K
         if(LdoSpeciesFlux) {
             domn->gas->thermo()->getEnthalpy_RT(&hh.at(0));               // non-dimensional enthalpy

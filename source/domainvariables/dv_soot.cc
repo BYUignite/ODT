@@ -217,7 +217,12 @@ void dv_soot::setFlux(const vector<double> &gf,
             domn->svar[k]->flux.resize(domn->ngrdf);
         }
         for(int i=0; i<domn->ngrd; i++) {
-            // domn->domc->setGasStateAtPt(i);   // keep this commented for decoupled soot
+            try {
+                domn->domc->setGasStateAtPt(i);   // keep this commented for decoupled soot
+            } catch (const odtCanteraError& e) {
+                throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
+            }
+
             for (int k=0; k<nVar; k++) {
                 dvisc.at(k).at(i) = domn->dvisc->d.at(i);
             }

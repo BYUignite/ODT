@@ -39,11 +39,19 @@ void dv_temp::setVar(const int ipt){
     d.resize(domn->ngrd);
     if(ipt == -1)
         for(int i=0; i<domn->ngrd; i++) {
-            domn->domc->setGasStateAtPt(i);
+            try {
+                domn->domc->setGasStateAtPt(i);
+            } catch (const odtCanteraError& e) {
+                throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
+            }
             d.at(i) = domn->gas->thermo()->temperature();
         }
     else {
-        domn->domc->setGasStateAtPt(ipt);
+        try {
+            domn->domc->setGasStateAtPt(ipt);
+        } catch (const odtCanteraError& e) {
+            throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
+        }
         d.at(ipt) = domn->gas->thermo()->temperature();
     }
 }

@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "chemMech.h"
+#include "odtExceptions.h"
 
 class domain;
 

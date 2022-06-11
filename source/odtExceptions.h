@@ -137,7 +137,7 @@ public:
      * @@param procedure Name of the function within which the error was generated
      * @param param Name of the invalid parameter
      */
-    odtCanteraError(const std::string& procedure, const std::string& func, const Cantera::CanteraError &c) noexcept :
+    odtCanteraError(const std::string& procedure, const std::string& func, const std::exception &c) noexcept :
         odtError(procedure), func_(func), c_(c) {}
 
     std::string getMessage() const noexcept override;
@@ -147,7 +147,7 @@ public:
 
 private:
     std::string func_;
-    Cantera::CanteraError c_;
+    std::exception c_;
 };
 
 //! An error indicating error thrown by CVode
