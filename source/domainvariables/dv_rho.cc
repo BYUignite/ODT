@@ -48,8 +48,8 @@ void dv_rho::merge2cells(const int    imrg,
 
     try {
         domn->domc->setGasStateAtPt(imrg);
-    } catch (const odtCanteraError& e) {
-        throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
+    } catch (const CanteraError& e) {
+        throw odtCanteraError(STR_TRACE, "setGasStateAtPt", e);
     }
     d.at(imrg) = domn->gas->thermo()->density();
     d.erase(d.begin() + imrg+1);
@@ -68,7 +68,8 @@ void dv_rho::setVar(const int ipt){
         for(int i=0; i<domn->ngrd; i++) {
             try {
                 domn->domc->setGasStateAtPt(i);
-            } catch (const odtCanteraError& e) {
+            } catch (const CanteraError& e) {
+                cout << domn->gas->thermo()->density() << endl; //vbsdb
                 throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
             }
             d.at(i) = domn->gas->thermo()->density();
@@ -76,7 +77,8 @@ void dv_rho::setVar(const int ipt){
     else {
         try {
             domn->domc->setGasStateAtPt(ipt);
-        } catch (const odtCanteraError& e) {
+        } catch (const CanteraError& e) {
+            cout << domn->gas->thermo()->density() << endl; //vbsdb
             throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
         }
         d.at(ipt) = domn->gas->thermo()->density();

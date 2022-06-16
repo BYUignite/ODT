@@ -61,7 +61,7 @@ void dv_chi::setVar(const int ipt){
     for(int i=0; i<domn->ngrd; i++) {
         try {
             domn->domc->setGasStateAtPt(i);
-        } catch (const odtCanteraError& e) {
+        } catch (const CanteraError& e) {
             throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
         }
 

@@ -180,7 +180,7 @@ void dv_ygas::setFlux(const vector<double> &gf,
         for(int i=0; i<domn->ngrd; i++) {
             try {
                 domn->domc->setGasStateAtPt(i);
-            } catch (const odtCanteraError& e) {
+            } catch (const CanteraError& e) {
                 throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
             }
             MMw.at(i) = domn->gas->thermo()->meanMolecularWeight();

@@ -41,7 +41,7 @@ void dv_temp::setVar(const int ipt){
         for(int i=0; i<domn->ngrd; i++) {
             try {
                 domn->domc->setGasStateAtPt(i);
-            } catch (const odtCanteraError& e) {
+            } catch (const CanteraError& e) {
                 throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
             }
             d.at(i) = domn->gas->thermo()->temperature();
@@ -49,7 +49,7 @@ void dv_temp::setVar(const int ipt){
     else {
         try {
             domn->domc->setGasStateAtPt(ipt);
-        } catch (const odtCanteraError& e) {
+        } catch (const CanteraError& e) {
             throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
         }
         d.at(ipt) = domn->gas->thermo()->temperature();

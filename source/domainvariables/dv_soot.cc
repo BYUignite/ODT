@@ -219,7 +219,7 @@ void dv_soot::setFlux(const vector<double> &gf,
         for(int i=0; i<domn->ngrd; i++) {
             try {
                 domn->domc->setGasStateAtPt(i);   // keep this commented for decoupled soot
-            } catch (const odtCanteraError& e) {
+            } catch (const CanteraError& e) {
                 throw odtCanteraError(STR_TRACE, "setGasStateAtPt",e);
             }
 
