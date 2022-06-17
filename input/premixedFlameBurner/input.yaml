@@ -10,14 +10,16 @@ params:
     kvisc0:        6.82E-5        #  initial uniform kinematic viscosity (m2*s) (avg of air and adiabatic c2h4-air equilib flame)
     pres:          101325         #  pressure (Pa)
     #chemMechFile:  onestep_c2h4.xml    #  name of chemical mechanism file
-    chemMechFile:  c2h4red.xml    #  name of chemical mechanism file
-    #probType:      PREMIXEDFLAMEBURNER #  CHANNEL, JETMIXL_RXN, etc.
-    probType:      PREMIXEDFLAMEBURNER_FIXED_T  #  CHANNEL, JETMIXL_RXN, etc.
+    chemMech:  c2h4red    #  name of chemical mechanism file
+    probType:      PREMIXEDFLAMEBURNER #  CHANNEL, JETMIXL_RXN, etc.
+#    probType:      PREMIXEDFLAMEBURNER_FIXED_T  #  CHANNEL, JETMIXL_RXN, etc.
     uInflow:       0.0637         # reactant inflow velocity (m/s)
     #----------------------------------------------------------------------------------
-    diffCFL:       0.2          #  multiplies min diffusion timestep
+    diffCFL:       0.02          #  multiplies min diffusion timestep
+    cvode_atol: 1.0E-16        #  atol for cvode for implicit solution
+    cvode_rtol: 1.0E-10         #  rtol for cvode for implicit solution
     #----------------------------------------------------------------------------------
-    Lrad:          false        #  true or false to do radiation, need a radParams section below
+    Lrad:          true        #  true or false to do radiation, need a radParams section below
     Lsolver:       SEMI-IMPLICIT #  SEMI-IMPLICIT  #  EXPLICIT, SEMI-IMPLICIT, STRANG
     Lsoot:         TRUE         #  TRUE for soot, FALSE for no soot
     #----------------------------------------------------------------------------------
@@ -36,7 +38,7 @@ radParams:
 
     radSolveType:   OPTHIN        # OPTHIN or TWOFLUX or FVDOM
     radCoefType:    PLANCKMEAN    # PLANCKMEAN or WSGG or RCSLW
-    LradDoSoot:     false         # true or false
+    LradDoSoot:     true         # true or false
     ntheta:         40            # only relevant for radSolveType = FVDOM
     npsi:           80            # nominally 2*ntheta; only relevant for radSolveType = FVDOM
 
@@ -51,7 +53,7 @@ sootParams:
     nsvar:              4           # soot variable; nmom or nbins, depending on your method
     nucleation_mech:    LL          # LL, LIN, PAH
     growth_mech:        LL          # LL, LIN, HACA
-    oxidation_mech:     NSC_NEOH    # LL, LEE_NEOH, NSC_NEOH, HACA
+    oxidation_mech:     LL          # LL, LEE_NEOH, NSC_NEOH, HACA
     coagulation_mech:   LL          # LL, FUCHS, FRENK
 
 ################### Stream properties
@@ -73,6 +75,17 @@ streamProps:
 initParams:                      # these or others are read in the odtcase_mycase class
     phi0:      2.1               # equivalence ratio
     fracBurnt: 0.90              # fraction of the domain to initialize as burnt
+
+bcCond:
+
+    uBClo: 0.0
+    uBChi: 0.0
+    vBClo: 0.0
+    vBChi: 0.0
+    wBClo: 0.0
+    wBChi: 0.0
+    TBClo: 295.0                 # needed for radiation; for opthin, needt TBClo == TBChi
+    TBChi: 295.0
 
 ################### dump times
 

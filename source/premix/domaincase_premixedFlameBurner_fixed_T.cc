@@ -141,6 +141,20 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
 
     domn->temp->bcHi = domn->temp->d.back();
 
+    //------------------- set initial soot profile
+    if (domn->pram->Lsoot) {
+        if (domn->pram->PSD_method == "QMOM" || domn->pram->PSD_method == "MOMIC" || domn->pram->PSD_method == "LOGN") {
+            double M0 = 1.0E0;
+            double sigL = 3.0;
+            double mavg = 1.0E-21;
+            for (int k=0; k<domn->pram->nsvar; k++) {
+                for(int j=0; j<domn->ngrd; j++) {
+                    domn->svar[k]->d[j] = M0 * pow(mavg, k) * exp(0.5 * pow(k,2) * pow(sigL,2));
+                }
+            }
+        }
+    }
+
     //------------------- set inlet_cell_dv_props for inlet cell inserted on left as inlet condition
 
     inlet_cell_dv_props.resize(domn->v.size());
