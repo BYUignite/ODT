@@ -45,7 +45,7 @@ class dv_temp_profile : public dv {
         dv_temp_profile(){}
         dv_temp_profile(domain     *line,
                 const string s,
-                const string p_bcType,
+//                const string p_bcType,
                 const bool   Lt,
                 const bool   Lo=true);
 
@@ -54,4 +54,3 @@ class dv_temp_profile : public dv {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-

@@ -64,6 +64,7 @@ class inputoutput {
     void writeDataFile(const string fnameRaw,
                        const double time);       ///< writes the gnuplot file and calls outputProperties
     void outputHeader();                         ///< output header info during odt solution
+    void outputPremixHeader();                    ///< output header info during premix solution
     void outputProgress();                       ///< output data going with the header info
 
     void loadVarsFromRestartFile();

@@ -355,9 +355,11 @@ void micromixer::updateGrid() {
     //-------------- general variable density/outflow case
 
     else {
-
-        domn->rho->setVar();
-
+        try {
+            domn->rho->setVar();
+        } catch (const CanteraError &c) {
+            throw odtCanteraError(STR_TRACE, "micromixer::updateGrid", c);
+        }
         vector<double> dxc2(domn->ngrd);
         for(int i=0; i<domn->ngrd; i++)
             dxc2[i] = dxc.at(i)*(oldrho_or_rhov.at(i)/domn->rho->d.at(i));

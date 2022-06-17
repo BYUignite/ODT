@@ -355,3 +355,17 @@ void inputoutput::loadVarsFromRestartFile() {
         domn->v[k]->setVar();
 
 }
+///////////////////////////////////////////////////////////////////////////////
+/**Output title of properties displayed to screen. */
+
+void inputoutput::outputPremixHeader() {
+
+    *ostrm << endl << "#--------------------------------------------------"
+           << "--------------------------------------------------------------------";
+
+    *ostrm << scientific << setprecision(3) << endl;
+    *ostrm << "Solving premixed flame" << endl;
+
+    *ostrm << endl << "#--------------------------------------------------"
+           << "--------------------------------------------------------------------";
+}

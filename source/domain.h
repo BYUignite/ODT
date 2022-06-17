@@ -16,12 +16,13 @@
 #include "solver.h"
 #include "randomGenerator.h"
 #include "chemical_mechanisms/chemMech.h"
-//#include "cantera/thermo/IdealGasPhase.h"
-//#include "cantera/transport.h"
 #include "cantera/base/Solution.h"
 #include "cantera/thermo.h"
 #include "cantera/transport.h"
 #include "cantera/kinetics.h"
+#include "domaincase_premixedFlameBurner.h"
+#include "domaincase_premixedFlameBurner_fixed_T.h"
+#include "micromixer_premix.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -90,7 +91,17 @@ class domain {
         int                     nTrans;      ///< number of transported variables on the domain.
 
         domaincase              *domc;       ///< domaincase class: set specific vars...
-
+        bool                    LdomcSet;    ///< flag indicating new domainCase --> allow deletion
+        bool                    LstrmSet;    ///< flag indicating new streams    --> allow deletion
+        bool                    LmeshSet;    ///< flag indicating new mesher     --> allow deletion
+        bool                    LmimxSet;    ///< flag indicating new micromixer --> allow deletion
+        bool                    LsolvSet;    ///< flag indicating new solver     --> allow deletion
+        bool                    LedSet;      ///< flag indicating new eddy       --> allow deletion
+        bool                    LrandSet;    ///< flag indicating new randomGen  --> allow deletion
+        bool                    LprbSet;     ///< flag indicating new probes     --> allow deletion
+        bool                    LeddlSet;    ///< flag indicating new eddl domain--> allow deletion
+        bool                    LioSet;      ///< flag indicating new inputoutput--> allow deletion
+        bool                    LpramSet;    ///< flag indicating new param      --> allow deletion
 
     //////////////////// MEMBER FUNCTIONS /////////////////
 

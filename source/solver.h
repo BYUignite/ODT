@@ -30,6 +30,8 @@ class solver {
         eddy           *ed3;           ///< pointer to eddy object for thirds
         domain         *eddl3;         ///< pointer to eddy line object
 
+        bool           LES_type3;      ///< true if les type is thirds (set from param), used to flag for delete
+
         double         time;           ///< odt time (during sampling)
         double         t0;             ///< time of last eddy event; diffusion left off here.
         double         dtSmean;        ///< initial mean eddy sample time
@@ -77,5 +79,3 @@ class solver {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-
-

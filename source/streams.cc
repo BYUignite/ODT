@@ -411,3 +411,57 @@ double streams::getMixtureFraction(const double *y, const bool doBeta01) {
         return (beta - beta0)/(beta1 - beta0);
 
 }
+
+///////////////////////////////////////////////////////////////////////////////
+/** Computes the temperature, enthalpy, and composition of equilibrium at the given mixf.
+ *
+ *  @param mixf \input mixture fraction, defines elemental composition.
+ *  @param yeq \output mass fractions
+ *  @param heq \output enthalpy
+ *  @param Teq \output temperature
+ */
+void streams::getEquilibrium_HP(const double mixf, vector<double> &yeq,
+                                double &heq, double &Teq){
+
+    //---------- Compute the mixing mass fractions and enthalpy
+
+    yeq.resize(nspc);
+    for(int k=0; k<nspc; k++)
+        yeq[k] = y1[k]*mixf + y0[k]*(1.0-mixf);
+    heq = h1*mixf + h0*(1.0-mixf);
+
+    domn->gas->thermo()->setState_PY(domn->pram->pres, &yeq[0]);
+    domn->gas->thermo()->setState_HP(heq, domn->pram->pres, 1.E-10);
+
+    domn->gas->thermo()->equilibrate("HP");
+    domn->gas->thermo()->getMassFractions(&yeq[0]);
+
+    Teq = domn->gas->thermo()->temperature();
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/** Computes the enthalpy, and composition of equilibrium at the given mixf for given T
+ *
+ *  @param mixf \input mixture fraction, defines elemental composition.
+ *  @param Teq \input temperature
+ *  @param yeq \output mass fractions
+ *  @param heq \output enthalpy
+ */
+void streams::getEquilibrium_TP(const double mixf, double Teq,
+                                vector<double> &yeq, double &heq ){
+
+    //---------- Compute the mixing mass fractions and enthalpy
+
+    yeq.resize(nspc);
+    for(int k=0; k<nspc; k++)
+        yeq[k] = y1[k]*mixf + y0[k]*(1.0-mixf);
+
+    domn->gas->thermo()->setState_TPY(Teq, domn->pram->pres, &yeq[0]);
+
+    domn->gas->thermo()->equilibrate("TP");
+    domn->gas->thermo()->getMassFractions(&yeq[0]);
+
+    heq = domn->gas->thermo()->enthalpy_mass();
+
+}

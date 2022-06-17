@@ -134,6 +134,11 @@ class param {
         string coagulation_mech;    ///< soot coagulation mechanism flag
         string PSD_method;          ///< method name for soot PSD: MONO, LOGN, QMOM, MOMIC
 
+        //----------------- Premix quantities
+
+        bool    LisPremix;         ///<  true if solving premix flame
+        double  uInflow;           ///<  inflow velocity
+
 
     //////////////////// MEMBER FUNCTIONS /////////////////
 

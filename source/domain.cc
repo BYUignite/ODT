@@ -30,6 +30,7 @@
 #include "chemical_mechanisms/c2h4red.h"
 #include "chemical_mechanisms/canteraRR.h"
 #include "chemical_mechanisms/chemNone.h"
+#include "solver_premix.h"
 #include <cmath>
 #include <iomanip>
 
@@ -54,8 +55,6 @@ domain::domain(domain *p_domn, param *p_pram) {
 void domain::init(inputoutput     *p_io,
                   meshManager     *p_mesher,
                   streams         *p_strm,
-//                  IdealGasPhase   *p_gas,
-//                  Transport       *p_tran,
                   shared_ptr<Solution> p_gas,
                   micromixer      *p_mimx,
                   eddy            *p_ed,
@@ -70,7 +69,6 @@ void domain::init(inputoutput     *p_io,
     io     = p_io;
     mesher = p_mesher;
     gas    = p_gas;
-//    tran   = p_tran;
     strm   = p_strm;
     mimx   = p_mimx;
     ed     = p_ed;
@@ -95,7 +93,12 @@ void domain::init(inputoutput     *p_io,
     io->init(this);
     pram->init(this);
     ed->init(this, eddl);
-    solv->init(this);
+
+    if(pram->LisPremix)
+        solv = new solver_premix(this);
+    else
+//        solv = new solver(this, pram);
+        solv->init(this);
     // mesher is init below in caseinit for phi
     // strm is init below in caseinit  (domc), (if needed)
     // mimx is init below since it needs v[] set for cvode
@@ -121,6 +124,10 @@ void domain::init(inputoutput     *p_io,
          domc = new domaincase_odt_isothermalWall(); // isothermal wall
      else if(pram->probType == "RT")
          domc = new domaincase_odt_RT();      // simple Rayleigh Taylor flow
+     else if(pram->probType == "PREMIXEDFLAMEBURNER")
+         domc = new domaincase_premixedFlameBurner();      // laminar premixed flame
+     else if(pram->probType == "PREMIXEDFLAMEBURNER_FIXED_T")
+         domc = new domaincase_premixedFlameBurner_fixed_T();      // laminar premixed flame
      else {
          cout << endl << "ERROR, probType UNKNOWN" << endl;
          exit(0);
@@ -160,6 +167,11 @@ void domain::init(inputoutput     *p_io,
             nTrans++;
 
     //----------------------
+
+    if (pram->LisPremix)
+        mimx = new micromixer_premix();
+    else
+        mimx = new micromixer();
 
     mimx->init(this);
 

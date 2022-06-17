@@ -33,6 +33,8 @@ class dv {
         bool                          L_transported;          ///< flag true if var is transported
         bool                          L_output;               ///< flag true if included in output
         bool                          LagSrc;                 ///< flag to lag source term in implicit solve (initially put in for enthalpy radiation)
+        double                        bcLo;                   ///< left bc value
+        double                        bcHi;                   ///< right bc value
 
         domain                        *domn;                  ///< pointer to domain object (parent)
 

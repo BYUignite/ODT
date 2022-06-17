@@ -13,12 +13,7 @@
 #include "dv_temp_profile.h"
 #include "dv_hr.h"
 #include "dv_ygas.h"
-#include "soot/dv_soot.h"
-#include "soot/dv_soot_MONO.h"
-#include "soot/dv_soot_LOGN.h"
-#include "soot/dv_soot_QMOM.h"
-//#include "soot/dv_soot_CQMOM.h"
-#include "soot/dv_soot_MOMIC.h"
+#include "dv_soot.h"
 
 #include <cmath>
 #include <string>
@@ -36,65 +31,26 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
     domn = p_domn;
 
     vector<double> gammas(4,0.0);
-    gammas[0] = 2.0/domn->gas->atomicWeight(domn->gas->elementIndex("C"));
-    gammas[1] = 0.5/domn->gas->atomicWeight(domn->gas->elementIndex("H"));
-    gammas[2] = -1.0/domn->gas->atomicWeight(domn->gas->elementIndex("O"));
+    gammas[0] =  2.0/domn->gas->thermo()->atomicWeight(domn->gas->thermo()->elementIndex("C"));
+    gammas[1] =  0.5/domn->gas->thermo()->atomicWeight(domn->gas->thermo()->elementIndex("H"));
+    gammas[2] = -1.0/domn->gas->thermo()->atomicWeight(domn->gas->thermo()->elementIndex("O"));
     gammas[3] = 0.0;
-    domn->strm = new streams(domn, gammas); domn->LstrmSet = true;
+    domn->strm = new streams();
+    domn->strm->init(domn, gammas);
+    domn->LstrmSet = true;
 
-    domn->v.push_back(new dv_pos(          domn, "pos",     "--", false, true ));   // last are: L_transported, L_output
-    domn->v.push_back(new dv_posf(         domn, "posf",    "--", false, true ));
-    domn->v.push_back(new dv_rho(          domn, "rho",     "--", false, true ));
-    domn->v.push_back(new dv_dvisc(        domn, "dvisc",   "--", false, false ));
-    domn->v.push_back(new dv_temp_profile( domn, "temp",    "--", false, true ));
-    domn->v.push_back(new dv_hr(           domn, "hr",      "--", false, true ));
-    for(int k=0; k<domn->gas->nSpecies(); k++)
-        domn->v.push_back(new dv_ygas(     domn, "y_"+domn->gas->speciesName(k), "DN", true, true ));
-
-    // Add soot moments to variable list
+    domn->v.push_back(new dv_pos(          domn, "pos",   false, true ));   // last are: L_transported, L_output
+    domn->v.push_back(new dv_posf(         domn, "posf",  false, true ));
+    domn->v.push_back(new dv_rho(          domn, "rho",   false, true ));
+    domn->v.push_back(new dv_dvisc(        domn, "dvisc", false, false ));
+    domn->v.push_back(new dv_temp_profile( domn, "temp",  false, true ));
+    domn->v.push_back(new dv_hr(           domn, "hr",    false, true ));
+    for(int k=0; k<domn->gas->thermo()->nSpecies(); k++)
+        domn->v.push_back(new dv_ygas(     domn, "y_"+domn->gas->thermo()->speciesName(k), true, true ));
     if (domn->pram->Lsoot) {
-
-        string PSD_method = domn->io->sootParams["PSD_method"].as<string>();
-        stringstream ss;
-
-        if (PSD_method == "MONO") {
-            domn->pram->nsvar = 2;
-            for(int k=0; k<2; k++) {
-                ss.str(""); ss.clear(); ss << k;
-                domn->v.push_back(new dv_soot_MONO(domn, "M"+ss.str(), "DN", true, true ));
-            }
+        for(int k=0; k<domn->pram->nsvar; k++) {
+            domn->v.push_back(new dv_soot(domn, "M"+to_string(k), true, true ));
         }
-        else if (PSD_method == "LOGN") {
-            domn->pram->nsvar = 3;
-            for(int k=0; k<3; k++) {
-                ss.str(""); ss.clear(); ss << k;
-                domn->v.push_back(new dv_soot_LOGN(domn, "M"+ss.str(), "DN", true, true ));
-            }
-        }
-        else if (PSD_method == "QMOM") {
-            for(int k=0; k<domn->pram->nsvar; k++) {
-                ss.str(""); ss.clear(); ss << k;
-                domn->v.push_back(new dv_soot_QMOM(domn, "M"+ss.str(), "DN", true, true ));
-            }
-        }
-        else if (PSD_method == "MOMIC") {
-            for(int k=0; k<domn->pram->nsvar; k++) {
-                ss.str(""); ss.clear(); ss << k;
-                domn->v.push_back(new dv_soot_MOMIC(domn, "M"+ss.str(), "DN", true, true ));
-            }
-        }   // end MOMIC
-        //else if (PSD_method == "CQMOM") {
-        //    domn->pram->nsvar = 2*domn->pram->nsvar_v/2*domn->pram->nsvar_s/2 + domn->pram->nsvar_v/2;  // stored and accessed by column
-        //    for (int k=0; k<domn->pram->nsvar_v; k++) {
-        //        domn->v.push_back(new dv_soot_flmlt_CQMOM(domn, "M"+to_string(k)+","+'0', "DN", true, true ));          // first s column: M00, M10, M20, etc.
-        //    }
-        //    for (int k=1; k<domn->pram->nsvar_s; k++) {
-        //        for (int j=0; j<domn->pram->nsvar_v/2; j++) {
-        //            domn->v.push_back(new dv_soot_flmlt_CQMOM(domn, "M"+to_string(j)+","+to_string(k), "DN", true, true ));       // other s columns: M01, M11, M02, M12, etc.
-        //        }
-        //    }
-        //}   // end CQMOM
-
     }
 
     int ii = 0;
@@ -105,9 +61,9 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
     domn->temp   = domn->v.at(ii++);
     domn->hr     = domn->v.at(ii++);
     domn->ysp = domn->v.begin()+ii;       // access as domn->ysp[k]->d[i], etc. where k is the species starting from 0.
-    ii += domn->gas->nSpecies();
+    ii += domn->gas->thermo()->nSpecies();
     if (domn->pram->Lsoot == true) {
-        domn->svar     = domn->v.begin()+ii;    // access as domn->svar[k]->d[i], etc. where k is the species starting from 0.
+        domn->svar = domn->v.begin()+ii;    // access as domn->svar[k]->d[i], etc. where k is the species starting from 0.
         ii += domn->pram->nsvar;
     }
 
@@ -115,7 +71,9 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
 
     vector<dv*> phi;
     phi.push_back(domn->temp);
-    domn->mesher = new meshManager(domn, phi); domn->LmeshSet = true;
+    domn->mesher = new meshManager();
+    domn->mesher->init(domn, phi);
+    domn->LmeshSet = true;
 
     //------------------- set initial profiles
 
@@ -132,7 +90,7 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
 
     // initialize composition profiles, set burnt for fracBurnt
 
-    int nsp = domn->gas->nSpecies();
+    int nsp = domn->gas->thermo()->nSpecies();
     vector<double> ysp(nsp);               // dummy storage
     double hdummy;
     double Tdummy;
@@ -141,7 +99,7 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
         if(domn->pos->d.at(i) < (1-fracBurnt)*domn->pram->domainLength)
             domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy);
         else {
-            if(domn->pram->chemMechFile=="onestep_c2h4.xml")
+            if(domn->pram->chemMech=="onestep_c2h4.xml")
                 domn->strm->getProdOfCompleteComb(mixf_reactants, ysp, hdummy, Tdummy);
             else
                 domn->strm->getEquilibrium_TP(mixf_reactants, domn->temp->d.at(i), ysp, hdummy);
@@ -161,9 +119,9 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
 
     domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy); // this also sets the gas object state
 
-    domn->rho->bcLo = domn->gas->density();
-    domn->dvisc->bcLo = domn->tran->viscosity();
-    for(int k=0; k<domn->gas->nSpecies(); ++k)
+    domn->rho->bcLo = domn->gas->thermo()->density();
+    domn->dvisc->bcLo = domn->gas->transport()->viscosity();
+    for(int k=0; k<domn->gas->thermo()->nSpecies(); ++k)
         domn->ysp[k]->bcLo = ysp[k];
 
     if(domn->pram->Lsoot)
@@ -174,7 +132,7 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
 
     //----------- outflow side (hi) Neumann conditions
 
-    for(int k=0; k<domn->gas->nSpecies(); ++k)
+    for(int k=0; k<domn->gas->thermo()->nSpecies(); ++k)
         domn->ysp[k]->bcHi = 0.0;
 
     if(domn->pram->Lsoot)
@@ -194,7 +152,7 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
     inlet_cell_dv_props[ii++] = domn->dvisc->bcLo;      // dvisc
     inlet_cell_dv_props[ii++] = domn->temp->bcLo;       // temp
     inlet_cell_dv_props[ii++] = 0.0;                    // hr
-    for(int k=0; k<domn->gas->nSpecies(); k++, ii++)   
+    for(int k=0; k<domn->gas->thermo()->nSpecies(); k++, ii++)
         inlet_cell_dv_props[ii] = domn->ysp[k]->bcLo;   // gas species
     if (domn->pram->Lsoot)
         for(int k=0; k<domn->pram->nsvar; k++)
@@ -236,7 +194,7 @@ void domaincase_premixedFlameBurner_fixed_T::setCaseSpecificVars_cvode(const int
 
 void domaincase_premixedFlameBurner_fixed_T::setGasStateAtPt(const int &ipt) {
 
-    int nsp = domn->gas->nSpecies();
+    int nsp = domn->gas->thermo()->nSpecies();
     vector<double> yi(nsp);
 
     double T;
@@ -251,5 +209,5 @@ void domaincase_premixedFlameBurner_fixed_T::setGasStateAtPt(const int &ipt) {
     for(int k=0; k<nsp; k++)
         yi[k] = (ipt==-1 ? domn->ysp[k]->bcLo : (ipt==domn->ngrdf ? domn->ysp[k]->bcHi : domn->ysp[k]->d.at(ipt)) );
 
-    domn->gas->setState_TPY(T, domn->pram->pres, &yi.at(0));
+    domn->gas->thermo()->setState_TPY(T, domn->pram->pres, &yi.at(0));
 }

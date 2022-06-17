@@ -116,6 +116,11 @@ param::param(inputoutput *p_io) {
     for(int i=0; i<io->sootParams["PAH_species"].size(); i++)
         PAH_species.push_back(io->sootParams["PAH_species"][i].as<string>());
 
+    // Premix variables ---------------------
+
+    LisPremix      = io->params["LisPremix"]      ? io->params["LisPremix"].as<bool>()  : false;
+    uInflow        = io->params["uInflow"]        ? io->params["uInflow"].as<double>()  : 0.0;
+
     //---------------------
 
     // Dirichlet velocity BCs (no-slip)

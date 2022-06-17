@@ -66,6 +66,16 @@ class streams {
                                    double &hpcc,
                                    double &Tpcc);
 
+        void getEquilibrium_HP(const double mixf,
+                               vector<double> &yeq,
+                               double &heq,
+                               double &Teq);
+
+        void getEquilibrium_TP(const double mixf,
+                               double Teq,
+                               vector<double> &yeq,
+                               double &heq);
+
         void getMixingState(const double mixf,
                             vector<double> &ymix,
                             double &hmix,
@@ -97,6 +107,3 @@ class streams {
 
 
 };
-
-
-

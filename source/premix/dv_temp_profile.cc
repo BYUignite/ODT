@@ -17,10 +17,9 @@ using namespace std;
 
 dv_temp_profile::dv_temp_profile(domain      *line,
                              const string s,
-                             const string p_bcType,
                              const bool   Lt,
                              const bool   Lo) :
-    dv(line, s, p_bcType, Lt, Lo) {
+    dv(line, s, Lt, Lo) {
     
     for(int i=0; i<domn->io->dvParams["xT"].size(); ++i) {
         x.push_back(domn->io->dvParams["xT"][i][0].as<double>());
@@ -50,4 +49,3 @@ void dv_temp_profile::setVar(const int ipt){
     else
         d.at(ipt) = Linterp.interp(domn->pos->d.at(ipt));
 }
-
