@@ -126,7 +126,7 @@ void domain::init(inputoutput     *p_io,
          domc = new domaincase_odt_RT();      // simple Rayleigh Taylor flow
      else if(pram->probType == "PREMIXEDFLAMEBURNER")
          domc = new domaincase_premixedFlameBurner();      // laminar premixed flame
-     else if(pram->probType == "PREMIXEDFLAMEBURNER_FIXED_T")
+     else if(pram->probType == "PREMIXEDFLAMEBURNERFIXEDT")
          domc = new domaincase_premixedFlameBurner_fixed_T();      // laminar premixed flame
      else {
          cout << endl << "ERROR, probType UNKNOWN" << endl;
