@@ -22,7 +22,7 @@ FetchContent_Declare(sootlib
         GIT_TAG cc17bbd73154ded02a4cf2bdf39ecfe6f087ae8a)           # sootlib-0.1.0
 FetchContent_Declare(cantera
         GIT_REPOSITORY https://github.com/Cantera/cantera
-        GIT_TAG b0bace78223959cd3e5a15317734cacff7b0b0a2)           # cantera-2.5.1
+        GIT_TAG 9573e6b1e1097dca3bf86da37726333ab62663bb)           # cantera-2.6.0
 
 # -------- RADLIB --------
 message(STATUS "Fetching RadLib")
