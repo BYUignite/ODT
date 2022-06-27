@@ -99,7 +99,7 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
         if(domn->pos->d.at(i) < (1-fracBurnt)*domn->pram->domainLength)
             domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy);
         else {
-            if(domn->pram->chemMech=="onestep_c2h4.xml")
+            if(domn->pram->chemMech=="onestep_c2h4")
                 domn->strm->getProdOfCompleteComb(mixf_reactants, ysp, hdummy, Tdummy);
             else
                 domn->strm->getEquilibrium_TP(mixf_reactants, domn->temp->d.at(i), ysp, hdummy);
