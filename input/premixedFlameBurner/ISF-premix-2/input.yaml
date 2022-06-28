@@ -1,0 +1,201 @@
+################### Main ODT parameters
+
+params:
+    LisPremix:     true           #  true to run a premix simulation
+    tEnd:          0.5            #  ending time of realization (=100 d )
+    domainLength:  0.00452           #  length of domain  (=150 d)
+    xDomainCenter: 0.0025           #  center of the domain
+    ngrd0:         100            #  initial grid points
+    rho0:          0.66           #  initial uniform density  (avg of air and adiabatic c2h4-air equilib flame)
+    kvisc0:        6.82E-5        #  initial uniform kinematic viscosity (m2*s) (avg of air and adiabatic c2h4-air equilib flame)
+    pres:          101325         #  pressure (Pa)
+    #chemMechFile:  onestep_c2h4.xml    #  name of chemical mechanism file
+    chemMech:       c2h4red    #  name of chemical mechanism file
+#    probType:      PREMIXEDFLAMEBURNER #  CHANNEL, JETMIXL_RXN, etc.
+    probType:      PREMIXEDFLAMEBURNERFIXEDT  #  CHANNEL, JETMIXL_RXN, etc.
+    uInflow:       0.0673       # reactant inflow velocity (m/s)
+    #----------------------------------------------------------------------------------
+    diffCFL:       0.02          #  multiplies min diffusion timestep
+    cvode_atol:    1.0E-10        #  atol for cvode for implicit solution
+    cvode_rtol:    1.0E-4         #  rtol for cvode for implicit solution
+    #----------------------------------------------------------------------------------
+    Lrad:          true        #  true or false to do radiation, need a radParams section below
+    Lsolver:       SEMI-IMPLICIT #  SEMI-IMPLICIT  #  EXPLICIT, SEMI-IMPLICIT, STRANG
+    Lsoot:         true         #  TRUE for soot, FALSE for no soot
+    #----------------------------------------------------------------------------------
+    bcType:        WALL_OUT     #  OUTFLOW, WALL, PERIODIC, WALL_OUT
+    cCoord:        1            #  1 = planar, 2 = cylindrical, 3 = spherical
+    Lspatial:      false        #  true = spatial, false = temporal
+    Lrestart:      false
+    #----------------------------------------------------------------------------------
+    gDens:         20             #  grid density for mesher
+    dxmin:         0.0001         #  min grid spacing: = dxmin / domain length
+    dxmax:         0.2            #  max grid spacing = dxmax / domain length
+
+################### Radiation parameters
+
+radParams:
+
+    radSolveType:   OPTHIN        # OPTHIN or TWOFLUX or FVDOM
+    radCoefType:    PLANCKMEAN    # PLANCKMEAN or WSGG or RCSLW
+    LradDoSoot:     true          # true or false
+    ntheta:         40            # only relevant for radSolveType = FVDOM
+    npsi:           80            # nominally 2*ntheta; only relevant for radSolveType = FVDOM
+
+################### Soot parameters
+
+sootParams:
+
+    rho_s:              1850.0      # solid soot density, kg/m3
+    Cmin:               100         # minimum number of carbon atoms in a soot particle
+    b_coag:             0.73        # coagulation constant; 1/sqrt(2) < b < 1
+    PSD_method:         QMOM        # MONO, LOGN, QMOM (2,4,6)
+    nsvar:              4           # soot variable; nmom or nbins, depending on your method
+    nucleation_mech:    LL          # LL, LIN, PAH
+    growth_mech:        LL          # LL, LIN, HACA
+    oxidation_mech:     LL          # LL, LEE_NEOH, NSC_NEOH, HACA
+    coagulation_mech:   LL          # LL, FUCHS, FRENK
+
+################### Stream properties
+
+streamProps:
+    moleOrMass: MOLE              # MOLE or MASS: corresponding compositions below
+    #---------------------          (oxidizer stream f=0)
+    T0: 298.0                     # temperature (K)
+    comp0:                        # composition of stream 0
+        O2: 0.21
+        N2: 0.79
+    #---------------------          (fuel stream f=1)
+    T1: 298.0                     # temperature (K)
+    comp1:                        # composition of stream 1
+        C2H4: 1
+
+################### initialization parameters
+
+initParams:                      # these or others are read in the odtcase_mycase class
+    phi0:      2.34              # equivalence ratio
+    fracBurnt: 0.90              # fraction of the domain to initialize as burnt
+
+bcCond:
+
+    uBClo: 0.0
+    uBChi: 0.0
+    vBClo: 0.0
+    vBChi: 0.0
+    wBClo: 0.0
+    wBChi: 0.0
+    TBClo: 295.0                 # needed for radiation; for opthin, needt TBClo == TBChi
+    TBChi: 295.0
+
+################### dump times
+
+dumpTimesGen:
+    dTimeStart: 0.001         # make < 0 to ignore dumpTimesGen and use dumpTimes (if present)
+    dTimeEnd:   0.5
+    dTimeStep:  0.01
+
+################### domain variable parameters (temperature profile)
+
+dvParams:
+    xT:
+        - [0.00E+00, 298.00]
+        - [7.53E-06, 303.00]
+        - [1.51E-05, 308.03]
+        - [2.26E-05, 313.09]
+        - [3.01E-05, 318.19]
+        - [3.77E-05, 323.36]
+        - [4.55E-05, 328.69]
+        - [5.38E-05, 334.34]
+        - [6.26E-05, 340.46]
+        - [7.24E-05, 347.25]
+        - [8.33E-05, 354.92]
+        - [9.56E-05, 363.57]
+        - [1.09E-04, 373.18]
+        - [1.24E-04, 383.69]
+        - [1.39E-04, 395.00]
+        - [1.56E-04, 407.01]
+        - [1.73E-04, 419.61]
+        - [1.90E-04, 432.72]
+        - [2.08E-04, 446.19]
+        - [2.26E-04, 459.83]
+        - [2.44E-04, 473.46]
+        - [2.61E-04, 487.02]
+        - [2.78E-04, 500.52]
+        - [2.95E-04, 514.03]
+        - [3.12E-04, 527.58]
+        - [3.29E-04, 541.22]
+        - [3.46E-04, 554.97]
+        - [3.63E-04, 568.83]
+        - [3.80E-04, 582.83]
+        - [3.97E-04, 597.02]
+        - [4.14E-04, 611.48]
+        - [4.32E-04, 626.30]
+        - [4.50E-04, 641.66]
+        - [4.69E-04, 657.72]
+        - [4.88E-04, 674.76]
+        - [5.09E-04, 693.11]
+        - [5.32E-04, 713.21]
+        - [5.57E-04, 735.54]
+        - [5.85E-04, 760.34]
+        - [6.14E-04, 786.95]
+        - [6.44E-04, 813.91]
+        - [6.72E-04, 840.23]
+        - [7.00E-04, 865.91]
+        - [7.27E-04, 891.23]
+        - [7.53E-04, 916.32]
+        - [7.79E-04, 941.06]
+        - [8.05E-04, 965.37]
+        - [8.30E-04, 989.32]
+        - [8.55E-04, 1013.04]
+        - [8.79E-04, 1036.66]
+        - [9.04E-04, 1060.21]
+        - [9.28E-04, 1083.70]
+        - [9.53E-04, 1107.13]
+        - [9.77E-04, 1130.50]
+        - [1.00E-03, 1153.87]
+        - [1.03E-03, 1177.21]
+        - [1.05E-03, 1200.31]
+        - [1.08E-03, 1222.70]
+        - [1.10E-03, 1243.92]
+        - [1.13E-03, 1263.92]
+        - [1.15E-03, 1282.84]
+        - [1.17E-03, 1300.85]
+        - [1.19E-03, 1318.09]
+        - [1.22E-03, 1334.62]
+        - [1.24E-03, 1350.46]
+        - [1.26E-03, 1365.67]
+        - [1.28E-03, 1380.36]
+        - [1.31E-03, 1394.65]
+        - [1.33E-03, 1408.62]
+        - [1.36E-03, 1422.30]
+        - [1.39E-03, 1435.72]
+        - [1.41E-03, 1448.93]
+        - [1.44E-03, 1461.98]
+        - [1.48E-03, 1474.88]
+        - [1.51E-03, 1487.58]
+        - [1.55E-03, 1500.01]
+        - [1.59E-03, 1512.07]
+        - [1.64E-03, 1523.69]
+        - [1.69E-03, 1534.80]
+        - [1.74E-03, 1545.39]
+        - [1.80E-03, 1555.47]
+        - [1.86E-03, 1565.11]
+        - [1.94E-03, 1574.31]
+        - [2.02E-03, 1583.08]
+        - [2.10E-03, 1591.35]
+        - [2.20E-03, 1599.10]
+        - [2.31E-03, 1606.25]
+        - [2.43E-03, 1612.72]
+        - [2.56E-03, 1618.49]
+        - [2.70E-03, 1623.52]
+        - [2.85E-03, 1627.83]
+        - [3.00E-03, 1631.47]
+        - [3.16E-03, 1634.51]
+        - [3.32E-03, 1637.00]
+        - [3.48E-03, 1639.00]
+        - [3.65E-03, 1640.58]
+        - [3.82E-03, 1641.77]
+        - [3.99E-03, 1642.62]
+        - [4.17E-03, 1643.18]
+        - [4.34E-03, 1643.49]
+        - [4.52E-03, 1643.56]

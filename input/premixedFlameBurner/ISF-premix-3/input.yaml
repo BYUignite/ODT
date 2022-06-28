@@ -1,0 +1,201 @@
+################### Main ODT parameters
+
+params:
+    LisPremix:     true           #  true to run a premix simulation
+    tEnd:          0.5            #  ending time of realization (=100 d )
+    domainLength:  0.04           #  length of domain  (=150 d)
+    xDomainCenter: 0.02           #  center of the domain
+    ngrd0:         100            #  initial grid points
+    rho0:          0.66           #  initial uniform density  (avg of air and adiabatic c2h4-air equilib flame)
+    kvisc0:        6.82E-5        #  initial uniform kinematic viscosity (m2*s) (avg of air and adiabatic c2h4-air equilib flame)
+    pres:          101325         #  pressure (Pa)
+    #chemMechFile:  onestep_c2h4.xml    #  name of chemical mechanism file
+    chemMech:  c2h4red    #  name of chemical mechanism file
+    probType:      PREMIXEDFLAMEBURNER #  CHANNEL, JETMIXL_RXN, etc.
+#    probType:      PREMIXEDFLAMEBURNER_FIXED_T  #  CHANNEL, JETMIXL_RXN, etc.
+    uInflow:       0.0637         # reactant inflow velocity (m/s)
+    #----------------------------------------------------------------------------------
+    diffCFL:       0.02          #  multiplies min diffusion timestep
+    cvode_atol: 1.0E-10        #  atol for cvode for implicit solution
+    cvode_rtol: 1.0E-4         #  rtol for cvode for implicit solution
+    #----------------------------------------------------------------------------------
+    Lrad:          true        #  true or false to do radiation, need a radParams section below
+    Lsolver:       SEMI-IMPLICIT #  SEMI-IMPLICIT  #  EXPLICIT, SEMI-IMPLICIT, STRANG
+    Lsoot:         true         #  TRUE for soot, FALSE for no soot
+    #----------------------------------------------------------------------------------
+    bcType:        WALL_OUT     #  OUTFLOW, WALL, PERIODIC, WALL_OUT
+    cCoord:        1            #  1 = planar, 2 = cylindrical, 3 = spherical
+    Lspatial:      false        #  true = spatial, false = temporal
+    Lrestart:      false
+    #----------------------------------------------------------------------------------
+    gDens:         20             #  grid density for mesher
+    dxmin:         0.0001         #  min grid spacing: = dxmin / domain length
+    dxmax:         0.2            #  max grid spacing = dxmax / domain length
+
+################### Radiation parameters
+
+radParams:
+
+    radSolveType:   OPTHIN        # OPTHIN or TWOFLUX or FVDOM
+    radCoefType:    PLANCKMEAN    # PLANCKMEAN or WSGG or RCSLW
+    LradDoSoot:     true         # true or false
+    ntheta:         40            # only relevant for radSolveType = FVDOM
+    npsi:           80            # nominally 2*ntheta; only relevant for radSolveType = FVDOM
+
+################### Soot parameters
+
+sootParams:
+
+    rho_s:              1850.0      # solid soot density, kg/m3
+    Cmin:               100         # minimum number of carbon atoms in a soot particle
+    b_coag:             0.73        # coagulation constant; 1/sqrt(2) < b < 1
+    PSD_method:         QMOM        # MONO, LOGN, QMOM (2,4,6)
+    nsvar:              4           # soot variable; nmom or nbins, depending on your method
+    nucleation_mech:    LL          # LL, LIN, PAH
+    growth_mech:        LL          # LL, LIN, HACA
+    oxidation_mech:     LL          # LL, LEE_NEOH, NSC_NEOH, HACA
+    coagulation_mech:   LL          # LL, FUCHS, FRENK
+
+################### Stream properties
+
+streamProps:
+    moleOrMass: MOLE              # MOLE or MASS: corresponding compositions below
+    #---------------------          (oxidizer stream f=0)
+    T0: 298.0                     # temperature (K)
+    comp0:                        # composition of stream 0
+        O2:  0.21
+        N2:  0.79
+    #---------------------          (fuel stream f=1)
+    T1: 298.0                     # temperature (K)
+    comp1:                        # composition of stream 1
+        C2H4: 1.0
+
+################### initialization parameters
+
+initParams:                      # these or others are read in the odtcase_mycase class
+    phi0:      2.1               # equivalence ratio
+    fracBurnt: 0.90              # fraction of the domain to initialize as burnt
+
+bcCond:
+
+    uBClo: 0.0
+    uBChi: 0.0
+    vBClo: 0.0
+    vBChi: 0.0
+    wBClo: 0.0
+    wBChi: 0.0
+    TBClo: 295.0                 # needed for radiation; for opthin, needt TBClo == TBChi
+    TBChi: 295.0
+
+################### dump times
+
+dumpTimesGen:
+    dTimeStart: 0.001         # make < 0 to ignore dumpTimesGen and use dumpTimes (if present)
+    dTimeEnd:   0.5
+    dTimeStep:  0.01
+
+################### domain variable parameters (temperature profile)
+
+dvParams:
+    xT:
+        - [0.000e+00, 2.980000e+02]
+        - [4.000e-04, 7.099847e+02]
+        - [8.000e-04, 1.223246e+03]
+        - [1.200e-03, 1.564600e+03]
+        - [1.600e-03, 1.680175e+03]
+        - [2.000e-03, 1.724087e+03]
+        - [2.400e-03, 1.742937e+03]
+        - [2.800e-03, 1.751601e+03]
+        - [3.200e-03, 1.755491e+03]
+        - [3.600e-03, 1.756867e+03]
+        - [4.000e-03, 1.756841e+03]
+        - [4.400e-03, 1.755926e+03]
+        - [4.800e-03, 1.754430e+03]
+        - [5.200e-03, 1.752515e+03]
+        - [5.600e-03, 1.750384e+03]
+        - [6.000e-03, 1.747945e+03]
+        - [6.400e-03, 1.745417e+03]
+        - [6.800e-03, 1.742712e+03]
+        - [7.200e-03, 1.739911e+03]
+        - [7.600e-03, 1.736997e+03]
+        - [8.000e-03, 1.734028e+03]
+        - [8.400e-03, 1.730921e+03]
+        - [8.800e-03, 1.727808e+03]
+        - [9.200e-03, 1.724540e+03]
+        - [9.600e-03, 1.721282e+03]
+        - [1.000e-02, 1.717849e+03]
+        - [1.040e-02, 1.714480e+03]
+        - [1.080e-02, 1.711070e+03]
+        - [1.120e-02, 1.707543e+03]
+        - [1.160e-02, 1.703900e+03]
+        - [1.200e-02, 1.700113e+03]
+        - [1.240e-02, 1.696193e+03]
+        - [1.280e-02, 1.692913e+03]
+        - [1.320e-02, 1.689030e+03]
+        - [1.360e-02, 1.684753e+03]
+        - [1.400e-02, 1.680920e+03]
+        - [1.440e-02, 1.676993e+03]
+        - [1.480e-02, 1.673273e+03]
+        - [1.520e-02, 1.668890e+03]
+        - [1.560e-02, 1.665310e+03]
+        - [1.600e-02, 1.660740e+03]
+        - [1.640e-02, 1.656693e+03]
+        - [1.680e-02, 1.652265e+03]
+        - [1.720e-02, 1.648410e+03]
+        - [1.760e-02, 1.643863e+03]
+        - [1.800e-02, 1.639575e+03]
+        - [1.840e-02, 1.635550e+03]
+        - [1.880e-02, 1.631465e+03]
+        - [1.920e-02, 1.626300e+03]
+        - [1.960e-02, 1.622120e+03]
+        - [2.000e-02, 1.617910e+03]
+        - [2.040e-02, 1.613680e+03]
+        - [2.080e-02, 1.609430e+03]
+        - [2.120e-02, 1.605150e+03]
+        - [2.160e-02, 1.600810e+03]
+        - [2.200e-02, 1.596420e+03]
+        - [2.240e-02, 1.591990e+03]
+        - [2.280e-02, 1.587550e+03]
+        - [2.320e-02, 1.583090e+03]
+        - [2.360e-02, 1.578630e+03]
+        - [2.400e-02, 1.574170e+03]
+        - [2.440e-02, 1.569690e+03]
+        - [2.480e-02, 1.566090e+03]
+        - [2.520e-02, 1.561793e+03]
+        - [2.560e-02, 1.557255e+03]
+        - [2.600e-02, 1.552700e+03]
+        - [2.640e-02, 1.548140e+03]
+        - [2.680e-02, 1.544264e+03]
+        - [2.720e-02, 1.540160e+03]
+        - [2.760e-02, 1.535605e+03]
+        - [2.800e-02, 1.531070e+03]
+        - [2.840e-02, 1.527018e+03]
+        - [2.880e-02, 1.523217e+03]
+        - [2.920e-02, 1.518775e+03]
+        - [2.960e-02, 1.514360e+03]
+        - [3.000e-02, 1.510182e+03]
+        - [3.040e-02, 1.506670e+03]
+        - [3.080e-02, 1.502280e+03]
+        - [3.120e-02, 1.497880e+03]
+        - [3.160e-02, 1.494344e+03]
+        - [3.200e-02, 1.490138e+03]
+        - [3.240e-02, 1.485722e+03]
+        - [3.280e-02, 1.481974e+03]
+        - [3.320e-02, 1.478010e+03]
+        - [3.360e-02, 1.474058e+03]
+        - [3.400e-02, 1.470335e+03]
+        - [3.440e-02, 1.466176e+03]
+        - [3.480e-02, 1.462680e+03]
+        - [3.520e-02, 1.458340e+03]
+        - [3.560e-02, 1.454060e+03]
+        - [3.600e-02, 1.450692e+03]
+        - [3.640e-02, 1.446753e+03]
+        - [3.680e-02, 1.443278e+03]
+        - [3.720e-02, 1.439660e+03]
+        - [3.760e-02, 1.435750e+03]
+        - [3.800e-02, 1.432374e+03]
+        - [3.840e-02, 1.429365e+03]
+        - [3.880e-02, 1.426207e+03]
+        - [3.920e-02, 1.423812e+03]
+        - [3.960e-02, 1.422420e+03]
+        - [4.000e-02, 1.422420e+03]
