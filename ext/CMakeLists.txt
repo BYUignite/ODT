@@ -11,9 +11,9 @@ option(YAML_CPP_BUILD_CONTRIB   "Build yaml-cpp contrib stuff"              OFF)
 FetchContent_Declare(yaml-cpp
         GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
         GIT_TAG 9a3624205e8774953ef18f57067b3426c1c5ada6)           # yaml-cpp-0.6.3
-FetchContent_Declare(sundials
-        GIT_REPOSITORY https://github.com/LLNL/sundials.git
-        GIT_TAG 887af4374af2271db9310d31eaa9b5aeff49e829)           # Sundials-5.3.0
+#FetchContent_Declare(sundials
+#        GIT_REPOSITORY https://github.com/LLNL/sundials.git
+#        GIT_TAG 887af4374af2271db9310d31eaa9b5aeff49e829)           # Sundials-5.3.0
 FetchContent_Declare(radlib
         GIT_REPOSITORY https://github.com/BYUignite/radlib.git
         GIT_TAG 207811377b300568d5d1adfadce96e50a2c95bd3)           # radlib-2.0.0
@@ -22,7 +22,8 @@ FetchContent_Declare(sootlib
         GIT_TAG cc17bbd73154ded02a4cf2bdf39ecfe6f087ae8a)           # sootlib-0.1.0
 FetchContent_Declare(cantera
         GIT_REPOSITORY https://github.com/Cantera/cantera
-        GIT_TAG 9573e6b1e1097dca3bf86da37726333ab62663bb)           # cantera-2.6.0
+        GIT_TAG b0bace78223959cd3e5a15317734cacff7b0b0a2)           # cantera-2.5.1
+#        GIT_TAG 9573e6b1e1097dca3bf86da37726333ab62663bb)           # cantera-2.6.0
 
 # -------- RADLIB --------
 message(STATUS "Fetching RadLib")
