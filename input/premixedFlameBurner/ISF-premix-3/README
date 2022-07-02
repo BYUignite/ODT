@@ -1,0 +1,9 @@
+Experimental data and ODT input files corresponding to ISF Workshop target flame ISF-4 premixed flames 2: McKenna burner stabilized flames; see prem-flames-1.pdf for experiment details.
+
+ISF-premix-1-a corresponds to C/O ratio of 0.69 and P = 1 bar
+ISF-premix-1-b corresponds to C/O ratio of 0.72 and P = 1 bar
+
+hT = height (mm) vs temperature (K) profiles
+tFv = time (ms) vs soot volume fraction profiles
+tN = time (ms) vs soot number density (1/cm^3) profiles
+v0 = burner gas velocity (cm/s)

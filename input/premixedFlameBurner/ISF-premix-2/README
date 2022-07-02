@@ -1,0 +1,20 @@
+Experimental data and ODT input files corresponding to ISF Workshop target flame ISF-4 premixed flames 2: McKenna burner stabilized flames; see prem-flames-1.pdf for experiment details.
+
+ISF-premix-2-a corresponds to C/O ratio of 0.78 and P = 1 atm
+ISF-premix-2-b corresponds to C/O ratio of 0.88 and P = 1 atm
+ISF-premix-2-c corresponds to C/O ratio of 0.98 and P = 1 atm
+
+hT = height (m) vs temperature (K)
+hU = height (m) vs gas velocity (m/s)
+hX = height (m) vs gas species mole(?) fractions
+    h [m]	X_H2	X_N2	X_CO	X_CH4	X_CO2	X_C2H2	X_C2H4	X_H2O
+hX-CH = height (m) vs species mole fraction CH*
+hFv = height (m) vs soot volume fraction
+    hFv-a-1 = Laser ext. - Xu & Feath
+    hFv-a-2 = Sampling - Xu & Faeth
+    hFv-a-3 = Laser ext. - Menon et al.
+    hFv-b-1 = Laser ext. - Xu & Feath
+    hFv-b-2 = Sampling - Xu & Faeth
+    hFv-b-3 = Laser ext. - Menon et al.
+    hFv-c   = Laser ext. - Xu & Feath
+hDp = height (m) vs soot particle diameter (nm)
