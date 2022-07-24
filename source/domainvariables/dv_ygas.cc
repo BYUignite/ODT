@@ -97,15 +97,14 @@ void dv_ygas::getRhsSrc(const int ipt) {
                 yi.at(k) = domn->ysp[k]->d.at(i);
             domn->chem->getProblemSpecificRR(domn->rho->d.at(i), domn->temp->d.at(i), domn->pram->pres, &yi.at(0), &rr.at(0));
 
-            for(int k=0; k<nspc; k++)
+            for(int k=0; k<nspc; k++) {
                 rrSpc.at(k).at(i) = rr.at(k) * domn->gas->thermo()->molecularWeight(k) / domn->rho->d.at(i);   // kmol/(m³ s)*(kg/kmol)*(kg/m3) = 1/s
+                if (domn->pram->Lsoot)
+                    rrSpc.at(k).at(i) += gasSootSources.at(k).at(i);    // gasSootSources set in soot source terms
+            }
         }
 
     }
-
-    if(domn->pram->Lsoot)
-        for(int i=iS; i<=iE; i++)
-            rhsSrc.at(i) += gasSootSources[kMe].at(i);    // gasSootSources set in soot source terms
 
     for(int i=iS; i<=iE; i++)
         rhsSrc.at(i) = rrSpc.at(kMe).at(i) *
