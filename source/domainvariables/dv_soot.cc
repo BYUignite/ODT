@@ -280,9 +280,6 @@ void dv_soot::getRhsSrc(const int ipt) {
 
     rhsSrc.resize(domn->ngrd, 0.0);
 
-    for(int k=0; k<gasSootSources.size(); k++)           // resize gasSootSources for each gas species k
-        gasSootSources[k].resize(domn->ngrd,0.0);
-
     static vector<vector<double> > rrSvar(nsvar);                  // temp storage for moment rates [nsvar][ngrd]
     static vector<double>          yGas(8);                     // number of gas species involved with soot = 8
     static vector<double>          yPAH(6);                     // number of PAH species involved with soot = 6
@@ -303,8 +300,11 @@ void dv_soot::getRhsSrc(const int ipt) {
         for(int k=0; k<nsvar; k++)                     // for each mom/section,
             rrSvar.at(k).resize(domn->ngrd);           // resize to match grid size
 
-        for(int k=0; k<gasSootSources.size(); k++)         // resize gasSootSources for each gas species k
-            gasSootSources[k].resize(domn->ngrd,0.0);
+        for(int k=0; k<gasSootSources.size(); k++) {        // resize and reset gasSootSources for each gas species k
+            gasSootSources[k].resize(domn->ngrd);
+            for (int j=0; j<gasSootSources[k].size(); j++)
+                gasSootSources[k][j] = 0;
+        }
 
         for(int i=iS; i<=iE; i++) {                    // loop over grid points
 
