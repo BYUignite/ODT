@@ -62,8 +62,8 @@ void dv_ygas::getRhsSrc(const int ipt) {
     rhsSrc.resize(domn->ngrd, 0.0);
 
     static vector<vector<double> > rrSpc(nspc);    // [nspc][ngrd]
-    static vector<double>          yi(nspc);       // [nspc]
-    static vector<double>          rr(nspc);       // [nspc]
+    static vector<double>          yi(nspc,0.0);       // [nspc]
+    static vector<double>          rr(nspc, 0.0);       // [nspc]
 
     int iS, iE;
     if(ipt==-1) {
@@ -87,8 +87,11 @@ void dv_ygas::getRhsSrc(const int ipt) {
             for(int k=0; k<domn->pram->nsvar; k++)
                 domn->svar[k]->getRhsSrc(ipt);            // this will set L_source_done flag true
 
-        for(int k=0; k<nspc; k++)
-            rrSpc.at(k).resize(domn->ngrd);
+        for(int k=0; k<nspc; k++) {        // resize and reset rrSpc for each gas species k
+            rrSpc[k].resize(domn->ngrd);
+            for (int j=0; j<domn->ngrd; j++)
+                rrSpc[k][j] = 0;
+        }
 
         for(int i=iS; i<=iE; i++) {
 
