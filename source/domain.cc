@@ -94,11 +94,15 @@ void domain::init(inputoutput     *p_io,
     pram->init(this);
     ed->init(this, eddl);
 
-    if(pram->LisPremix)
+    if(pram->LisPremix) {
         solv = new solver_premix(this);
-    else
-//        solv = new solver(this, pram);
-        solv->init(this);
+    }
+    else {
+        solv = new solver();
+    }
+    solv->init(this);
+
+//        solv->init(this);
     // mesher is init below in caseinit for phi
     // strm is init below in caseinit  (domc), (if needed)
     // mimx is init below since it needs v[] set for cvode

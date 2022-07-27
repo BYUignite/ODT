@@ -57,8 +57,8 @@ int main(int argc, char*argv[]) {
     solver      *solv;
     micromixer  *mimx;
     chemMech    *chem;
-    solv = new solver();
-    mimx = new micromixer();
+//    solv = new solver();
+//    mimx = new micromixer();
 
     domain domn(NULL,  &pram);
     domain eddl(&domn, &pram);
