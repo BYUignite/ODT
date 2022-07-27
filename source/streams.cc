@@ -20,7 +20,6 @@ void streams::init(domain *p_domn, const vector<double> &gammas) {
 
     domn = p_domn;
 
-//    nspc = domn->gas->nSpecies();
     nspc = domn->gas->thermo()->nSpecies();
 
     T0   = domn->io->streamProps["T0"].as<double>();
@@ -52,7 +51,6 @@ void streams::init(domain *p_domn, const vector<double> &gammas) {
     }
     for(int i=0; i<y0Labels.size(); i++)
         y0[domn->gas->thermo()->speciesIndex(y0Labels[i])] = y0short[i]/sum;
-//        y0[domn->gas->speciesIndex(y0Labels[i])] = y0short[i]/sum;
 
     sum = 0.0;
     vector<string> y1Labels;       // species names in list

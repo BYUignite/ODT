@@ -62,7 +62,7 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
     domn->hr     = domn->v.at(ii++);
     domn->ysp = domn->v.begin()+ii;       // access as domn->ysp[k]->d[i], etc. where k is the species starting from 0.
     ii += domn->gas->thermo()->nSpecies();
-    if (domn->pram->Lsoot == true) {
+    if (domn->pram->Lsoot) {
         domn->svar = domn->v.begin()+ii;    // access as domn->svar[k]->d[i], etc. where k is the species starting from 0.
         ii += domn->pram->nsvar;
     }
@@ -209,7 +209,7 @@ void domaincase_premixedFlameBurner_fixed_T::setCaseSpecificVars_cvode(const int
 void domaincase_premixedFlameBurner_fixed_T::setGasStateAtPt(const int &ipt) {
 
     int nsp = domn->gas->thermo()->nSpecies();
-    vector<double> yi(nsp);
+    vector<double> yi(nsp,0.0);
 
     double T;
     if(ipt==-1)
