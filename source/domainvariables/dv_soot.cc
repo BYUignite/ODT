@@ -297,13 +297,16 @@ void dv_soot::getRhsSrc(const int ipt) {
 
     if(kMe==0) {                                       // to save cost, compute needed terms for all dv_soot objects using this one.
 
-        for(int k=0; k<nsvar; k++)                     // for each mom/section,
-            rrSvar.at(k).resize(domn->ngrd);           // resize to match grid size
+        for(int k=0; k<nsvar; k++) {                        // for each mom/section,
+            rrSvar.at(k).resize(domn->ngrd);     // resize to match grid size, reset to zero
+            for (double & j : rrSvar[k])
+                j = 0.0;
+        }
 
-        for(int k=0; k<gasSootSources.size(); k++) {        // resize and reset gasSootSources for each gas species k
-            gasSootSources[k].resize(domn->ngrd);
-            for (int j=0; j<gasSootSources[k].size(); j++)
-                gasSootSources[k][j] = 0;
+        for(auto & gasSootSource : gasSootSources) {        // resize and reset gasSootSources for each gas species k
+            gasSootSource.resize(domn->ngrd);
+            for (double & j : gasSootSource)
+                j = 0;
         }
 
         for(int i=iS; i<=iE; i++) {                    // loop over grid points
@@ -341,14 +344,14 @@ void dv_soot::getRhsSrc(const int ipt) {
             }
 
             // retrieve gas source term values
-            if (i_h > 0)    gasSootSources[i_h][i]    = SM->sourceTerms->gasSourceTerms.at(gasSp::H);
-            if (i_h2 > 0)   gasSootSources[i_h2][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::H2);
-            if (i_o > 0)    gasSootSources[i_o][i]    = SM->sourceTerms->gasSourceTerms.at(gasSp::O);
-            if (i_o2 > 0)   gasSootSources[i_o2][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::O2);
-            if (i_oh > 0)   gasSootSources[i_oh][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::OH);
-            if (i_h2o > 0)  gasSootSources[i_h2o][i]  = SM->sourceTerms->gasSourceTerms.at(gasSp::H2O);
-            if (i_co > 0)   gasSootSources[i_co][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::CO);
-            if (i_c2h2 > 0) gasSootSources[i_c2h2][i] = SM->sourceTerms->gasSourceTerms.at(gasSp::C2H2);
+            if (i_h >= 0)    gasSootSources[i_h][i]    = SM->sourceTerms->gasSourceTerms.at(gasSp::H);
+            if (i_h2 >= 0)   gasSootSources[i_h2][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::H2);
+            if (i_o >= 0)    gasSootSources[i_o][i]    = SM->sourceTerms->gasSourceTerms.at(gasSp::O);
+            if (i_o2 >= 0)   gasSootSources[i_o2][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::O2);
+            if (i_oh >= 0)   gasSootSources[i_oh][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::OH);
+            if (i_h2o >= 0)  gasSootSources[i_h2o][i]  = SM->sourceTerms->gasSourceTerms.at(gasSp::H2O);
+            if (i_co >= 0)   gasSootSources[i_co][i]   = SM->sourceTerms->gasSourceTerms.at(gasSp::CO);
+            if (i_c2h2 >= 0) gasSootSources[i_c2h2][i] = SM->sourceTerms->gasSourceTerms.at(gasSp::C2H2);
         }
     }
 
