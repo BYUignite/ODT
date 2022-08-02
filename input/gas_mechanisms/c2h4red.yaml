@@ -8,7 +8,7 @@ units: {length: cm, time: s, quantity: mol, activation-energy: cal/mol}
 phases:
 - name: c2h4red
   elements: [ O, H, C, N ]
-  species: [ H2, H, O, O2, OH, H2O, H2O2, CH3, CH4, CO, CO2, CH2O, C2H2, C2H4, C2H6, CH2CO, C3H6, N2 ]
+  species: [ H2, H, O, O2, OH, H2O, HO2, H2O2, CH3, CH4, CO, CO2, CH2O, C2H2, C2H4, C2H6, CH2CO, C3H6, N2 ]
   thermo: ideal-gas
   transport: mixture-averaged
   state: { T: 300.0 K, P: 1.01325e+05 Pa }
@@ -48,6 +48,23 @@ species:
     geometry: atom
     well-depth: 145.0
     diameter: 2.05
+- name: HO2
+  composition: { H: 1, O: 2 }
+  thermo:
+    model: NASA7
+    temperature-ranges: [ 200.0, 1000.0, 6000.0 ]
+    data:
+      - [ 4.30179801, -4.74912051e-03, 2.11582891e-05, -2.42763894e-08, 9.29225124e-12,
+          294.80804, 3.71666245 ]
+      - [ 4.17228728, 1.88117647e-03, -3.46277408e-07, 1.94657853e-11, 1.76254294e-16,
+          61.8102964, 2.95767746 ]
+  transport:
+    model: gas
+    geometry: nonlinear
+    well-depth: 107.4
+    diameter: 3.458
+    rotational-relaxation: 1.0
+    note: '*'
 - name: O
   composition: {O: 1}
   thermo:
