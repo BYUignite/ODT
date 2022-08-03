@@ -149,7 +149,7 @@ void domain::init(inputoutput     *p_io,
         chem = new onestep_c2h4(this);
     else if (pram->chemMech == "fourstep_ch4")
         chem = new fourstep_ch4(this);
-    else if (pram->chemMech == "c2h4red")
+    else if (pram->chemMech == "c2h4red" || pram->chemMech == "c2h4red_highT")
         chem = new c2h4red(this);
     else if (pram->chemMech == "ch4red")
         chem = new ch4red(this);
