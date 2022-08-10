@@ -91,19 +91,20 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
     // initialize composition profiles, set burnt for fracBurnt
 
     int nsp = domn->gas->thermo()->nSpecies();
-    vector<double> ysp(nsp);               // dummy storage
+    vector<double> ysp(nsp, 0.0);               // dummy storage
     double hdummy;
     double Tdummy;
 
     for(int i=0; i<domn->ngrd; i++) {
-        if(domn->pos->d.at(i) < (1-fracBurnt)*domn->pram->domainLength)
-            domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy);
-        else {
-            if(domn->pram->chemMech=="onestep_c2h4")
-                domn->strm->getProdOfCompleteComb(mixf_reactants, ysp, hdummy, Tdummy);
-            else
-                domn->strm->getEquilibrium_TP(mixf_reactants, domn->temp->d.at(i), ysp, hdummy);
-        }
+        domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy);
+//        if(domn->pos->d.at(i) < (1-fracBurnt)*domn->pram->domainLength)
+//            domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy);
+//        else {
+//            if(domn->pram->chemMech=="onestep_c2h4")
+//                domn->strm->getProdOfCompleteComb(mixf_reactants, ysp, hdummy, Tdummy);
+//            else
+//                domn->strm->getEquilibrium_TP(mixf_reactants, domn->temp->d.at(i), ysp, hdummy);
+//        }
         for(int k=0; k<nsp; k++)
             domn->ysp[k]->d.at(i) = ysp.at(k);
     }
