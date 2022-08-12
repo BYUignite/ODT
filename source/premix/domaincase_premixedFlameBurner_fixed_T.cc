@@ -96,7 +96,8 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
     double Tdummy;
 
     for(int i=0; i<domn->ngrd; i++) {
-        domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy);
+//        domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy);
+        domn->strm->getEquilibrium_TP(mixf_reactants, domn->temp->d.at(i), ysp, hdummy);
 //        if(domn->pos->d.at(i) < (1-fracBurnt)*domn->pram->domainLength)
 //            domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy);
 //        else {
