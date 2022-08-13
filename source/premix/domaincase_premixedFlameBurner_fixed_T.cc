@@ -96,16 +96,19 @@ void domaincase_premixedFlameBurner_fixed_T::init(domain *p_domn) {
     double Tdummy;
 
     for(int i=0; i<domn->ngrd; i++) {
-//        domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy);
-        domn->strm->getEquilibrium_TP(mixf_reactants, domn->temp->d.at(i), ysp, hdummy);
-//        if(domn->pos->d.at(i) < (1-fracBurnt)*domn->pram->domainLength)
-//            domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy);
-//        else {
-//            if(domn->pram->chemMech=="onestep_c2h4")
-//                domn->strm->getProdOfCompleteComb(mixf_reactants, ysp, hdummy, Tdummy);
-//            else
-//                domn->strm->getEquilibrium_TP(mixf_reactants, domn->temp->d.at(i), ysp, hdummy);
-//        }
+        if(domn->pos->d.at(i) < (1-fracBurnt)*domn->pram->domainLength)
+            domn->strm->getMixingState(mixf_reactants, ysp, hdummy, Tdummy);
+        else {
+            if (domn->pram->LisPremix) {
+                getPCCpremix(mixf_reactants, ysp);
+            }
+            else {
+                if(domn->pram->chemMech=="onestep_c2h4")
+                    domn->strm->getProdOfCompleteComb(mixf_reactants, ysp, hdummy, Tdummy);
+                else
+                    domn->strm->getEquilibrium_TP(mixf_reactants, domn->temp->d.at(i), ysp, hdummy);
+            }
+        }
         for(int k=0; k<nsp; k++)
             domn->ysp[k]->d.at(i) = ysp.at(k);
     }
@@ -226,4 +229,63 @@ void domaincase_premixedFlameBurner_fixed_T::setGasStateAtPt(const int &ipt) {
         yi[k] = (ipt==-1 ? domn->ysp[k]->bcLo : (ipt==domn->ngrdf ? domn->ysp[k]->bcHi : domn->ysp[k]->d.at(ipt)) );
 
     domn->gas->thermo()->setState_TPY(T, domn->pram->pres, &yi.at(0));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/** Computes the temperature, enthalpy, and composition of complete combustion at the given mixf.
+ *  For nonpremixed flames (don't do anything funny, like have oxygen in the fuel stream)
+ *
+ *  @param mixf \input mixture fraction, defines elemental composition.
+ *  @param ypcc \output mass fractions of products of complete combustion.
+ *  @param hpcc \output enthalpy of products of complete combustion.
+ *  @param Tpcc \output temperature of products of complete combustion.
+ */
+void domaincase_premixedFlameBurner_fixed_T::getPCCpremix(const double mixf, vector<double> &ypcc){
+
+    int iCO2 = domn->gas->thermo()->speciesIndex("CO2");
+    int iH2O = domn->gas->thermo()->speciesIndex("H2O");
+    int iN2  = domn->gas->thermo()->speciesIndex("N2");
+    int iO2  = domn->gas->thermo()->speciesIndex("O2");
+    int iC2H4  = domn->gas->thermo()->speciesIndex("C2H4");
+
+    int nspc = domn->gas->thermo()->nSpecies();
+    for(int k=0; k<nspc; k++)
+        ypcc[k] = 0.0;
+//    ypcc[iCO2] = 0.0;  // CO2
+//    ypcc[iH2O] = 0.0;  // H2O
+//    ypcc[2] = 0.0;  // O2
+//    ypcc[3] = 0.0;  // N2
+//    ypcc[4] = 0.0;  // fuel
+    double phi0 = domn->io->initParams["phi0"].as<double>();
+
+// assumes C2H4
+    double sum = 0.0;
+    if(phi0 < 1.0) {                        // lean: burn all fuel, leftover O2
+        ypcc[iCO2]  = 2*phi0;  // CO2
+        ypcc[iH2O]   = 2*phi0;  // H2O
+        ypcc[iO2]   = 2*(1-phi0);  // O2
+        ypcc[iN2]   = 11.28;  // N2
+        ypcc[iC2H4] = 0.0;  // fuel
+    }
+    else if (phi0 == 1.0) {
+        ypcc[iCO2]  = 2;  // CO2
+        ypcc[iH2O]  = 2;  // H2O
+        ypcc[iO2]   = 0.0;  // O2
+        ypcc[iN2]   = 11.28;  // N2
+        ypcc[iC2H4] = 0;  // fuel
+    }
+    else {                                         // rich: burn all O2, leftover fuel
+        ypcc[iCO2]  = 2;  // CO2
+        ypcc[iH2O]  = 2;  // H2O
+        ypcc[iO2]   = 0.0;  // O2
+        ypcc[iN2]   = 11.28;  // N2
+        ypcc[iC2H4] = phi0-1;  // fuel
+    }
+    for (auto& n : ypcc)
+        sum += n;
+    for (double & i : ypcc)
+        i = i/sum;
+
+    domn->gas->thermo()->setMassFractions(&ypcc[0]);
+
 }
