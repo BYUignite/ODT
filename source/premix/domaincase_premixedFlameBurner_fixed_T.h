@@ -34,6 +34,7 @@ class domaincase_premixedFlameBurner_fixed_T : public domaincase {
         virtual void setGasStateAtPt(const int &ipt);
         virtual void setCaseSpecificVars();
         virtual void setCaseSpecificVars_cvode(const int &ipt);
+        virtual void getPCCpremix(const double mixf, vector<double> &ypcc);
 
 
     //////////////////// CONSTRUCTOR FUNCTIONS /////////////////
@@ -48,4 +49,3 @@ class domaincase_premixedFlameBurner_fixed_T : public domaincase {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-
