@@ -6,11 +6,11 @@ authors:
     orcid: https://orcid.org/0000-0002-2129-1375
   - family-names: Stephens
     given-names: Victoria
-title: "ODT, One dimensional turbulence model"
+title: ODT, One dimensional turbulence model
 version: 1.0
 identifiers:
   - type: doi
-    value:10.5281/zenodo.12537049
+    value: 10.5281/zenodo.12537049
 date-released: 2024-06-25
 url: https://github.com/BYUignite/odt
 preferred-citation:
@@ -22,8 +22,8 @@ preferred-citation:
     given-names: David O
     orcid: https://orcid.org/0000-0002-2129-1375
   doi: 10.5281/zenodo.12537049
-  journal: "SoftwareX"
-  start: 100641 # First page number
+  journal: SoftwareX
+  start: 100641
   title: "One-dimensional turbulence (ODT): computationally efficient modeling and simulation of turbulent flows"
   volume: 13
   year: 2020
