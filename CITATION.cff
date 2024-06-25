@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Lignell
+    given-names: David
+    orcid: https://orcid.org/0000-0002-2129-1375
+  - family-names: Stephens
+    given-names: Victoria
+title: "ODT, One dimensional turbulence model"
+version: 1.0
+identifiers:
+  - type: doi
+    value:10.5281/zenodo.12537049
+date-released: 2024-06-25
+url: https://github.com/BYUignite/odt
+preferred-citation:
+  type: article
+  authors:
+  - family-names: Stephens
+    given-names: Victoria B
+  - family-names: Lignell
+    given-names: David O
+    orcid: https://orcid.org/0000-0002-2129-1375
+  doi: 10.5281/zenodo.12537049
+  journal: "SoftwareX"
+  start: 100641 # First page number
+  title: "One-dimensional turbulence (ODT): computationally efficient modeling and simulation of turbulent flows"
+  volume: 13
+  year: 2020
