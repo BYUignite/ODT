@@ -9,7 +9,7 @@ params:
     rho0:          1.0            #  initial uniform density
     kvisc0:        1.0            #  initial uniform kinematic viscosity (m2/s)
     pres:          101325.0       #  pressure (Pa)
-    chemMechFile:  not_used.xml   #  name of chemical mechanism file
+    chemMechFile:  not_used.yaml  #  name of chemical mechanism file
     probType:      RT             #  CHANNEL, RT, etc. RT = Rayleigh Taylor instability
     #----------------------------------------------------------------------------------
     Z_param:       50.            #  Viscous penalty parameter  100

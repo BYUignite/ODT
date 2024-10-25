@@ -12,6 +12,8 @@
 #include <cstdlib>
 #include <cmath>
 
+using Cantera::GasConstant;
+
 ////////////////////////////////////////////////////////////////////////////////
 /*! dv_enth  constructor function
  *

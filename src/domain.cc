@@ -26,6 +26,7 @@
 #include <iomanip>
 
 extern processor proc;
+using Cantera::IdealGasPhase, Cantera::Transport;
 
 /////////////////////////////////////////////////////////////////////
 /** Constructor

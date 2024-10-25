@@ -11,7 +11,7 @@ params:
     kvisc0:        0.001695       #  initial uniform kinematic viscosity (m^2/s) 0.0016949
     dPdx:          -1.0           #  initial pressure gradient (Pa/m)
     pres:          101325.0       #  pressure (Pa)
-    chemMechFile:  not_used.xml   #  name of chemical mechanism file
+    chemMechFile:  not_used.yaml  #  name of chemical mechanism file
     probType:      CHANNEL        #  CHANNEL, CHANNEL_SCALAR, JETMIXL_RXN
     #----------------------------------------------------------------------------------
     Z_param:       450.           #  Viscous penalty parameter

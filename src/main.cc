@@ -48,7 +48,7 @@ int main(int argc, char*argv[]) {
     param       pram(&io);
     streams     strm;
     IdealGasPhase gas("../input/gas_mechanisms/"+pram.chemMechFile);
-    Transport   *tran = newTransportMgr("Mix", &gas);
+    Transport   *tran = newTransportMgr("mixture-averaged", &gas);
     eddy        ed;
     meshManager mesher;
     solver      *solv;

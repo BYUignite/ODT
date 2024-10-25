@@ -1,8 +1,0 @@
-lib
-lib/**
-include
-include/**
-yaml-cpp
-yaml-cpp/**
-share
-share/**

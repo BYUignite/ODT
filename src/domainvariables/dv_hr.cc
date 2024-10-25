@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <cmath>
 
+using Cantera::GasConstant;
+
 ///////////////////////////////////////////////////////////////////////////////
 // Declare the global function prototype so it can be used in this source file
 

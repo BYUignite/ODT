@@ -11,7 +11,7 @@ params:
     kvisc0:        1.4885E-5      #  initial uniform kinematic viscosity (m^2/s) (air at 289 K)
     dPdx:          0.0            #  initial pressure gradient (Pa/m)
     pres:          101325.0       #  pressure (Pa)
-    chemMechFile:  air.xml        #  name of chemical mechanism file
+    chemMechFile:  air.yaml       #  name of chemical mechanism file
     probType:      ISOTHERMAL_WALL #  CHANNEL, JETMIXL_RXN, etc
     #----------------------------------------------------------------------------------
     Z_param:       600.           #  Viscous penalty parameter
