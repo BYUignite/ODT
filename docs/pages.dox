@@ -122,20 +122,11 @@ on hand. Input files are written in a YAML format, which requires an installed Y
 it is included as part of the ODT build process and does not need to be installed separately
 by the user.  
 
-1. Navigate to the `build/` directory.  
-2. Using your favorite text editor, open the `user_config` file and modify the 
-[preprocessor flags](@ref preprocessor_flags) appropriately.  
-3. Configure CMake and generate Makefiles by running the following: 
-    
-    `cmake -C user_config ../source/`
-
-4. Build YAML with the following command:
-
-    `make yaml`
-
-5. Compile the ODT code:
-
-    `make`
+1. Edit the top level CMakeLists.txt file
+2. Create build directory and cd into it.
+3. Run `cmake ..`
+4. run `make -j8`
+5. run `make install`
 
 The resulting executable is called `odt.x`, located in the `run` directory.
 
@@ -188,7 +179,7 @@ Some notes on case files:
   if the `probType` variable does not match the input directory name, but may encounter
   errors if certain case-specific variables are missing from the input file as a result.
   Always double check that your `probType` variable is set correctly.
-- Source code for each case type is located in the `source/domaincases/` directory.
+- Source code for each case type is located in the `src/domaincases/` directory.
   Typically, it consists of two files: a `.h` header file (`domaincase_caseType.h`) and a
   `.cc` source code file (`domaincase_caseType.cc`). If you modify one of these, the code
   must be rebuilt in order to reflect your changes.  
@@ -215,7 +206,7 @@ Some general notes on input files:
   some runtime errors.
 - All cases require a Cantera mechanism file regardless of whether the case involves any
   chemistry. The name of the mechanism file corresponds to the `chemMechFile` parameter
-  specified in the input.yaml file. For cases that do not need chemistry, the file `not_used.xml` can be specified.
+  specified in the input.yaml file. For cases that do not need chemistry, the file `not_used.yaml` can be specified.
 
 <!--------------------------------------------------------------------------> 
 @section running Running ODT
@@ -312,7 +303,7 @@ provided with the ODT package, please refer to the [Post-Processing](@ref post-p
 
 Once downloaded, open the `ODT` folder. You will see the following set of directories:
 - `build/`  — [Build files](@ref building_and_running)
-- `source/` — ODT source code
+- `src/`    — ODT source code
 - `input/`  — [Input files](@ref input_files) 
 - `run/`    — ODT executables and runtime files
 - `data/`   — Data produced by the ODT code
@@ -513,7 +504,7 @@ be located here. Notable members:
 - `chemMechFile`: name of the chemical mechanism file to be used 
     - All cases require a chemical mechanism files, regardless of whether the case includes
       changing chemistry. In cases where no chemistry is required, the dummy file
-      `not_used.xml` is specified here. 
+      `not_used.yaml` is specified here. 
     - For a full list of chemical mechanism files that can be used, refer to the `gas_mechanisms`
       folder within the base `input` directory.
 - `probType`: specifies the [case type](@ref case_files) 
