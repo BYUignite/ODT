@@ -26,7 +26,7 @@
 #include <iomanip>
 
 extern processor proc;
-using Cantera::IdealGasPhase, Cantera::Transport;
+using Cantera::Solution;
 
 /////////////////////////////////////////////////////////////////////
 /** Constructor
@@ -44,30 +44,31 @@ domain::domain(domain *p_domn, param *p_pram) {
 /** Initializer
  */
 
-void domain::init(inputoutput     *p_io,
-                  meshManager     *p_mesher,
-                  streams         *p_strm,
-                  IdealGasPhase   *p_gas,
-                  Transport       *p_tran,
-                  micromixer      *p_mimx,
-                  eddy            *p_ed,
-                  domain          *p_eddl,
-                  solver          *p_solv,
-                  randomGenerator *p_rand,
+void domain::init(inputoutput         *p_io,
+                  meshManager         *p_mesher,
+                  streams             *p_strm,
+                  shared_ptr<Solution> csol,
+                  micromixer          *p_mimx,
+                  eddy                *p_ed,
+                  domain              *p_eddl,
+                  solver              *p_solv,
+                  randomGenerator     *p_rand,
                   bool             LisEddyDomain) {
 
     //----------------------
 
     io     = p_io;
     mesher = p_mesher;
-    gas    = p_gas;
-    tran   = p_tran;
     strm   = p_strm;
     mimx   = p_mimx;
     ed     = p_ed;
     eddl   = p_eddl;
     solv   = p_solv;
     rand   = p_rand;
+
+    gas = csol->thermo(); 
+    kin = csol->kinetics(); 
+    trn = csol->transport(); 
 
     //----------------------
 

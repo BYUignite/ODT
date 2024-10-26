@@ -151,7 +151,7 @@ void dv_enth::setFlux(const vector<double> &gf,
 
     for(int i=0; i<domn->ngrd; i++) {
         domn->domc->setGasStateAtPt(i);
-        tcond.at(i) = domn->tran->thermalConductivity();    // W/m*K
+        tcond.at(i) = domn->trn->thermalConductivity();    // W/m*K
         if(LdoSpeciesFlux) {
             domn->gas->getEnthalpy_RT(&hh.at(0));               // non-dimensional enthalpy
             for (int k=0; k<nspc; k++)

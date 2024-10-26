@@ -15,10 +15,13 @@
 #include "meshManager.h"
 #include "solver.h"
 #include "randomGenerator.h"
-#include "cantera/thermo/IdealGasPhase.h"
+#include "cantera/base/Solution.h"
+#include "cantera/thermo.h"
+#include "cantera/kinetics.h"
 #include "cantera/transport.h"
 #include <vector>
 #include <string>
+#include <memory>
 #include <map>
 
 using namespace std;
@@ -65,8 +68,9 @@ class domain {
 
         map<string,dv*>         varMap;
 
-        Cantera::IdealGasPhase  *gas;        ///< pointer to cantera thermochemistry object (reaction rates, Cp, etc.)
-        Cantera::Transport      *tran;       ///< pointer to cantera transport object (viscosity, diffusivity, etc.)
+        std::shared_ptr<Cantera::ThermoPhase> gas;        ///< pointer to cantera thermochemistry object (reaction rates, Cp, etc.)
+        std::shared_ptr<Cantera::Transport>   trn;        ///< pointer to cantera transport object (reaction rates, Cp, etc.)
+        std::shared_ptr<Cantera::Kinetics>    kin;        ///< pointer to cantera kinetics object (reaction rates, Cp, etc.)
         streams                 *strm;       ///< pointer to gas stream properties
         inputoutput             *io;         ///< pointer to input/output object
         param                   *pram;       ///< pointer to the parameters object
@@ -100,17 +104,16 @@ class domain {
 
     public:
 
-        void init(inputoutput            *p_io,
-                  meshManager            *p_mesher,
-                  streams                *p_strm,
-                  Cantera::IdealGasPhase *p_gas,
-                  Cantera::Transport     *p_tran,
-                  micromixer             *p_mimx,
-                  eddy                   *p_ed,
-                  domain                 *p_eddl,
-                  solver                 *p_solv,
-                  randomGenerator        *p_rand,
-                  bool                    LisEddyDomain=false);
+        void init(inputoutput       *p_io,
+                  meshManager       *p_mesher,
+                  streams           *p_strm,
+                  shared_ptr<Cantera::Solution> csol,
+                  micromixer        *p_mimx,
+                  eddy              *p_ed,
+                  domain            *p_eddl,
+                  solver            *p_solv,
+                  randomGenerator   *p_rand,
+                  bool               LisEddyDomain=false);
         domain(domain *p_domn, param *p_pram);
         virtual ~domain() {
             for(int k=0; k<v.size(); k++)

@@ -75,7 +75,7 @@ void streams::init(domain *p_domn, const vector<double> &gammas) {
     h0   = domn->gas->enthalpy_mass();
     rho0 = domn->gas->density();
     M0   = domn->gas->meanMolecularWeight();
-    domn->tran->getMixDiffCoeffs(&D0[0]);
+    domn->trn->getMixDiffCoeffs(&D0[0]);
     domn->gas->getEnthalpy_RT(&hsp0[0]);               // non-dimensional enthalpy
     for (int k=0; k<nspc; k++)
         hsp0[k] = hsp0[k] * T0 * GasConstant / domn->gas->molecularWeight(k);    // J/kg
@@ -84,7 +84,7 @@ void streams::init(domain *p_domn, const vector<double> &gammas) {
     h1   = domn->gas->enthalpy_mass();
     rho1 = domn->gas->density();
     M1   = domn->gas->meanMolecularWeight();
-    domn->tran->getMixDiffCoeffs(&D1[0]);
+    domn->trn->getMixDiffCoeffs(&D1[0]);
     domn->gas->getEnthalpy_RT(&hsp1[0]);               // non-dimensional enthalpy
     for (int k=0; k<nspc; k++)
         hsp1[k] = hsp1[k] * T1 * GasConstant / domn->gas->molecularWeight(k);    // J/kg

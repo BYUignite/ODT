@@ -47,7 +47,7 @@ void dv_dvisc::setVar(const int ipt){
     d.resize(domn->ngrd, domn->pram->kvisc0 * domn->pram->rho0);
     for(int i=0; i<domn->ngrd; i++) {
         domn->domc->setGasStateAtPt(i);
-        d.at(i) = domn->tran->viscosity();
+        d.at(i) = domn->trn->viscosity();
     }
 }
 

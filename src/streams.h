@@ -16,8 +16,8 @@ class domain;
 /** Class implementing streams for use in mixing and or reaction problems.
  *  This is writting in terms of mixture fraction with streams defined in an
  *  input file.  The class can implement products of complete combustion, or
- *  equilibrium (through the Cantera IdealGasMix object, if desired).
- *  This class holds a pointer to a Cantera IdealGasMix object (defined up front
+ *  equilibrium (through the Cantera object, if desired).
+ *  This class holds a pointer to a Cantera object (defined up front
  *  in main) that computes thermodynamic, kinetic, and transport data.
  *
  *  @author David O. Lignell

@@ -64,7 +64,7 @@ void dv_hr::setVar(const int ipt){
         //        getProblemSpecificRR(domn->gas->density(), domn->gas->temperature(), domn->pram->pres, &yi.at(0), &rr.at(0));
         getProblemSpecificRR(domn->gas->density(), temperatureHere, domn->pram->pres, &yi.at(0), &rr.at(0));
 #else
-        domn->gas->getNetProductionRates(&rr.at(0));
+        domn->kin->getNetProductionRates(&rr.at(0));
 #endif
         domn->gas->getEnthalpy_RT(&hsp.at(0));               // non-dimensional enthalpy
         d.at(i) = 0.0;

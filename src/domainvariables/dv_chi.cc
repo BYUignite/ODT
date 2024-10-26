@@ -60,7 +60,7 @@ void dv_chi::setVar(const int ipt){
 
     for(int i=0; i<domn->ngrd; i++) {
         domn->domc->setGasStateAtPt(i);
-        double tcond = domn->tran->thermalConductivity();
+        double tcond = domn->trn->thermalConductivity();
         double cp    = domn->gas->cp_mass();
         Dthm.at(i) = tcond/domn->rho->d.at(i)/cp;
     }

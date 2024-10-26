@@ -12,8 +12,7 @@
 #include "eddy.h"
 #include "solver.h"
 #include "randomGenerator.h"
-#include "cantera/thermo/IdealGasPhase.h"
-#include "cantera/transport.h"
+#include "cantera/base/Solution.h"
 
 #include <iostream>
 #include <string>
@@ -47,8 +46,8 @@ int main(int argc, char*argv[]) {
     inputoutput io(caseName, nShiftFileNumbers);
     param       pram(&io);
     streams     strm;
-    IdealGasPhase gas("../input/gas_mechanisms/"+pram.chemMechFile);
-    Transport   *tran = newTransportMgr("mixture-averaged", &gas);
+    auto csol = Cantera::newSolution("../input/gas_mechanisms/"+pram.chemMechFile);
+    //auto csol = Cantera::newSolution("gri30.yaml");
     eddy        ed;
     meshManager mesher;
     solver      *solv;
@@ -63,8 +62,8 @@ int main(int argc, char*argv[]) {
     if ( pram.seed >= 0 ) pram.seed += nShiftFileNumbers;
     randomGenerator rand(pram.seed);
 
-    domn.init(&io,  &mesher, &strm, &gas, tran, mimx, &ed, &eddl, solv, &rand);
-    eddl.init(NULL, NULL,    NULL,  NULL, NULL, NULL,  NULL,NULL,  NULL,  NULL, true);
+    domn.init(&io,  &mesher, &strm, csol, mimx, &ed, &eddl, solv, &rand);
+    eddl.init(NULL, NULL,     NULL, csol, NULL,  NULL,NULL, NULL,  NULL, true);
     //
     //-------------------
 

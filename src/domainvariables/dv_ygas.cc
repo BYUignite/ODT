@@ -88,7 +88,7 @@ void dv_ygas::getRhsSrc(const int ipt) {
             getProblemSpecificRR(domn->rho->d.at(i), domn->temp->d.at(i), domn->pram->pres, &yi.at(0), &rr.at(0));
 #else
             domn->domc->setGasStateAtPt(i);
-            domn->gas->getNetProductionRates(&rr.at(0));
+            domn->kin->getNetProductionRates(&rr.at(0));
 #endif
             for(int k=0; k<nspc; k++)
                 rrSpc.at(k).at(i) = rr.at(k) * domn->gas->molecularWeight(k) / domn->rho->d.at(i);   // kmol/(m³ s)*(kg/kmol)*(kg/m3) = 1/s
@@ -169,7 +169,7 @@ void dv_ygas::setFlux(const vector<double> &gf,
         for(int i=0; i<domn->ngrd; i++) {
             domn->domc->setGasStateAtPt(i);
             MMw.at(i) = domn->gas->meanMolecularWeight();
-            domn->tran->getMixDiffCoeffs(&Di.at(0));
+            domn->trn->getMixDiffCoeffs(&Di.at(0));
             for (int k=0; k<nspc; k++) {
                 rhoD.at(k).at(i)      = domn->rho->d.at(i)*Di.at(k);
                 rhoDYinvM.at(k).at(i) = rhoD.at(k).at(i)*domn->ysp[k]->d.at(i)/MMw.at(i);
