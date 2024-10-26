@@ -138,6 +138,7 @@ void domaincase_odt_jetFlame::init(domain *p_domn) {
         else {
             /* products of combustion for equilibrium initial state */
             domn->strm->getProdOfCompleteComb(domn->mixf->d.at(i), ysp, domn->enth->d.at(i), domn->temp->d.at(i));
+            //domn->strm->getEQ(domn->mixf->d.at(i), ysp, domn->enth->d.at(i), domn->temp->d.at(i));
         }
         for(int k=0; k<nsp; k++)
             domn->ysp[k]->d.at(i) = ysp.at(k);

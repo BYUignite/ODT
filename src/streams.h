@@ -66,6 +66,11 @@ class streams {
                                    double &hpcc,
                                    double &Tpcc);
 
+        void getEQ(const double mixf,
+                   vector<double> &ypcc,
+                   double &hpcc,
+                   double &Tpcc);
+
         void getMixingState(const double mixf,
                             vector<double> &ymix,
                             double &hmix,

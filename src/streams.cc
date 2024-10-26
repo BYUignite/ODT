@@ -126,6 +126,40 @@ void streams::getMixingState(const double mixf, vector<double> &ymix,
  *  @param hpcc \output enthalpy of products of complete combustion.
  *  @param Tpcc \output temperature of products of complete combustion.
  */
+void streams::getEQ(const double mixf, vector<double> &ypeq,
+                    double &hpeq, double &Tpeq){
+
+    //---------- Compute the mixing mass fractions and enthalpy
+
+    ypeq.resize(nspc);
+    double d1 = 1.0-mixf;
+    for(int k=0; k<nspc; k++) {
+        ypeq[k] = y1[k]*mixf + y0[k]*d1;
+    }
+    hpeq = h1*mixf + h0*d1;
+
+    domn->gas->setState_HP(hpeq, domn->pram->pres, 1.E-10);    // get temperature as Tadiabatic
+
+
+    //--------------------------------------------------------------------------
+
+    domn->gas->setMassFractions( &ypeq[0] );
+    domn->gas->setState_HP(hpeq, domn->pram->pres, 1.E-10);    // get temperature as Tadiabatic
+
+    domn->gas->equilibrate("HP");
+    Tpeq = domn->gas->temperature();
+    domn->gas->getMassFractions( &ypeq[0] );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/** Computes the temperature, enthalpy, and composition of complete combustion at the given mixf.
+ *  For nonpremixed flames (don't do anything funny, like have oxygen in the fuel stream)
+ *
+ *  @param mixf \input mixture fraction, defines elemental composition.
+ *  @param ypcc \output mass fractions of products of complete combustion.
+ *  @param hpcc \output enthalpy of products of complete combustion.
+ *  @param Tpcc \output temperature of products of complete combustion.
+ */
 void streams::getProdOfCompleteComb(const double mixf, vector<double> &ypcc,
                                     double &hpcc, double &Tpcc){
 

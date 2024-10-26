@@ -89,7 +89,6 @@ cvodeDriver::~cvodeDriver() {
  */
 void cvodeDriver::integrateCell(int p_iC, double tres) {
 
-
     iC = p_iC;
 
     //---------- Initialize the Dependent Variable
