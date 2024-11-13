@@ -31,6 +31,7 @@ find_library(CANTERA NAMES cantera_shared cantera)
 target_include_directories(odt.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(odt.x PRIVATE "$ENV{CONDA_PREFIX}/include")
 target_include_directories(odt.x PRIVATE "/usr/local/include")
+target_include_directories(odt.x PRIVATE "$ENV{CANTERA_INCLUDE_PATH}")
 
 target_link_libraries(odt.x ${CANTERA} ${YAML})
 
