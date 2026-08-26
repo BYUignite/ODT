@@ -21,6 +21,7 @@
 #include "domaincase_odt_MFjetFlame.h"
 #include "domaincase_odt_coldPropaneJet.h"
 #include "domaincase_odt_coldJet.h"
+#include "domaincase_odt_wake.h"
 #include "domaincase_odt_RT.h"
 #include <cmath>
 #include <iomanip>
@@ -108,6 +109,9 @@ void domain::init(inputoutput         *p_io,
 
      else if(pram->probType == "COLDJET")
          domc = new domaincase_odt_coldJet(); // Hussein 1994
+
+     else if(pram->probType == "WAKE")
+         domc = new domaincase_odt_wake();
 
      else if(pram->probType == "JETFLAME")
          domc = new domaincase_odt_jetFlame(); // Shaddix jet

@@ -7,6 +7,7 @@ target_sources(odt.x PRIVATE domaincase.cc
                              domaincase_odt_RT.cc
                              domaincase_odt_coldPropaneJet.cc
                              domaincase_odt_coldJet.cc
+                             domaincase_odt_wake.cc
                              domaincase_odt_jetFlame.cc
                              domaincase_odt_MFjetFlame.cc
                              domaincase_odt_jetMixlRxn.cc)

@@ -67,9 +67,9 @@ class streams {
                                    double &Tpcc);
 
         void getEQ(const double mixf,
-                   vector<double> &ypcc,
-                   double &hpcc,
-                   double &Tpcc);
+                   vector<double> &ypeq,
+                   double &hpeq,
+                   double &Tpeq);
 
         void getMixingState(const double mixf,
                             vector<double> &ymix,
@@ -82,8 +82,8 @@ class streams {
     private:
 
         void setStoicMixf();
+        //vector<double> setElementMoleFracs(const double *y);
         vector<double> setElementMassFracs(const double *y);
-        vector<double> setElementMoleFracs(const double *y);
         vector<double> getElementMoles(const double *x,
                                        double &nOnotFromO2,
                                        double &nHnotFromH2O,

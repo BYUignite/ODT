@@ -165,7 +165,7 @@ void domaincase_odt_jetFlame::setGasStateAtPt(const int &ipt) {
         yi.at(k) = domn->ysp[k]->d.at(ipt);
     }
 
-    domn->gas->setState_PY(domn->pram->pres, &yi.at(0));
+    domn->gas->setMassFractions(&yi.at(0));
     domn->gas->setState_HP(domn->enth->d.at(ipt), domn->pram->pres, 1.E-10);
 
 }

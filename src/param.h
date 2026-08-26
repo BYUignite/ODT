@@ -39,7 +39,7 @@ class param {
         double  dPdx;            ///<  initial pressure gradient (Pa/m)
         double  pres;            ///<  initial pressure (Pa)
         string  chemMechFile;    ///<  name of chemical mechanism file
-        string  probType;        ///<  problem type: CHANNEL, CHANNEL_SCALAR, JETMIXL_RXN, COUETTE
+        string  probType;        ///<  problem type: CHANNEL, CHANNEL_SCALAR, JETMIXL_RXN, COUETTE, WAKE
 
         double  Z_param;         ///<  Viscous penalty parameter
         double  A_param;         ///<  Energy Distribution parameter alpha

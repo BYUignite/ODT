@@ -162,7 +162,7 @@ void domaincase_odt_jetMixlRxn::setGasStateAtPt(const int &ipt) {
     vector<double> yi(nsp);
     for(int k=0; k<nsp; k++)
         yi.at(k) = domn->ysp[k]->d.at(ipt);
-    domn->gas->setState_PY(domn->pram->pres, &yi.at(0));
+    domn->gas->setMassFractions(&yi.at(0));
     domn->gas->setState_HP(domn->enth->d.at(ipt), domn->pram->pres, 1.E-10);
 
 }

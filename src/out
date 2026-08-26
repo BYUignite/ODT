@@ -1,0 +1,8 @@
+strm->init();
+strm->y1[k];                
+strm->y0[k];
+strm->T0
+strm->getProdOfCompleteComb()
+strm->getEQ()
+strm->getMixingState()
+strm->getMixtureFraction();
