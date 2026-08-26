@@ -304,58 +304,6 @@ vector<double> streams::setElementMassFracs(const double *y) {
         elemMassFrac[k] = domn->gas->elementalMassFraction(k);
     return elemMassFrac;
 
-
-
-    //vector<double> atomArr(domn->gas->nElements());
-    //vector<double> elemMassFrac(domn->gas->nElements(), 0.0);
-    //double sum = 0.0;
-
-    //domn->gas->setMassFractions( &y[0] );
-
-    //for(int k=0; k<nspc; k++) {
-    //    sum=0.0;
-    //    domn->gas->getAtoms(k, &atomArr[0]);           // [nelements] in sp k
-    //    for(int m=0; m<(int)atomArr.size(); m++)
-    //        sum += atomArr[m] * domn->gas->atomicWeight(m);
-    //    for(int m=0; m<(int)atomArr.size(); m++)
-    //        elemMassFrac[m] += y[k] * atomArr[m]/sum * domn->gas->atomicWeight(m);
-    //                          // is * mass frac of elem in sp
-    //}
-
-    //return elemMassFrac;
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
-///** Sets the elements to have the correct Mole Fractions based on the specified array.
-// *  @param y \input mass fraction array to use to get corresponding element fractions.
-// *  @return vector of element mole fractions.
-// */
-//
-//vector<double> streams::setElementMoleFracs(const double *y) {
-//
-//
-//    vector<double> atomArr(domn->gas->nElements());
-//    vector<double> elemMoleFrac(domn->gas->nElements(), 0.0);
-//
-//    domn->gas->setMassFractions( &y[0] );
-//
-//    for(int k=0; k<nspc; k++) {
-//        domn->gas->getAtoms(k, &atomArr[0]);           // [nelements] in sp k
-//        for(int m=0; m<(int)atomArr.size(); m++)
-//            elemMoleFrac[m] += domn->gas->moleFraction(k) * atomArr[m];
-//    }
-//    double sum = 0.0;
-//    for(int m=0; m<(int)atomArr.size(); m++)
-//        sum += elemMoleFrac[m];
-//    assert(sum != 0.0);
-//    for(int m=0; m<(int)atomArr.size(); m++)
-//        elemMoleFrac[m] /= sum;
-//
-//    return elemMoleFrac;
-//
-//}
-
 ///////////////////////////////////////////////////////////////////////////////
 /** Get amount of moles for each element.
  *  @param x \input pointer to vector of species mole fractions.
